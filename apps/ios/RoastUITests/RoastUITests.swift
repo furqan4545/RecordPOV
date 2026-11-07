@@ -203,7 +203,7 @@ final class RoastUITests: XCTestCase {
             XCTAssertFalse(app.buttons["pipStyle_\(style)"].exists)
         }
         let screenshot = XCTAttachment(screenshot: app.screenshot())
-        screenshot.name = "Small camera studio and native controls"
+        screenshot.name = "Camera studio and native controls"
         screenshot.lifetime = .keepAlways
         add(screenshot)
         XCTAssertTrue(app.buttons["addMyCameraButton"].exists)
@@ -223,7 +223,7 @@ final class RoastUITests: XCTestCase {
         _ = try openSyntheticStudio(in: app)
         let menu = app.buttons["studioLayoutMenu"]
         XCTAssertTrue(menu.waitForExistence(timeout: 5))
-        for layout in ["Split", "You on Stage", "Small camera"] {
+        for layout in ["Split", "You on Stage", "Camera"] {
             menu.tap()
             app.buttons[layout].tap()
             XCTAssertEqual(menu.value as? String, layout)

@@ -37,6 +37,7 @@ struct StudioRenderResult {
     var cameraPresent: Bool
     var personDetected: Bool
     var recordingError: String?
+    var cameraSize: CGSize? = nil
 }
 
 struct StudioCaptureResult {
@@ -95,7 +96,8 @@ final class StudioFramePipeline: NSObject, AVCaptureVideoDataOutputSampleBufferD
                 completion(StudioRenderResult(image: cgImage.map { UIImage(cgImage: $0) },
                                                cameraPresent: result.hasCamera,
                                                personDetected: result.hasPerson,
-                                               recordingError: self.recorder?.errorMessage))
+                                               recordingError: self.recorder?.errorMessage,
+                                               cameraSize: self.cameraBuffer.map { CGSize(width: CVPixelBufferGetWidth($0), height: CVPixelBufferGetHeight($0)) }))
             }
         }
     }

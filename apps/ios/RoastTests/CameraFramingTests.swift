@@ -2,6 +2,25 @@ import XCTest
 @testable import Roast
 
 final class CameraFramingTests: XCTestCase {
+    func testCutoutVisibleSizeIsTheCameraInsideTheFrameSoItCanReachTheEdges() {
+        let frame = CGSize(width: 240, height: 312)
+        let camera = CGSize(width: 1080, height: 1440)
+        // Wider leaves transparent space around you: only the camera part counts.
+        let wider = CameraFramingGeometry.visibleSize(source: camera, viewport: frame, style: .cutout, framingScale: 0.69)
+        XCTAssertEqual(wider.height, frame.height * 0.69, accuracy: 0.01)
+        XCTAssertEqual(wider.width, frame.height * 0.75 * 0.69, accuracy: 0.01)
+        // Closer than the frame is cut at the frame.
+        let closer = CameraFramingGeometry.visibleSize(source: camera, viewport: frame, style: .cutout, framingScale: 2)
+        XCTAssertEqual(closer.width, frame.width, accuracy: 0.01)
+        XCTAssertEqual(closer.height, frame.height, accuracy: 0.01)
+        // Framed shapes always fill their frame.
+        for style in [PiPStyle.rounded, .circle, .square] {
+            let size = CameraFramingGeometry.visibleSize(source: camera, viewport: frame, style: style, framingScale: 1)
+            XCTAssertEqual(size.width, frame.width, accuracy: 0.01)
+            XCTAssertEqual(size.height, frame.height, accuracy: 0.01)
+        }
+    }
+
     func testRegularShapesCoverEveryEdgeForPortraitAndLandscapeFeeds() {
         for style in [PiPStyle.rounded, .circle, .square] {
             let viewport = CGSize(width: 240, height: style == .rounded ? 312 : 240)
@@ -118,7 +137,7 @@ final class CameraFramingTests: XCTestCase {
         engine.resetPiP()
         XCTAssertEqual(engine.pip.framingScale, 0.7)
         XCTAssertEqual(engine.pip.style, .cutout)
-        XCTAssertEqual(engine.pip.scale, 1)
+        XCTAssertEqual(engine.pip.scale, PiPTransform.defaultScale)
         XCTAssertEqual(engine.pip.x, PiPTransform.defaultTransform.x)
         XCTAssertEqual(engine.pip.y, PiPTransform.defaultTransform.y)
         XCTAssertEqual(engine.pip.rotation, 0)

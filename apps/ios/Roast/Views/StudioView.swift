@@ -43,6 +43,7 @@ struct StudioView: View {
             if sources.count > 1 { sourceTray }
             playbackControls
             if engine.isCameraEnabled && engine.pip.layout == .pip && !engine.pip.isFullScreen { styleControls }
+            else if engine.isCameraEnabled && (engine.pip.isFullScreen || engine.pip.layout == .cameraMain) { fullCameraStyleControls }
             if engine.isCameraEnabled { cameraFramingControls }
             if let message = importError ?? engine.errorMessage {
                 HStack(alignment: .top, spacing: 8) {
@@ -256,6 +257,33 @@ struct StudioView: View {
         }.padding(4).background(.white.opacity(0.055), in: RoundedRectangle(cornerRadius: 13))
     }
 
+    /// Full screen and Stage show the whole camera, so only Camera and Cutout change how it looks.
+    private var fullCameraStyleControls: some View {
+        HStack(spacing: 3) {
+            ForEach([false, true], id: \.self) { cutout in
+                let selected = (engine.pip.style == .cutout) == cutout
+                Button {
+                    var pip = engine.pip
+                    pip.style = cutout ? .cutout : (pip.style == .cutout ? .rounded : pip.style)
+                    engine.setPiP(pip)
+                } label: {
+                    HStack(spacing: 5) {
+                        Image(systemName: cutout ? PiPStyle.cutout.symbol : "video").font(.system(size: 14, weight: .medium))
+                        Text(cutout ? PiPStyle.cutout.label : "Camera").font(.system(size: 11, weight: selected ? .semibold : .medium))
+                    }
+                    .foregroundStyle(selected ? RoastTheme.ink : .white.opacity(0.6))
+                    .frame(maxWidth: .infinity).frame(height: 38)
+                    .background(selected ? RoastTheme.lime : .clear, in: RoundedRectangle(cornerRadius: 9))
+                    .padding(.vertical, 3)
+                    .contentShape(Rectangle())
+                }.buttonStyle(.plain).disabled(controlsBusy)
+                    .accessibilityLabel(cutout ? "Cutout: remove your camera background on-device" : "Camera: show your full camera")
+                    .accessibilityAddTraits(selected ? .isSelected : [])
+                    .accessibilityIdentifier(cutout ? "fullCameraStyle_cutout" : "fullCameraStyle_camera")
+            }
+        }.padding(4).background(.white.opacity(0.055), in: RoundedRectangle(cornerRadius: 13))
+    }
+
     private var cameraFramingControls: some View {
         let minimum = engine.pip.style == .cutout && !engine.pip.isFullScreen && engine.pip.layout == .pip ? 0.55 : 1.0
         return HStack(spacing: 9) {
@@ -409,7 +437,7 @@ private struct StudioCanvas: View {
                     HStack {
                         if engine.isCameraEnabled && !engine.isRecording && !engine.pip.isFullScreen {
                             Text(engine.pip.layout == .split ? "Drag the divider" : engine.pip.layout == .cameraMain ? "Move the video overlay" : "1 finger: move · 2: size & turn")
-                                .font(.system(size: 10, weight: .medium))
+                                .font(.system(size: 10, weight: .medium)).lineLimit(1).minimumScaleFactor(0.5)
                                 .padding(.horizontal, 10).frame(height: 28)
                                 .background(.black.opacity(0.32), in: Capsule())
                         } else if !engine.isCameraEnabled && !engine.isRecording {
@@ -423,13 +451,27 @@ private struct StudioCanvas: View {
                         }
                         Spacer(minLength: 0)
                         if engine.isCameraEnabled {
+                            // Shortcut: you big at the bottom center with Cutout; tap again to go back.
+                            Button { engine.toggleBigAtBottom() } label: {
+                                Image(systemName: "person.and.background.dotted")
+                                    .font(.system(size: 13, weight: .semibold))
+                                    .foregroundStyle(engine.isBigAtBottom ? RoastTheme.ink : .white)
+                                    .frame(width: 32, height: 32)
+                                    .background(engine.isBigAtBottom ? RoastTheme.lime : .black.opacity(0.32), in: Circle())
+                                    .frame(width: 44, height: 44)
+                            }.buttonStyle(.plain)
+                                .accessibilityLabel(engine.isBigAtBottom ? "Put your camera back" : "Put yourself big at the bottom")
+                                .accessibilityIdentifier("bigAtBottomButton")
+                                .disabled(engine.isStarting || engine.isFinalizing || engine.isSwitchingCamera)
+                        }
+                        if engine.isCameraEnabled {
                             Button { engine.toggleCameraFullScreen() } label: {
                                 Image(systemName: engine.pip.isFullScreen ? "arrow.down.right.and.arrow.up.left" : "arrow.up.left.and.arrow.down.right")
                                     .font(.system(size: 13, weight: .semibold))
                                     .frame(width: 32, height: 32).background(.black.opacity(0.32), in: Circle())
                                     .frame(width: 44, height: 44)
                             }.buttonStyle(.plain)
-                                .accessibilityLabel(engine.pip.isFullScreen ? "Return to Small camera" : "Make camera full screen")
+                                .accessibilityLabel(engine.pip.isFullScreen ? "Return to Camera" : "Make camera full screen")
                                 .accessibilityIdentifier("toggleCameraFullScreenButton")
                                 .disabled(engine.isStarting || engine.isFinalizing || engine.isSwitchingCamera)
                         }
@@ -486,7 +528,7 @@ private struct PiPInteractionLayer: View {
         let baseHeight = baseWidth * ((pip.style == .circle || pip.style == .square) ? 1 : 1.30)
         ZStack {
             OverlayTouchSurface(
-                geometry: .init(canvas: size, content: CGSize(width: baseWidth, height: baseHeight), scaleRange: 0.55...2.5),
+                geometry: .init(canvas: size, content: gestureContent(for: pip), scaleRange: 0.55...2.5),
                 currentValue: {
                     let value = engine.pip
                     return .init(x: value.x, y: value.y, scale: value.scale, rotation: value.rotation)
@@ -501,7 +543,7 @@ private struct PiPInteractionLayer: View {
                 .rotationEffect(.radians(pip.rotation))
                 .position(x: size.width * pip.x, y: size.height * pip.y)
                 .allowsHitTesting(false)
-                .accessibilityElement().accessibilityLabel("Your small camera")
+                .accessibilityElement().accessibilityLabel("Your camera")
                 .accessibilityHint("Move with one finger. Resize and turn with two fingers.")
                 .accessibilityAdjustableAction { direction in
                     var next = engine.pip
@@ -516,11 +558,18 @@ private struct PiPInteractionLayer: View {
         }.frame(width: size.width, height: size.height)
     }
 
+    /// What a gesture holds and keeps on screen: the PiP frame, or for Cutout the camera you can
+    /// actually see inside it, so you can be moved right up to the edges at any Wider/Closer setting.
+    private func gestureContent(for pip: PiPTransform) -> CGSize {
+        let width = size.width * 0.34
+        let frame = CGSize(width: width, height: width * ((pip.style == .circle || pip.style == .square) ? 1 : 1.30))
+        guard pip.style == .cutout, let camera = engine.cameraFrameSize else { return frame }
+        return CameraFramingGeometry.visibleSize(source: camera, viewport: frame, style: .cutout, framingScale: pip.framingScale)
+    }
+
     private func move(x: Double, y: Double) {
         var next = engine.pip
-        let width = size.width * 0.34
-        let height = width * ((next.style == .circle || next.style == .square) ? 1 : 1.30)
-        let value = OverlayGestureGeometry(canvas: size, content: .init(width: width, height: height), scaleRange: 0.55...2.5)
+        let value = OverlayGestureGeometry(canvas: size, content: gestureContent(for: next), scaleRange: 0.55...2.5)
             .keepingVisible(.init(x: next.x + x, y: next.y + y, scale: next.scale, rotation: next.rotation))
         next.x = value.x; next.y = value.y
         engine.setPiP(next)

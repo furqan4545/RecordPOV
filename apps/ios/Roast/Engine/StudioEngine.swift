@@ -30,6 +30,11 @@ final class StudioEngine {
     var hasVideoSource = false
     var pip = PiPTransform()
     var isCameraFullScreen: Bool { pip.isFullScreen }
+    /// The live camera picture's size; Cutout's drag limits use the part of it you can see.
+    var cameraFrameSize: CGSize?
+    /// What the camera looked like before the "big at the bottom" shortcut; set while it is on.
+    private(set) var savedBeforeBigAtBottom: PiPTransform?
+    var isBigAtBottom: Bool { savedBeforeBigAtBottom != nil }
     var sourceAspectRatio: Double {
         guard let extent = sourceFrame?.extent, extent.width.isFinite, extent.height.isFinite,
               extent.width > 0, extent.height > 0 else { return 9.0 / 16.0 }
@@ -443,11 +448,42 @@ final class StudioEngine {
         pip.layout = layout
         pip.splitRatio = splitRatio
         pip.sourceOverlay = sourceOverlay
+        savedBeforeBigAtBottom = nil
+    }
+
+    /// The "big at the bottom" shortcut (the owner's reference look): Camera layout, Cutout, the
+    /// largest size, centered with the visible camera resting on the video's bottom edge.
+    /// Tapping it again restores exactly what was there before.
+    func toggleBigAtBottom() {
+        guard isCameraEnabled, !closed, !closeRequested, !isSwitchingCamera,
+              !isStarting, !isFinalizing else { return }
+        if let previous = savedBeforeBigAtBottom {
+            savedBeforeBigAtBottom = nil
+            // Layout first: changing the layout together with Cutout would turn it into Rounded.
+            var step = pip; step.layout = previous.layout; step.isFullScreen = previous.isFullScreen
+            setPiP(step)
+            setPiP(previous)
+            return
+        }
+        let previous = pip
+        var step = pip; step.layout = .pip; step.isFullScreen = false
+        setPiP(step)
+        var next = pip
+        next.style = .cutout; next.rotation = 0; next.framingScale = 1; next.scale = 2.5; next.x = 0.5
+        let canvas = StudioFramePipeline.canvas.size
+        let frame = CGSize(width: canvas.width * 0.34, height: canvas.width * 0.34 * 1.30)
+        let visible = cameraFrameSize.map {
+            CameraFramingGeometry.visibleSize(source: $0, viewport: frame, style: .cutout, framingScale: 1)
+        } ?? frame
+        next.y = 1 - visible.height * next.scale / 2 / canvas.height
+        setPiP(next)
+        savedBeforeBigAtBottom = previous
     }
 
     func toggleCameraFullScreen() {
         guard isCameraEnabled, !closed, !closeRequested, !isSwitchingCamera,
               !isStarting, !isFinalizing else { return }
+        savedBeforeBigAtBottom = nil
         pip.isFullScreen.toggle()
         capture.setPreferredLayout(pip.layout, isFullScreen: pip.isFullScreen)
     }
@@ -459,7 +495,7 @@ final class StudioEngine {
         if value.layout != previousLayout, value.style == .cutout { value.style = .rounded }
         value.x = value.x.isFinite ? min(1, max(0, value.x)) : 0.74
         value.y = value.y.isFinite ? min(1, max(0, value.y)) : 0.75
-        value.scale = value.scale.isFinite ? min(2.5, max(0.35, value.scale)) : 1
+        value.scale = value.scale.isFinite ? min(2.5, max(0.35, value.scale)) : PiPTransform.defaultScale
         value.rotation = value.rotation.isFinite ? value.rotation : 0
         value.framingScale = value.framingScale.isFinite ? min(2.5, max(0.55, value.framingScale)) : 1
         value.splitRatio = value.splitRatio.isFinite ? min(0.8, max(0.2, value.splitRatio)) : 0.7
@@ -467,6 +503,8 @@ final class StudioEngine {
         value.sourceOverlay.y = value.sourceOverlay.y.isFinite ? min(1, max(0, value.sourceOverlay.y)) : 0.23
         value.sourceOverlay.scale = value.sourceOverlay.scale.isFinite ? min(2.5, max(0.5, value.sourceOverlay.scale)) : 1
         value.sourceOverlay.rotation = value.sourceOverlay.rotation.isFinite ? value.sourceOverlay.rotation : 0
+        // A different layout or full screen ends the shortcut; moving or resizing keeps its undo.
+        if previousLayout != value.layout || previousFullScreen != value.isFullScreen { savedBeforeBigAtBottom = nil }
         pip = value
         if isCameraEnabled, previousLayout != value.layout || previousFullScreen != value.isFullScreen {
             capture.setPreferredLayout(value.layout, isFullScreen: value.isFullScreen)
@@ -726,6 +764,7 @@ final class StudioEngine {
                 self.isRendering = false
                 guard !self.closed else { return }
                 self.previewFrame = result.image
+                if self.cameraFrameSize != result.cameraSize { self.cameraFrameSize = result.cameraSize }
                 if self.isCameraEnabled, self.pip.style == .cutout,
                    result.cameraPresent, !result.personDetected {
                     if self.statusMessage == nil { self.statusMessage = "Finding you…" }

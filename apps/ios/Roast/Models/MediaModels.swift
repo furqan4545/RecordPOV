@@ -30,10 +30,10 @@ enum StudioLayout: String, CaseIterable, Codable, Identifiable {
     case pip, split, cameraMain
     var id: String { rawValue }
     var label: String {
-        switch self { case .pip: "Small camera"; case .split: "Split"; case .cameraMain: "You on Stage" }
+        switch self { case .pip: "Camera"; case .split: "Split"; case .cameraMain: "You on Stage" }
     }
     var shortLabel: String {
-        switch self { case .pip: "Small camera"; case .split: "Split"; case .cameraMain: "Stage" }
+        switch self { case .pip: "Camera"; case .split: "Split"; case .cameraMain: "Stage" }
     }
     var symbol: String {
         switch self { case .pip: "rectangle.on.rectangle"; case .split: "rectangle.split.1x2"; case .cameraMain: "person.crop.rectangle" }
@@ -48,9 +48,11 @@ struct SourceOverlayTransform: Equatable, Codable {
 }
 
 struct PiPTransform: Equatable, Codable {
+    /// The owner's chosen starting size: about 47% of the video's width.
+    static let defaultScale = 1.4
     var x: Double = 0.74
     var y: Double = 0.75
-    var scale: Double = 1
+    var scale: Double = PiPTransform.defaultScale
     var rotation: Double = 0
     var style: PiPStyle = .cutout
     var framingScale: Double = 1
@@ -68,7 +70,7 @@ extension PiPTransform {
         let values = try decoder.container(keyedBy: CodingKeys.self)
         x = try values.decodeIfPresent(Double.self, forKey: .x) ?? 0.74
         y = try values.decodeIfPresent(Double.self, forKey: .y) ?? 0.75
-        scale = try values.decodeIfPresent(Double.self, forKey: .scale) ?? 1
+        scale = try values.decodeIfPresent(Double.self, forKey: .scale) ?? PiPTransform.defaultScale
         rotation = try values.decodeIfPresent(Double.self, forKey: .rotation) ?? 0
         style = try values.decodeIfPresent(PiPStyle.self, forKey: .style) ?? .cutout
         framingScale = try values.decodeIfPresent(Double.self, forKey: .framingScale) ?? 1

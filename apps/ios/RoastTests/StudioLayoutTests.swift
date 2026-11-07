@@ -143,4 +143,46 @@ final class StudioLayoutTests: XCTestCase {
         XCTAssertEqual(engine.pip.sourceOverlay.scale, 2.5)
         XCTAssertEqual(engine.pip.sourceOverlay.rotation, 0)
     }
+
+    @MainActor func testBigAtBottomShortcutPlacesYouAtTheBottomAndRestoresExactly() {
+        let engine = StudioEngine()
+        engine.isCameraEnabled = true
+        var start = engine.pip
+        start.layout = .cameraMain
+        engine.setPiP(start)
+        start = engine.pip
+        start.style = .cutout; start.framingScale = 0.7
+        engine.setPiP(start)
+        start = engine.pip
+        engine.toggleBigAtBottom()
+        XCTAssertTrue(engine.isBigAtBottom)
+        XCTAssertEqual(engine.pip.layout, .pip)
+        XCTAssertFalse(engine.pip.isFullScreen)
+        XCTAssertEqual(engine.pip.style, .cutout)
+        XCTAssertEqual(engine.pip.scale, 2.5)
+        XCTAssertEqual(engine.pip.x, 0.5)
+        XCTAssertEqual(engine.pip.framingScale, 1)
+        // Before the first camera picture arrives, the frame's bottom rests on the video's bottom edge.
+        let canvas = StudioFramePipeline.canvas.size
+        XCTAssertEqual(engine.pip.y, 1 - canvas.width * 0.34 * 1.30 * 2.5 / 2 / canvas.height, accuracy: 0.0001)
+        engine.toggleBigAtBottom()
+        XCTAssertFalse(engine.isBigAtBottom)
+        XCTAssertEqual(engine.pip, start, "The second tap restores the camera exactly, Cutout and Stage included.")
+        engine.close()
+    }
+
+    @MainActor func testChangingLayoutEndsTheBigAtBottomShortcut() {
+        let engine = StudioEngine()
+        engine.isCameraEnabled = true
+        engine.toggleBigAtBottom()
+        XCTAssertTrue(engine.isBigAtBottom)
+        var moved = engine.pip; moved.x = 0.4
+        engine.setPiP(moved)
+        XCTAssertTrue(engine.isBigAtBottom, "Moving yourself keeps the way back.")
+        var stage = engine.pip; stage.layout = .cameraMain
+        engine.setPiP(stage)
+        XCTAssertFalse(engine.isBigAtBottom)
+        engine.close()
+    }
+
 }

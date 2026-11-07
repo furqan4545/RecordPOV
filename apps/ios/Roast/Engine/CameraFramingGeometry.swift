@@ -22,4 +22,12 @@ enum CameraFramingGeometry {
                       y: (viewport.height - size.height) / 2,
                       width: size.width, height: size.height)
     }
+
+    /// The part of the camera you actually see inside the PiP. Cutout can sit smaller than its
+    /// frame (Wider leaves transparent space around you); framed shapes always fill theirs.
+    static func visibleSize(source: CGSize, viewport: CGSize, style: PiPStyle, framingScale: Double) -> CGSize {
+        let content = contentRect(source: source, viewport: viewport, style: style, framingScale: framingScale)
+        let visible = content.intersection(CGRect(origin: .zero, size: viewport))
+        return visible.isNull || visible.width <= 0 || visible.height <= 0 ? viewport : visible.size
+    }
 }
