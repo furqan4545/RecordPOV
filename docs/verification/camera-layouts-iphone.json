@@ -1,0 +1,1067 @@
+{
+  "afterStop": {
+    "aspectError": "",
+    "aspectFirstAppliedTime": -1,
+    "aspectMappingResolved": false,
+    "aspectUpdatePending": false,
+    "bufferAvailable": false,
+    "bufferHeight": 0,
+    "bufferPresentationTime": -1,
+    "bufferRevision": 56,
+    "bufferWidth": 0,
+    "cameraConfigured": false,
+    "cameraSelectionID": "9155BB63-3955-4249-A22D-21A9F681CA1B",
+    "centerStageActive": false,
+    "connectionActive": false,
+    "connectionEnabled": false,
+    "connectionMatchesSelectedInput": false,
+    "connectionMirrored": false,
+    "connectionRotation": -1,
+    "coordinatorCaptureRotation": -1,
+    "defaultConnectionRotation": -1,
+    "deviceName": "",
+    "deviceType": "",
+    "dynamicAspectConfigured": false,
+    "dynamicAxesTransposed": false,
+    "maxZoom": 0,
+    "minZoom": 0,
+    "preferredCameraAspect": "9x16",
+    "preset": "AVCaptureSessionPresetHigh",
+    "selectedPosition": "none",
+    "sessionRunning": false,
+    "shutdown": false,
+    "zoom": 0
+  },
+  "expectedStageCount": 8,
+  "mediaRecorded": false,
+  "microphoneEnabled": false,
+  "passed": true,
+  "runIdentifier": "layout-calibrated-20261105-01",
+  "stages": [
+    {
+      "activeDynamicAspect": "AVCaptureAspectRatio16x9",
+      "aspectError": "",
+      "aspectFirstAppliedTime": -1,
+      "aspectMappingResolved": true,
+      "aspectUpdatePending": true,
+      "bufferAvailable": true,
+      "bufferHeight": 720,
+      "bufferPresentationTime": 920419.231859916,
+      "bufferRevision": 7,
+      "bufferWidth": 1280,
+      "cameraConfigured": true,
+      "cameraSelectionID": "98B1D536-88E7-4371-970B-F45D06567C2A",
+      "centerStageActive": false,
+      "connectionActive": true,
+      "connectionEnabled": true,
+      "connectionMatchesSelectedInput": true,
+      "connectionMirrored": true,
+      "connectionRotation": 0,
+      "coordinatorCaptureRotation": 0,
+      "defaultConnectionRotation": 270,
+      "deviceName": "Front Ultra Wide Camera",
+      "deviceType": "AVCaptureDeviceTypeBuiltInUltraWideCamera",
+      "dynamicAspectConfigured": true,
+      "dynamicAxesTransposed": true,
+      "dynamicFieldOfViewUncorrected": 53.7892951965332,
+      "dynamicHeight": 720,
+      "dynamicWidth": 1280,
+      "engineEnabled": true,
+      "enginePosition": "front",
+      "expectedPosition": "front",
+      "fieldOfView": 84.08255004882812,
+      "formatHeight": 1280,
+      "formatWidth": 1280,
+      "maxZoom": 255,
+      "minZoom": 1,
+      "passed": true,
+      "preferredCameraAspect": "9x16",
+      "preset": "AVCaptureSessionPresetInputPriority",
+      "selectedPosition": "front",
+      "sessionRunning": true,
+      "shutdown": false,
+      "square1280Formats": [
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704438,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704422,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 2016686640,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704438,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704422,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 2016686640,
+          "width": 1280
+        }
+      ],
+      "supportedDynamicAspects": [
+        "AVCaptureAspectRatio1x1",
+        "AVCaptureAspectRatio16x9",
+        "AVCaptureAspectRatio9x16",
+        "AVCaptureAspectRatio4x3",
+        "AVCaptureAspectRatio3x4"
+      ],
+      "zoom": 1
+    },
+    {
+      "activeDynamicAspect": "",
+      "aspectError": "",
+      "aspectFirstAppliedTime": -1,
+      "aspectMappingResolved": false,
+      "aspectUpdatePending": false,
+      "bufferAvailable": true,
+      "bufferHeight": 1280,
+      "bufferPresentationTime": 920420.226537791,
+      "bufferRevision": 15,
+      "bufferWidth": 720,
+      "cameraConfigured": true,
+      "cameraSelectionID": "ABB1F5E3-FA43-484A-8B1B-BFFC9C83B6DC",
+      "centerStageActive": false,
+      "connectionActive": true,
+      "connectionEnabled": true,
+      "connectionMatchesSelectedInput": true,
+      "connectionMirrored": false,
+      "connectionRotation": 90,
+      "coordinatorCaptureRotation": 90,
+      "defaultConnectionRotation": 0,
+      "deviceName": "Back Camera",
+      "deviceType": "AVCaptureDeviceTypeBuiltInWideAngleCamera",
+      "dynamicAspectConfigured": false,
+      "dynamicAxesTransposed": false,
+      "dynamicHeight": 720,
+      "dynamicWidth": 1280,
+      "engineEnabled": true,
+      "enginePosition": "back",
+      "expectedPosition": "back",
+      "fieldOfView": 74.59712219238281,
+      "formatHeight": 720,
+      "formatWidth": 1280,
+      "maxZoom": 123.75,
+      "minZoom": 1,
+      "passed": true,
+      "preferredCameraAspect": "9x16",
+      "preset": "AVCaptureSessionPreset1280x720",
+      "selectedPosition": "back",
+      "sessionRunning": true,
+      "shutdown": false,
+      "square1280Formats": [],
+      "supportedDynamicAspects": [],
+      "zoom": 1
+    },
+    {
+      "activeDynamicAspect": "AVCaptureAspectRatio9x16",
+      "aspectError": "",
+      "aspectFirstAppliedTime": 920421.671951833,
+      "aspectMappingResolved": false,
+      "aspectUpdatePending": false,
+      "bufferAvailable": true,
+      "bufferHeight": 720,
+      "bufferPresentationTime": 920421.671951833,
+      "bufferRevision": 21,
+      "bufferWidth": 1280,
+      "cameraConfigured": true,
+      "cameraSelectionID": "7FDD3ECE-0486-47C8-B46C-B1FB400A29AB",
+      "centerStageActive": false,
+      "connectionActive": true,
+      "connectionEnabled": true,
+      "connectionMatchesSelectedInput": true,
+      "connectionMirrored": true,
+      "connectionRotation": 0,
+      "coordinatorCaptureRotation": 0,
+      "defaultConnectionRotation": 270,
+      "deviceName": "Front Ultra Wide Camera",
+      "deviceType": "AVCaptureDeviceTypeBuiltInUltraWideCamera",
+      "dynamicAspectConfigured": true,
+      "dynamicAxesTransposed": false,
+      "dynamicFieldOfViewUncorrected": 84.08255004882812,
+      "dynamicHeight": 1280,
+      "dynamicWidth": 720,
+      "engineEnabled": true,
+      "enginePosition": "front",
+      "expectedPosition": "front",
+      "fieldOfView": 84.08255004882812,
+      "formatHeight": 1280,
+      "formatWidth": 1280,
+      "maxZoom": 255,
+      "minZoom": 1,
+      "passed": true,
+      "preferredCameraAspect": "9x16",
+      "preset": "AVCaptureSessionPresetInputPriority",
+      "selectedPosition": "front",
+      "sessionRunning": true,
+      "shutdown": false,
+      "square1280Formats": [
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704438,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704422,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 2016686640,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704438,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704422,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 2016686640,
+          "width": 1280
+        }
+      ],
+      "supportedDynamicAspects": [
+        "AVCaptureAspectRatio1x1",
+        "AVCaptureAspectRatio16x9",
+        "AVCaptureAspectRatio9x16",
+        "AVCaptureAspectRatio4x3",
+        "AVCaptureAspectRatio3x4"
+      ],
+      "zoom": 1
+    },
+    {
+      "activeDynamicAspect": "AVCaptureAspectRatio9x16",
+      "aspectError": "",
+      "aspectFirstAppliedTime": 920421.905334958,
+      "aspectMappingResolved": true,
+      "aspectUpdatePending": false,
+      "bufferAvailable": true,
+      "bufferHeight": 720,
+      "bufferPresentationTime": 920421.905334958,
+      "bufferRevision": 28,
+      "bufferWidth": 1280,
+      "cameraConfigured": true,
+      "cameraSelectionID": "7FDD3ECE-0486-47C8-B46C-B1FB400A29AB",
+      "centerStageActive": false,
+      "connectionActive": true,
+      "connectionEnabled": true,
+      "connectionMatchesSelectedInput": true,
+      "connectionMirrored": true,
+      "connectionRotation": 0,
+      "coordinatorCaptureRotation": 0,
+      "defaultConnectionRotation": 270,
+      "deviceName": "Front Ultra Wide Camera",
+      "deviceType": "AVCaptureDeviceTypeBuiltInUltraWideCamera",
+      "dynamicAspectConfigured": true,
+      "dynamicAxesTransposed": true,
+      "dynamicFieldOfViewUncorrected": 84.08255004882812,
+      "dynamicHeight": 1280,
+      "dynamicWidth": 720,
+      "expectedAspect": "AVCaptureAspectRatio9x16",
+      "expectedBufferHeight": 720,
+      "expectedBufferWidth": 1280,
+      "expectedFullScreen": false,
+      "expectedLayout": "split",
+      "expectedPosition": "front",
+      "fieldOfView": 84.08255004882812,
+      "formatHeight": 1280,
+      "formatWidth": 1280,
+      "maxZoom": 255,
+      "minZoom": 1,
+      "passed": true,
+      "preferredCameraAspect": "16x9",
+      "preset": "AVCaptureSessionPresetInputPriority",
+      "selectedPosition": "front",
+      "sessionRunning": true,
+      "shutdown": false,
+      "square1280Formats": [
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704438,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704422,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 2016686640,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704438,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704422,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 2016686640,
+          "width": 1280
+        }
+      ],
+      "stage": "frontSplit",
+      "supportedDynamicAspects": [
+        "AVCaptureAspectRatio1x1",
+        "AVCaptureAspectRatio16x9",
+        "AVCaptureAspectRatio9x16",
+        "AVCaptureAspectRatio4x3",
+        "AVCaptureAspectRatio3x4"
+      ],
+      "zoom": 1
+    },
+    {
+      "activeDynamicAspect": "AVCaptureAspectRatio16x9",
+      "aspectError": "",
+      "aspectFirstAppliedTime": 920421.938675541,
+      "aspectMappingResolved": true,
+      "aspectUpdatePending": false,
+      "bufferAvailable": true,
+      "bufferHeight": 1280,
+      "bufferPresentationTime": 920422.138718125,
+      "bufferRevision": 35,
+      "bufferWidth": 720,
+      "cameraConfigured": true,
+      "cameraSelectionID": "7FDD3ECE-0486-47C8-B46C-B1FB400A29AB",
+      "centerStageActive": false,
+      "connectionActive": true,
+      "connectionEnabled": true,
+      "connectionMatchesSelectedInput": true,
+      "connectionMirrored": true,
+      "connectionRotation": 0,
+      "coordinatorCaptureRotation": 0,
+      "defaultConnectionRotation": 270,
+      "deviceName": "Front Ultra Wide Camera",
+      "deviceType": "AVCaptureDeviceTypeBuiltInUltraWideCamera",
+      "dynamicAspectConfigured": true,
+      "dynamicAxesTransposed": true,
+      "dynamicFieldOfViewUncorrected": 53.7892951965332,
+      "dynamicHeight": 720,
+      "dynamicWidth": 1280,
+      "expectedAspect": "AVCaptureAspectRatio16x9",
+      "expectedBufferHeight": 1280,
+      "expectedBufferWidth": 720,
+      "expectedFullScreen": true,
+      "expectedLayout": "split",
+      "expectedPosition": "front",
+      "fieldOfView": 84.08255004882812,
+      "formatHeight": 1280,
+      "formatWidth": 1280,
+      "maxZoom": 255,
+      "minZoom": 1,
+      "passed": true,
+      "preferredCameraAspect": "9x16",
+      "preset": "AVCaptureSessionPresetInputPriority",
+      "selectedPosition": "front",
+      "sessionRunning": true,
+      "shutdown": false,
+      "square1280Formats": [
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704438,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704422,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 2016686640,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704438,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704422,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 2016686640,
+          "width": 1280
+        }
+      ],
+      "stage": "frontFullScreen",
+      "supportedDynamicAspects": [
+        "AVCaptureAspectRatio1x1",
+        "AVCaptureAspectRatio16x9",
+        "AVCaptureAspectRatio9x16",
+        "AVCaptureAspectRatio4x3",
+        "AVCaptureAspectRatio3x4"
+      ],
+      "zoom": 1
+    },
+    {
+      "activeDynamicAspect": "AVCaptureAspectRatio9x16",
+      "aspectError": "",
+      "aspectFirstAppliedTime": 920422.172058583,
+      "aspectMappingResolved": true,
+      "aspectUpdatePending": false,
+      "bufferAvailable": true,
+      "bufferHeight": 720,
+      "bufferPresentationTime": 920422.372101333,
+      "bufferRevision": 42,
+      "bufferWidth": 1280,
+      "cameraConfigured": true,
+      "cameraSelectionID": "7FDD3ECE-0486-47C8-B46C-B1FB400A29AB",
+      "centerStageActive": false,
+      "connectionActive": true,
+      "connectionEnabled": true,
+      "connectionMatchesSelectedInput": true,
+      "connectionMirrored": true,
+      "connectionRotation": 0,
+      "coordinatorCaptureRotation": 0,
+      "defaultConnectionRotation": 270,
+      "deviceName": "Front Ultra Wide Camera",
+      "deviceType": "AVCaptureDeviceTypeBuiltInUltraWideCamera",
+      "dynamicAspectConfigured": true,
+      "dynamicAxesTransposed": true,
+      "dynamicFieldOfViewUncorrected": 84.08255004882812,
+      "dynamicHeight": 1280,
+      "dynamicWidth": 720,
+      "expectedAspect": "AVCaptureAspectRatio9x16",
+      "expectedBufferHeight": 720,
+      "expectedBufferWidth": 1280,
+      "expectedFullScreen": false,
+      "expectedLayout": "split",
+      "expectedPosition": "front",
+      "fieldOfView": 84.08255004882812,
+      "formatHeight": 1280,
+      "formatWidth": 1280,
+      "maxZoom": 255,
+      "minZoom": 1,
+      "passed": true,
+      "preferredCameraAspect": "16x9",
+      "preset": "AVCaptureSessionPresetInputPriority",
+      "selectedPosition": "front",
+      "sessionRunning": true,
+      "shutdown": false,
+      "square1280Formats": [
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704438,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704422,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 2016686640,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704438,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704422,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 2016686640,
+          "width": 1280
+        }
+      ],
+      "stage": "frontRestoreSplit",
+      "supportedDynamicAspects": [
+        "AVCaptureAspectRatio1x1",
+        "AVCaptureAspectRatio16x9",
+        "AVCaptureAspectRatio9x16",
+        "AVCaptureAspectRatio4x3",
+        "AVCaptureAspectRatio3x4"
+      ],
+      "zoom": 1
+    },
+    {
+      "activeDynamicAspect": "AVCaptureAspectRatio16x9",
+      "aspectError": "",
+      "aspectFirstAppliedTime": 920422.40544175,
+      "aspectMappingResolved": true,
+      "aspectUpdatePending": false,
+      "bufferAvailable": true,
+      "bufferHeight": 1280,
+      "bufferPresentationTime": 920422.6054845,
+      "bufferRevision": 49,
+      "bufferWidth": 720,
+      "cameraConfigured": true,
+      "cameraSelectionID": "7FDD3ECE-0486-47C8-B46C-B1FB400A29AB",
+      "centerStageActive": false,
+      "connectionActive": true,
+      "connectionEnabled": true,
+      "connectionMatchesSelectedInput": true,
+      "connectionMirrored": true,
+      "connectionRotation": 0,
+      "coordinatorCaptureRotation": 0,
+      "defaultConnectionRotation": 270,
+      "deviceName": "Front Ultra Wide Camera",
+      "deviceType": "AVCaptureDeviceTypeBuiltInUltraWideCamera",
+      "dynamicAspectConfigured": true,
+      "dynamicAxesTransposed": true,
+      "dynamicFieldOfViewUncorrected": 53.7892951965332,
+      "dynamicHeight": 720,
+      "dynamicWidth": 1280,
+      "expectedAspect": "AVCaptureAspectRatio16x9",
+      "expectedBufferHeight": 1280,
+      "expectedBufferWidth": 720,
+      "expectedFullScreen": false,
+      "expectedLayout": "cameraMain",
+      "expectedPosition": "front",
+      "fieldOfView": 84.08255004882812,
+      "formatHeight": 1280,
+      "formatWidth": 1280,
+      "maxZoom": 255,
+      "minZoom": 1,
+      "passed": true,
+      "preferredCameraAspect": "9x16",
+      "preset": "AVCaptureSessionPresetInputPriority",
+      "selectedPosition": "front",
+      "sessionRunning": true,
+      "shutdown": false,
+      "square1280Formats": [
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704438,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704422,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 2016686640,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704438,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704422,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 2016686640,
+          "width": 1280
+        }
+      ],
+      "stage": "frontStage",
+      "supportedDynamicAspects": [
+        "AVCaptureAspectRatio1x1",
+        "AVCaptureAspectRatio16x9",
+        "AVCaptureAspectRatio9x16",
+        "AVCaptureAspectRatio4x3",
+        "AVCaptureAspectRatio3x4"
+      ],
+      "zoom": 1
+    },
+    {
+      "activeDynamicAspect": "AVCaptureAspectRatio16x9",
+      "aspectError": "",
+      "aspectFirstAppliedTime": 920422.40544175,
+      "aspectMappingResolved": true,
+      "aspectUpdatePending": false,
+      "bufferAvailable": true,
+      "bufferHeight": 1280,
+      "bufferPresentationTime": 920422.805527083,
+      "bufferRevision": 55,
+      "bufferWidth": 720,
+      "cameraConfigured": true,
+      "cameraSelectionID": "7FDD3ECE-0486-47C8-B46C-B1FB400A29AB",
+      "centerStageActive": false,
+      "connectionActive": true,
+      "connectionEnabled": true,
+      "connectionMatchesSelectedInput": true,
+      "connectionMirrored": true,
+      "connectionRotation": 0,
+      "coordinatorCaptureRotation": 0,
+      "defaultConnectionRotation": 270,
+      "deviceName": "Front Ultra Wide Camera",
+      "deviceType": "AVCaptureDeviceTypeBuiltInUltraWideCamera",
+      "dynamicAspectConfigured": true,
+      "dynamicAxesTransposed": true,
+      "dynamicFieldOfViewUncorrected": 53.7892951965332,
+      "dynamicHeight": 720,
+      "dynamicWidth": 1280,
+      "expectedAspect": "AVCaptureAspectRatio16x9",
+      "expectedBufferHeight": 1280,
+      "expectedBufferWidth": 720,
+      "expectedFullScreen": false,
+      "expectedLayout": "pip",
+      "expectedPosition": "front",
+      "fieldOfView": 84.08255004882812,
+      "formatHeight": 1280,
+      "formatWidth": 1280,
+      "maxZoom": 255,
+      "minZoom": 1,
+      "passed": true,
+      "preferredCameraAspect": "9x16",
+      "preset": "AVCaptureSessionPresetInputPriority",
+      "selectedPosition": "front",
+      "sessionRunning": true,
+      "shutdown": false,
+      "square1280Formats": [
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704438,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704422,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 2016686640,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704438,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 875704422,
+          "width": 1280
+        },
+        {
+          "aspects": [
+            "AVCaptureAspectRatio1x1",
+            "AVCaptureAspectRatio16x9",
+            "AVCaptureAspectRatio9x16",
+            "AVCaptureAspectRatio4x3",
+            "AVCaptureAspectRatio3x4"
+          ],
+          "fieldOfView": 84.08255004882812,
+          "height": 1280,
+          "maximumFrameRate": 30,
+          "pixelFormat": 2016686640,
+          "width": 1280
+        }
+      ],
+      "stage": "frontPiP",
+      "supportedDynamicAspects": [
+        "AVCaptureAspectRatio1x1",
+        "AVCaptureAspectRatio16x9",
+        "AVCaptureAspectRatio9x16",
+        "AVCaptureAspectRatio4x3",
+        "AVCaptureAspectRatio3x4"
+      ],
+      "zoom": 1
+    }
+  ],
+  "timestamp": "2026-11-04T19:02:29Z"
+}

@@ -1,0 +1,73 @@
+{
+  "audioSessionActivated": false,
+  "audioTrackCount": 1,
+  "cameraEnabled": false,
+  "checks": {
+    "decodedDuration": true,
+    "oneExportedAudioTrack": true,
+    "oneExportedVideoTrack": true,
+    "threeIsolatedCompositionTracks": true,
+    "trimAndCutDuration": true,
+    "window0MicrophoneGain": true,
+    "window0MusicGainAndLoop": true,
+    "window0NoUnexpectedAudio": true,
+    "window0SourceGain": true,
+    "window1MicrophoneGain": true,
+    "window1MusicGainAndLoop": true,
+    "window1NoUnexpectedAudio": true,
+    "window1SourceGain": true
+  },
+  "compositionAudioTrackCount": 3,
+  "compositionDuration": 2.25,
+  "decodedSampleCount": 107948,
+  "duration": 2.25,
+  "elapsedSeconds": 0.4530973333166912,
+  "expectedAmplitudes": {
+    "1320": 0.05,
+    "440": 0.1,
+    "880": 0.15
+  },
+  "expectedDuration": 2.25,
+  "inputBytes": {
+    "capture.mov": 65261,
+    "music.wav": 96078,
+    "source.m4a": 57928
+  },
+  "measurements": [
+    {
+      "amplitudes": {
+        "1320": 0.04998900286007609,
+        "440": 0.0999708881616979,
+        "880": 0.1499551620171958
+      },
+      "duration": 0.8,
+      "rms": 0.132249201947813,
+      "start": 0.15,
+      "unexplainedRMS": 0.00019148012952041523
+    },
+    {
+      "amplitudes": {
+        "1320": 0.04998454100479567,
+        "440": 0.09994997052810826,
+        "880": 0.14993493707732514
+      },
+      "duration": 0.8,
+      "rms": 0.1322289800150572,
+      "start": 1.25,
+      "unexplainedRMS": 0.00018709253530147378
+    }
+  ],
+  "microphoneEnabled": false,
+  "outputBytes": 71226,
+  "outputFileName": "mixed.mp4",
+  "passed": true,
+  "phase": "complete",
+  "photosEnabled": false,
+  "retainedSourceAssetCount": 4,
+  "runIdentifier": "editor-mix-20261105-01",
+  "sampleRate": 48000,
+  "speechEnabled": false,
+  "syntheticInputsOnly": true,
+  "timestamp": "2026-11-04T18:43:46Z",
+  "videoTrackCount": 1
+}

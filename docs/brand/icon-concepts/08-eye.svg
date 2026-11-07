@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+<title>RecordPOV icon concept: Eye</title>
+<defs>
+  <linearGradient id="inkBg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1024">
+    <stop offset="0" stop-color="#2B2F33"/><stop offset="1" stop-color="#17191C"/>
+  </linearGradient>
+  <linearGradient id="limeBg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1024">
+    <stop offset="0" stop-color="#E8FF8A"/><stop offset="1" stop-color="#CDF04C"/>
+  </linearGradient>
+  <linearGradient id="paperBg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1024">
+    <stop offset="0" stop-color="#FCFBF8"/><stop offset="1" stop-color="#E7E4DA"/>
+  </linearGradient>
+  <linearGradient id="lime" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#E8FF8A"/><stop offset="1" stop-color="#D2F556"/>
+  </linearGradient>
+  <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#ECEAE3"/>
+  </linearGradient>
+</defs>
+<rect width="1024" height="1024" fill="url(#inkBg)"/>
+<path d="M140,512 C270,302 390,262 512,262 C634,262 754,302 884,512 C754,722 634,762 512,762 C390,762 270,722 140,512 Z" fill="url(#lime)"/>
+<circle cx="512" cy="512" r="176" fill="#202326"/>
+<path d="M471.4,455.0 L471.4,569.0 L571.7,512.0 Z" fill="#F7F5F0" stroke="#F7F5F0" stroke-width="36" stroke-linejoin="round"/>
+</svg>

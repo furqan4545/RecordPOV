@@ -1,0 +1,64 @@
+# Optional: only when this hostname can be added to the host's existing Caddy,
+# or when ports 80/443 are free for a new Caddy installation on the Linux server.
+# Cloudflare record is DNS-only; Caddy directly verifies the connecting client.
+api.recordpov.app {
+    # Current development APK certificate. Add the genuine Play/release
+    # certificate before shipping a differently signed Android build.
+    @androidAppLinks {
+        method GET HEAD
+        path /.well-known/assetlinks.json
+    }
+    handle @androidAppLinks {
+        header Content-Type application/json
+        respond `[{"relation":["delegate_permission/common.handle_all_urls"],"target":{"namespace":"android_app","package_name":"studio.roast.app","sha256_cert_fingerprints":["A6:17:23:53:1C:39:7C:AB:75:2F:A5:E7:82:B0:58:5C:42:16:C3:63:02:CD:2A:EA:45:67:F8:9D:D1:69:B0:2C"]}}]` 200
+    }
+    @identity {
+        method GET HEAD POST DELETE
+        path /v1/auth/* /api/auth/callback/apple /auth/apple/return
+    }
+    handle @identity {
+        request_body {
+            max_size 32KB
+        }
+        reverse_proxy {$RECORDPOV_AUTH_UPSTREAM:recordpov-auth:8789} {
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Real-IP {remote_host}
+            header_up -Forwarded
+            header_up -CF-Connecting-IP
+            transport http {
+                dial_timeout 5s
+                response_header_timeout 30s
+            }
+        }
+    }
+    @allowed {
+        method GET HEAD POST
+        path /health /v1/media/resolve /v2/media/resolve /v1/media/*/file /v1/media/youtube/sessions /v1/media/youtube/sessions/*/socket
+    }
+    handle @allowed {
+        request_body {
+            max_size 4KB
+        }
+        reverse_proxy {$RECORDPOV_UPSTREAM:127.0.0.1:8787} {
+            # One verified value, never the client's supplied forwarded chain.
+            header_up X-Forwarded-For {remote_host}
+            header_up X-Real-IP {remote_host}
+            header_up -Forwarded
+            header_up -CF-Connecting-IP
+            transport http {
+                dial_timeout 5s
+                response_header_timeout 930s
+            }
+        }
+    }
+    handle {
+        respond "Not found" 404
+    }
+    header {
+        # Remove the previously cached HTTP/3 hint for the internal port.
+        Alt-Svc clear
+        X-Content-Type-Options nosniff
+        Referrer-Policy no-referrer
+        Strict-Transport-Security "max-age=31536000"
+    }
+}

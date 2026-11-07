@@ -1,0 +1,39 @@
+{
+  "verifiedAt": "2026-11-05T18:00:48.773813+00:00",
+  "layout": {
+    "top": [
+      "URL field",
+      "Download & open video",
+      "or",
+      "Upload video or photo"
+    ],
+    "below": "Recent vertical two-column thumbnail grid",
+    "recentIncludes": [
+      "imported videos",
+      "unfinished edits",
+      "saved videos"
+    ],
+    "namedSavedVideoActionRemovedFromImportCard": true,
+    "myVideos": "One unified vertical grid; no separate Unfinished section",
+    "delete": "Long press -> Delete permanently, immediate"
+  },
+  "ios": {
+    "buildPassed": true,
+    "installedOnPhysicalIPhone": true,
+    "normalLaunchPassed": true,
+    "focusedUITests": 1,
+    "focusedUITestPassed": true,
+    "focusedUITestSeconds": 28.133,
+    "screenshot": "direct-ui/home-recent.png",
+    "qualityUpdateInstalled": true
+  },
+  "android": {
+    "assembleDebug": "passed",
+    "fullUnitSuiteRerun": false,
+    "apkBytes": 284800703,
+    "sha256": "a703f2927741b344d708acf6de02c9c200124aeeba8d92dc6391fc88ce16603e",
+    "physicalDeviceVerified": false
+  },
+  "backgroundDownloadsPreserved": true,
+  "serverChanges": false
+}

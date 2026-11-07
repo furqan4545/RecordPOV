@@ -1,0 +1,240 @@
+{
+  "verifiedAt": "2026-11-05T07:22:31.280497+00:00",
+  "origin": "https://api.recordpov.app",
+  "serverFolder": "/opt/recordpov",
+  "dns": {
+    "type": "A",
+    "name": "api.recordpov.app",
+    "address": "77.42.83.163",
+    "cloudflareProxy": false
+  },
+  "tls": {
+    "hostnameVerified": true,
+    "protocol": "TLSv1.3",
+    "applicationProtocol": "h2",
+    "expires": "Feb  3 06:00:32 2027 GMT"
+  },
+  "runtime": {
+    "service": "active",
+    "enabled": "enabled",
+    "containers": [
+      {
+        "name": "recordpov-resolver-1",
+        "image": "recordpov-media:2026-11-05-3",
+        "user": "10001:10001",
+        "readOnlyRootfs": true,
+        "memoryBytes": 1610612736,
+        "nanoCPUs": 1500000000,
+        "pidsLimit": 128,
+        "restartPolicy": "no",
+        "ports": {
+          "8787/tcp": [
+            {
+              "HostIp": "127.0.0.1",
+              "HostPort": "8787"
+            }
+          ]
+        },
+        "health": "healthy"
+      },
+      {
+        "name": "recordpov-caddy-1",
+        "image": "recordpov-edge:2026-11-05-3",
+        "user": "10002:10002",
+        "readOnlyRootfs": true,
+        "memoryBytes": 268435456,
+        "nanoCPUs": 500000000,
+        "pidsLimit": 64,
+        "restartPolicy": "no",
+        "ports": {
+          "2019/tcp": null,
+          "443/tcp": null,
+          "443/udp": null,
+          "80/tcp": null,
+          "8080/tcp": [
+            {
+              "HostIp": "0.0.0.0",
+              "HostPort": "80"
+            },
+            {
+              "HostIp": "::",
+              "HostPort": "80"
+            }
+          ],
+          "8443/tcp": [
+            {
+              "HostIp": "0.0.0.0",
+              "HostPort": "443"
+            },
+            {
+              "HostIp": "::",
+              "HostPort": "443"
+            }
+          ]
+        },
+        "health": "running"
+      },
+      {
+        "name": "recordpov-youtube-worker-1",
+        "image": "recordpov-media:2026-11-05-3",
+        "user": "10001:10001",
+        "networkMode": "none",
+        "readOnlyRootfs": true,
+        "restartPolicy": "no",
+        "health": "healthy",
+        "ports": {}
+      }
+    ]
+  },
+  "checks": {
+    "dockerDaemonRestartRecovered": true,
+    "serviceRestartRecovered": true,
+    "guardAppliedBeforeWorkerStart": true,
+    "private10RejectCounterIncremented": true,
+    "private192RejectCounterIncremented": true,
+    "metadataRejectCounterIncremented": true,
+    "hostInputRejectCounterIncremented": true,
+    "ipv6DisabledAndScopedRejectRulesPresent": true,
+    "forgedForwardingCannotRotateQuota": true,
+    "sameClientLimitedOnAttempt": 21,
+    "independentClientReturned400WhileOtherLimited": true,
+    "httpRedirectsToHTTPS443": true,
+    "altSvc": "clear",
+    "youtubeSessionHTTPAndWSSPaths": true
+  },
+  "mac": {
+    "temporaryMediaServerStopped": true,
+    "port8787Listening": false,
+    "autoStartServiceCreated": false
+  },
+  "storage": {
+    "projects": "on-device",
+    "sourceCacheHost": "Hetzner local disk",
+    "sourceCacheTTLSeconds": 14400,
+    "sourceCacheMaxBytes": 2147483648,
+    "r2Created": false
+  },
+  "clients": {
+    "defaultEndpoint": "https://api.recordpov.app",
+    "legacyDefaultMigrationPreservesCustomAddresses": true,
+    "iphoneInstalledAndLaunched": true,
+    "iphoneHostedNativeFrameDecode": true,
+    "iosPreparationTestsPassed": 4,
+    "iosEndpointMigrationTestsPassed": 8,
+    "iosHostedUIIntegrationPassed": true,
+    "androidTestsPassed": 62
+  },
+  "references": {
+    "imports": "hetzner-media-imports.json",
+    "iphone": "hosted-playback-iphone.json"
+  },
+  "access": {
+    "sshAlias": "recordpov-hetzner",
+    "passwordStoredInMacOSKeychain": true,
+    "credentialsInRepository": false
+  },
+  "youtube": {
+    "route": "foreground phone-assisted",
+    "verifiedOriginalURL": "https://youtu.be/bkPwFqa89gE",
+    "physicalIPhoneStudioImportPassed": true,
+    "workerNetwork": "none",
+    "report": "youtube-phone-imports.json"
+  },
+  "performanceRelease": {
+    "verifiedAt": "2026-11-05T16:08:08.664052+00:00",
+    "services": {
+      "recordpov.service": "active",
+      "recordpov-auth.service": "active"
+    },
+    "containers": [
+      {
+        "name": "recordpov-resolver-1",
+        "image": "recordpov-media:2026-11-06-3",
+        "imageId": "sha256:861e47451ef11a42f1b1fafd9b7b274eb18032a18cd27701a857023c38da845e",
+        "user": "10001:10001",
+        "networkMode": "recordpov-egress",
+        "readOnlyRootfs": true,
+        "health": "healthy"
+      },
+      {
+        "name": "recordpov-caddy-1",
+        "image": "recordpov-edge:2026-11-06-3",
+        "imageId": "sha256:f0d533d9805d8b50221a0966682ad9f43e538cb87ac02a123706f8e9b7e1551d",
+        "user": "10002:10002",
+        "networkMode": "recordpov-egress",
+        "readOnlyRootfs": true,
+        "health": "running"
+      },
+      {
+        "name": "recordpov-youtube-worker-1",
+        "image": "recordpov-media:2026-11-06-3",
+        "imageId": "sha256:861e47451ef11a42f1b1fafd9b7b274eb18032a18cd27701a857023c38da845e",
+        "user": "10001:10001",
+        "networkMode": "none",
+        "readOnlyRootfs": true,
+        "health": "healthy"
+      },
+      {
+        "name": "recordpov-auth-auth-1",
+        "image": "recordpov-auth:2026-11-05-3",
+        "imageId": "sha256:814293d6b725174506bd618172e784c978089848c4bc05bb70010f334d512a09",
+        "user": "10003:10003",
+        "networkMode": "recordpov-egress",
+        "readOnlyRootfs": true,
+        "health": "healthy"
+      }
+    ],
+    "mediaImage": "recordpov-media:2026-11-06-3",
+    "edgeImage": "recordpov-edge:2026-11-06-3",
+    "edgeReusesUnchangedImage": "recordpov-edge:2026-11-05-3",
+    "checks": {
+      "publicHTTPSHealth": true,
+      "publicAuthConfiguration": true,
+      "instagramCachedResolveAndRange": {
+        "result": "OK",
+        "seconds": 1.1,
+        "duration": 64.7,
+        "rangeStatus": 206
+      },
+      "workerNetworkNone": true,
+      "macPorts8787And8789NotListening": true,
+      "youtubeFreshReferenceImport": {
+        "seconds": 15.4,
+        "duration": 18.948,
+        "hasAudio": true,
+        "fullAudioVideoDecodePassed": true,
+        "client": "Mac outbound reference peer; not physical phone test",
+        "report": "import-youtube-performance.json"
+      }
+    },
+    "coldBenchmark": "import-cold-performance.json",
+    "directCDNFeasibility": "direct-cdn-feasibility.json",
+    "nativeDirectDeliveryImplemented": false,
+    "nativeAppUpdateRequired": false
+  },
+  "directDeliveryRelease": {
+    "verifiedAt": "2026-11-05T17:18:08.806701+00:00",
+    "mediaImage": "recordpov-media:2026-11-06-5",
+    "edgeImage": "recordpov-edge:2026-11-06-5",
+    "edgeReusesUnchangedImage": "recordpov-edge:2026-11-06-3",
+    "apiV2Enabled": true,
+    "apiHealth": "ok",
+    "accountServiceHealth": "healthy",
+    "youtubeWorkerNetwork": "none",
+    "serverLinuxTests": 84,
+    "iosUnitTestsAggregate": 160,
+    "iPhoneUpdatedBuildInstalled": true,
+    "iPhoneDirectInstagramImportAndNativeDecode": true,
+    "iPhoneBackgroundReopenAndRelaunchUITestPassed": true,
+    "homeSingleActionSimulatorUITestPassed": true,
+    "homeSingleActionPhysicalUITest": "passed, 37.160 seconds",
+    "proof": "direct-delivery-platforms.json",
+    "projectsAndImportedLibrary": "on-device",
+    "r2Created": false,
+    "macMediaServerRunning": false,
+    "androidUnitTests": 135,
+    "androidBuildPassed": true,
+    "androidPhysicalHardwareVerified": false,
+    "finalIPhoneNormalLaunchPassed": true
+  }
+}

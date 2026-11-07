@@ -1,0 +1,19 @@
+// Manual opt-in JVM entry point using the exact production Android transport classes.
+// Default mode is compile/check only and cannot open a connection.
+gradle.projectsEvaluated {
+    def app = gradle.rootProject.project(":app")
+    def unitTest = app.tasks.named("testDebugUnitTest", org.gradle.api.tasks.testing.Test)
+    app.tasks.register("youtubePhoneProbe", org.gradle.api.tasks.JavaExec) {
+        dependsOn app.tasks.named("compileDebugUnitTestKotlin")
+        classpath = unitTest.get().classpath
+        mainClass.set("studio.roast.app.YouTubePhoneProbe")
+        if (app.findProperty("roastYouTubeProbeRun") == "yes") {
+            def url = app.findProperty("roastYouTubeProbeUrl")
+            def output = app.findProperty("roastYouTubeProbeOutput")
+            if (!url || !output) throw new GradleException("Explicit probe URL and output directory are required.")
+            args("--run", url, output)
+        } else {
+            args("--check")
+        }
+    }
+}

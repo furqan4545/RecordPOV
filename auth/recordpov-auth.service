@@ -1,0 +1,21 @@
+[Unit]
+Description=RecordPOV optional account service
+Requires=recordpov.service
+After=recordpov.service
+PartOf=recordpov.service
+StartLimitIntervalSec=60
+StartLimitBurst=3
+
+[Service]
+Type=simple
+WorkingDirectory=/opt/recordpov-auth
+Environment=COMPOSE_FILE=compose.yaml
+EnvironmentFile=-/opt/recordpov-auth/service.env
+ExecStart=/usr/bin/docker compose --project-name recordpov-auth up --no-build --abort-on-container-exit --exit-code-from auth
+ExecStop=/usr/bin/docker compose --project-name recordpov-auth down --timeout 10
+Restart=on-failure
+RestartSec=5
+TimeoutStopSec=20
+
+[Install]
+WantedBy=multi-user.target

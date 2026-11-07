@@ -1,0 +1,280 @@
+{
+  "verifiedAt": "2026-11-05T19:03:39.440206+00:00",
+  "source": {
+    "url": "https://www.youtube.com/watch?v=vTX9nZBseCQ",
+    "id": "cb9b2b0b55e7acc350de0a27",
+    "durationSeconds": 561.529,
+    "width": 1920,
+    "height": 1080,
+    "fps": 30
+  },
+  "finding": {
+    "reportedH264Level": 62,
+    "nativeProfileMaximumLevel": 52,
+    "effect": "The direct path and stream-copy path rejected the overdeclared H264 level, causing a full video encode. YouTube fallback also repeated metadata extraction.",
+    "oldForcedTranscode": {
+      "stageElapsedMs": 241144,
+      "wholeJobElapsedMs": 320740,
+      "outcome": "Cancelled by the investigating agent before completion. This is not evidence of a processor crash."
+    },
+    "resourceInvestigation": {
+      "containerVisibleCPUs": 2,
+      "cpuQuota": 1.5,
+      "pidsMaximum": 128,
+      "pidsLimitEvents": 0,
+      "memoryMaximumBytes": 1610612736,
+      "memoryPeakBytes": 422350848,
+      "memoryOOMEvents": 0,
+      "diskAvailableGiB": 26,
+      "threadExhaustionSupported": false
+    }
+  },
+  "changes": {
+    "losslessH264LevelRepair": {
+      "method": "FFmpeg h264_metadata=level=auto followed by MP4 remux, guarded by actual compatibility checks. The ordinary encode path remains available if validation fails.",
+      "preservesRasterAndFrameRate": true,
+      "doesNotRelaxNativeProfileLimits": true
+    },
+    "metadataReuse": {
+      "oneDeliveryInspectionFeedsFallbackDownloader": true,
+      "privateMetadataMode": "0600",
+      "privateMetadataRemovedAfterSuccessOrFailure": true,
+      "integrationNetworkRequestsBefore": [
+        "meta",
+        "meta",
+        "media"
+      ],
+      "integrationNetworkRequestsAfter": [
+        "meta",
+        "media"
+      ]
+    }
+  },
+  "sourcePreservationProof": {
+    "sourceId": "cb9b2b0b55e7acc350de0a27",
+    "duration": "561.529000",
+    "repairSeconds": 1.045,
+    "beforeLevel": 62,
+    "afterLevel": 40,
+    "width": 1920,
+    "height": 1080,
+    "fps": "30/1",
+    "compressedPictureDataIdentical": true,
+    "compressedAACIdentical": true,
+    "decodedFrameMatchesAtSeconds": {
+      "0": true,
+      "280": true,
+      "560": true
+    },
+    "sourceBytes": 45654942,
+    "preparedBytes": 45654946
+  },
+  "validation": {
+    "targetedDownloaderMetadataAndTransportTests": {
+      "passed": 21,
+      "failed": 0
+    },
+    "typecheck": "passed",
+    "linuxFullSuite": {
+      "passed": 94,
+      "failed": 0
+    },
+    "edgeScopeIsolationRegression": {
+      "passed": 14,
+      "failed": 0,
+      "checks": "Caddy BBR setting is absent from resolver and YouTube-worker profiles; edge keeps a dedicated network namespace."
+    }
+  },
+  "deployment": {
+    "mediaImage": "recordpov-media:2026-11-06-7",
+    "resolverHealth": "healthy",
+    "youtubeWorkerHealth": "healthy",
+    "youtubeWorkerNetwork": "none",
+    "publicOrigin": "https://api.recordpov.app",
+    "liveColdResolveMs": 98741,
+    "liveStagesMs": {
+      "extractDirect": 8891,
+      "preflight": 0,
+      "download": 88806,
+      "selectedProbe": 158,
+      "sourceProbe": 138,
+      "levelRepair": 557,
+      "outputProbe": 139,
+      "totalDownloader": 89821
+    },
+    "notes": [
+      "The total downloader stage excludes the initial direct metadata inspection.",
+      "A first deployed attempt ended during media download and is not included as a successful measurement."
+    ],
+    "mediaImageID": "sha256:7743c18c6d0b14451af4d636817fad980aa55105d29c73bdc0720f0b2f04f6b3",
+    "guardedServiceRestartAfterBBR": "passed",
+    "accountServiceAfterRestart": "active, healthy; public configuration HTTP200",
+    "publicHealthAfterRestart": 200,
+    "egressGuardRestoredAfterRestart": true
+  },
+  "remainingDeliveryInvestigation": {
+    "finding": "A lossy, high-latency CUBIC path restricted sustained delivery. BBR scoped to Caddy improved the bounded comparison with new connections. The complete repaired file then downloaded and decoded successfully on the physical iPhone. Simulator receive-window behavior remains a separate test-environment caveat.",
+    "serverFileBytes": 45654894,
+    "smallBurstRangeCheck": {
+      "bytes": 1048576,
+      "seconds": 2.316,
+      "bytesPerSecond": 452639,
+      "httpStatus": 206
+    },
+    "sustainedCubicRangeCheck": {
+      "requestedBytes": 8388608,
+      "receivedBytes": 458752,
+      "seconds": 30.002978,
+      "bytesPerSecond": 15290,
+      "firstByteSeconds": 1.132931,
+      "httpStatus": 206,
+      "protocol": "HTTP/2",
+      "outcome": "30-second diagnostic timeout"
+    },
+    "nativeCubicSocket": {
+      "rttMs": 270.144,
+      "congestionWindowSegments": 5,
+      "slowStartThresholdSegments": 5,
+      "clientAdvertisedReceiveWindowBytes": 7296,
+      "bytesSent": 13589372,
+      "bytesRetransmitted": 1257440,
+      "retransmissions": 885,
+      "deliveryBitsPerSecond": 186104
+    },
+    "internalNodeToCaddy": {
+      "rttMs": 0.113,
+      "observedDeliveryBitsPerSecond": 134697672
+    },
+    "nativePolicy": {
+      "isDiscretionary": false,
+      "appVisibleAndActive": true,
+      "qos": "user-initiated",
+      "responseDelaySeconds": 1.36,
+      "appRateLimiterPresent": false
+    },
+    "localProxyOrVPNConfigured": false
+  },
+  "temporaryScopedBBRComparison": {
+    "authorizedByParentTask": true,
+    "kernel": "7.0.0-30-generic",
+    "module": "kernel/net/ipv4/tcp_bbr.ko.zst",
+    "modulePreinstalled": true,
+    "dryRunVerifiedBeforeLoad": true,
+    "hostDefaultBeforeAndAfter": "cubic",
+    "changedNamespace": "dedicated Caddy container network namespace only",
+    "namespaceDefaultBefore": "cubic",
+    "namespaceDefaultDuringTest": "bbr",
+    "hostGlobalSysctlChanged": false,
+    "firewallOrWorkerIsolationChanged": false,
+    "persistentConfigurationChanged": true,
+    "newConnectionRangeCheck": {
+      "bytes": 8388608,
+      "seconds": 4.93887,
+      "bytesPerSecond": 1698487,
+      "firstByteSeconds": 0.796239,
+      "httpStatus": 206,
+      "protocol": "HTTP/2"
+    },
+    "actualNewSocketConfirmed": {
+      "algorithm": "bbr",
+      "rttMs": 250.853,
+      "congestionWindowSegments": 256,
+      "estimatedBandwidthBitsPerSecond": 7424512,
+      "bytesSent": 1101139,
+      "bytesRetransmitted": 44888
+    },
+    "existingNativeConnection": "Retains cubic; changing the namespace default does not migrate an established socket.",
+    "rollback": "Remove the Caddy sysctls entry and recreate the edge through the guarded project deployment flow; the host default has remained cubic. The standard module may remain loaded without changing other services.",
+    "status": "The successful setting was persisted, verified after a guarded project restart, and validated by importing the complete file and decoding a native preview on the physical iPhone.",
+    "modulePersistenceFile": "/etc/modules-load.d/recordpov-tcp-bbr.conf",
+    "modulePersistenceContent": "tcp_bbr",
+    "composeSetting": {
+      "file": "server/deploy/compose.caddy.yaml",
+      "caddy.sysctls.net.ipv4.tcp_congestion_control": "bbr"
+    },
+    "effectiveComposeValidated": {
+      "caddy": {
+        "net.ipv4.tcp_congestion_control": "bbr"
+      },
+      "resolver": {},
+      "youtube-worker": {}
+    },
+    "postRestartNamespaceDefault": "bbr",
+    "postRestartHostDefault": "cubic"
+  },
+  "nativeVerification": {
+    "device": "Physical iPhone 17 Pro Max",
+    "runIdentifier": "youtube-pov-bbr-physical-20261106",
+    "result": "passed",
+    "runStartedAt": "2026-11-05T19:00:42Z",
+    "completionObservedAt": "2026-11-05T19:02:12.727960Z",
+    "elapsedUpperBoundSeconds": 90.728,
+    "timingNote": "This is an upper bound between the diagnostic start timestamp and a polling observation of success, not an exact transfer benchmark. The source was already prepared in the hosted cache.",
+    "diagnostic": {
+      "deliveryKind": "prepared",
+      "httpStatus": 200,
+      "runIdentifier": "youtube-pov-bbr-physical-20261106",
+      "serviceHost": "api.recordpov.app",
+      "servicePort": 443,
+      "serviceScheme": "https",
+      "timestamp": "2026-11-05T19:00:42Z",
+      "usingSavedAddress": false,
+      "videoDuration": 561.4811088435374,
+      "videoFrameDecoded": true,
+      "videoFrameHeight": 720,
+      "videoFrameWidth": 1280,
+      "videoResolved": true
+    },
+    "sourceRaster": {
+      "width": 1920,
+      "height": 1080,
+      "fps": 30
+    },
+    "decodedPreviewFrame": {
+      "width": 1280,
+      "height": 720,
+      "note": "The diagnostic image generator caps its preview to 1280 pixels; this does not indicate a reduced source raster."
+    },
+    "simulatorUsedExistingDeviceOnly": true,
+    "simulatorCaveat": {
+      "device": "Existing iPhone 17 simulator",
+      "runIdentifier": "youtube-level-repair-bbr-pov-20261106",
+      "result": "Slow in-progress transfer was investigated separately and was not treated as a native release failure after successful physical-phone decoding.",
+      "observation": "On the same BBR edge, the physical phone acknowledged 25.1 MB in 47.7 seconds with a 269 KB receive window and approximately 8.48 Mbps instantaneous delivery. The concurrent simulator flow acknowledged 10.3 MB in 165.6 seconds with a 17 KB receive window and spent 42% of its time limited by that window.",
+      "hostOS": "macOS 27.0.1",
+      "readOnlyHostSettings": {
+        "net.inet.tcp.recv_bg_algo": 2,
+        "kern.ipc.throttle_best_effort": 1
+      },
+      "hostSysctlsChanged": false,
+      "possibleRelatedReport": "https://developer.apple.com/forums/thread/838761",
+      "relatedReportLimit": "The forum reporter describes a receive-window governor issue; the similar local counters are a hypothesis, not proof that this report explains the simulator behavior."
+    },
+    "previousRunNote": "The earlier simulator transfer used an established CUBIC connection. It was interrupted by our coordinated service and app update; that interruption does not establish a decoder or processor crash.",
+    "noNativeAppNetworkingSourceChangedForThisFix": true,
+    "completeFileImportedAndNativePreviewDecoded": true,
+    "normalPhysicalPhoneLaunchAfterVerification": "Passed; the parent task removed the diagnostic environment before the final normal launch."
+  },
+  "privacy": {
+    "signedCDNURLsStored": false,
+    "sessionTokensStored": false,
+    "requestHeadersStored": false,
+    "clientIPsStored": false,
+    "rawNetworkLogsCommitted": false
+  },
+  "cleanup": {
+    "remoteDiagnosticMP4s": "Five named investigation MP4s were removed after physical-phone decode proof.",
+    "removed": [
+      "/opt/recordpov-diagnostics/prepared-candidate.mp4",
+      "/opt/recordpov-diagnostics/repaired-verification.mp4",
+      "/opt/recordpov-diagnostics/repaired.mp4",
+      "/opt/recordpov-diagnostics/reported-complete.mp4",
+      "/opt/recordpov-diagnostics/reported-source.mp4"
+    ],
+    "preserved": [
+      "/opt/recordpov-diagnostics/source-verification.json",
+      "/opt/recordpov-diagnostics/build-v7.log"
+    ],
+    "productionPreparedCacheRemoved": false
+  }
+}

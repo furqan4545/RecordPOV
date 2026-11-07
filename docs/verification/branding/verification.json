@@ -1,0 +1,27 @@
+{
+  "brand": "RecordPOV",
+  "date": "2026-11-05",
+  "iosBuild": "passed generic iOS signed build",
+  "uiTests": {
+    "device": "existing iPhone 17 simulator DDFB4D01-FE46-4C3D-BEB5-6E2B587C85AD",
+    "tests": [
+      "testCreateAndScreenRecordingHaveSeparateTabs",
+      "testStudioIsReachableWithoutCameraSetup"
+    ],
+    "passed": 2,
+    "failures": 0
+  },
+  "icon": "provided APP_ICON.icon artwork; copied background changed to existing ink; original source unchanged",
+  "bundleIdentifiers": "retained for existing projects and app data",
+  "screenshots": [
+    "create.png",
+    "screen-recording.png",
+    "studio.png"
+  ],
+  "accountUI": "account.png; final compact card, both native provider buttons; signed existing-simulator UI check passed",
+  "android": {
+    "tests": 101,
+    "apk": "apps/android/app/build/outputs/apk/debug/app-debug.apk",
+    "sha256": "3cdef47c0b3d96269271f9841c364ba71df878b8557be15ea0cb5ce5c7d340d9"
+  }
+}

@@ -1,0 +1,50 @@
+{
+  "date": "2026-11-06",
+  "origin": "https://api.recordpov.app",
+  "folder": "/opt/recordpov-auth",
+  "service": "recordpov-auth.service",
+  "image": "recordpov-auth:2026-11-05-3",
+  "framework": "Better Auth 1.7.17",
+  "database": "private persistent SQLite",
+  "mediaService": "separate and unchanged",
+  "macListeners8787and8789": "none",
+  "providers": {
+    "apple": {
+      "nativeIOS": "verified by owner on physical iPhone",
+      "servicesID": "app.recordpov.signin",
+      "bundleID": "com.furqanali.roast",
+      "serverKey": "outside repo, read-only for service UID; backed up locally with owner-only permissions"
+    },
+    "google": {
+      "project": "recordpov",
+      "status": "Testing",
+      "testUsers": 1,
+      "serverClientID": "1001069179671-qg0tomqugsbvqvchivmpl73tt5r3dpe9.apps.googleusercontent.com",
+      "iosClientID": "1001069179671-mvl07vu7kdrebl4atf9hjf2smqi4nrmm.apps.googleusercontent.com",
+      "androidDevelopmentClientID": "1001069179671-bk02840otb0bfvs0amoievf26ejisvc2.apps.googleusercontent.com",
+      "physicalSignIn": "not yet verified"
+    }
+  },
+  "checks": {
+    "authServiceTests": 19,
+    "androidTests": 101,
+    "iosAccountServiceTests": 10,
+    "iosBrandNavigationTests": 2,
+    "iosAccountNavigationTests": 1,
+    "iosSignedPhoneBuild": "passed; installed and launched",
+    "realAppleAndroidAuthorizeBoundary": "passed without signing in; exact official Apple endpoint/callback and Secure HttpOnly SameSite=None state cookie",
+    "mediaHealth": "ok after Caddy reload; existing media containers kept running",
+    "installedPhoneBuild": "final compact Account UI build installed and launched after owner confirmed Apple sign-in"
+  },
+  "limitations": [
+    "Google remains in Testing; public availability needs completed consent-screen details and any required verification.",
+    "Android OAuth/App Links currently register the development APK certificate; genuine release/Play certificates must be added for release.",
+    "Real Google and Android Apple provider sign-in still need device acceptance."
+  ],
+  "storage": {
+    "projects": "remain local",
+    "cloudVideoStorage": "none added",
+    "R2": "not provisioned",
+    "sessionCredentials": "iOS Keychain / Android Keystore-backed encryption"
+  }
+}

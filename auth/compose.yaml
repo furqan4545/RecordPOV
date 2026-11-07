@@ -1,0 +1,53 @@
+name: recordpov-auth
+services:
+  auth:
+    image: recordpov-auth:${RECORDPOV_AUTH_TAG:-local}
+    build: .
+    restart: "no"
+    init: true
+    user: "10003:10003"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: [no-new-privileges:true]
+    mem_limit: 384m
+    cpus: 0.5
+    pids_limit: 64
+    ulimits:
+      nofile: {soft: 1024, hard: 1024}
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: "8789"
+      AUTH_DATABASE_PATH: /data/auth.sqlite
+      BETTER_AUTH_URL: ${BETTER_AUTH_URL:-https://api.recordpov.app}
+      BETTER_AUTH_SECRET: ${BETTER_AUTH_SECRET:?Generate a private auth secret}
+      TRUSTED_PROXY_IPS: "172.30.83.3"
+      AUTH_GOOGLE_SERVER_CLIENT_ID: ${AUTH_GOOGLE_SERVER_CLIENT_ID:-}
+      AUTH_GOOGLE_IOS_CLIENT_ID: ${AUTH_GOOGLE_IOS_CLIENT_ID:-}
+      AUTH_APPLE_BUNDLE_ID: ${AUTH_APPLE_BUNDLE_ID:-}
+      AUTH_APPLE_TEAM_ID: ${AUTH_APPLE_TEAM_ID:-}
+      AUTH_APPLE_KEY_ID: ${AUTH_APPLE_KEY_ID:-}
+      AUTH_APPLE_PRIVATE_KEY_FILE: ${AUTH_APPLE_PRIVATE_KEY_FILE:-}
+      AUTH_APPLE_SERVICES_ID: ${AUTH_APPLE_SERVICES_ID:-}
+      AUTH_ANDROID_CALLBACK_URL: ${AUTH_ANDROID_CALLBACK_URL:-}
+    volumes:
+      - auth-data:/data
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=16m,mode=1777
+    networks:
+      recordpov-egress:
+        ipv4_address: 172.30.83.4
+        aliases: [recordpov-auth]
+    healthcheck:
+      test: [CMD, node, -e, "fetch('http://127.0.0.1:8789/health').then(r=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+      start_period: 15s
+volumes:
+  auth-data:
+    name: recordpov-auth-private-data
+networks:
+  recordpov-egress:
+    external: true
+    name: recordpov-egress

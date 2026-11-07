@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+<title>RecordPOV icon concept: Take Bubble</title>
+<defs>
+  <linearGradient id="inkBg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1024">
+    <stop offset="0" stop-color="#2B2F33"/><stop offset="1" stop-color="#17191C"/>
+  </linearGradient>
+  <linearGradient id="limeBg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1024">
+    <stop offset="0" stop-color="#E8FF8A"/><stop offset="1" stop-color="#CDF04C"/>
+  </linearGradient>
+  <linearGradient id="paperBg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1024">
+    <stop offset="0" stop-color="#FCFBF8"/><stop offset="1" stop-color="#E7E4DA"/>
+  </linearGradient>
+  <linearGradient id="lime" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#E8FF8A"/><stop offset="1" stop-color="#D2F556"/>
+  </linearGradient>
+  <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#ECEAE3"/>
+  </linearGradient>
+</defs>
+<rect width="1024" height="1024" fill="url(#paperBg)"/>
+<g fill="#202326">
+  <rect x="192" y="226" width="640" height="470" rx="190"/>
+  <path d="M300,640 L282,790 L452,672 Z" stroke="#202326" stroke-width="44" stroke-linejoin="round"/>
+</g>
+<circle cx="512" cy="461" r="128" fill="none" stroke="#F7F5F0" stroke-width="22"/>
+<circle cx="512" cy="461" r="92" fill="url(#lime)"/>
+</svg>

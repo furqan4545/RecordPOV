@@ -1,0 +1,12 @@
+# Add with -f compose.yaml -f compose.apple.yaml only after supplying a real .p8.
+services:
+  auth:
+    environment:
+      AUTH_APPLE_PRIVATE_KEY_FILE: /run/secrets/apple-sign-in.p8
+    volumes:
+      - type: bind
+        source: ${AUTH_APPLE_PRIVATE_KEY_HOST_FILE:?Absolute path to the real Apple private key}
+        target: /run/secrets/apple-sign-in.p8
+        read_only: true
+        bind:
+          create_host_path: false

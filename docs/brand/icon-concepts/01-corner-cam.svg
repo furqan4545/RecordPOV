@@ -1,0 +1,32 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+<title>RecordPOV icon concept: Corner Cam</title>
+<defs>
+  <linearGradient id="inkBg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1024">
+    <stop offset="0" stop-color="#2B2F33"/><stop offset="1" stop-color="#17191C"/>
+  </linearGradient>
+  <linearGradient id="limeBg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1024">
+    <stop offset="0" stop-color="#E8FF8A"/><stop offset="1" stop-color="#CDF04C"/>
+  </linearGradient>
+  <linearGradient id="paperBg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1024">
+    <stop offset="0" stop-color="#FCFBF8"/><stop offset="1" stop-color="#E7E4DA"/>
+  </linearGradient>
+  <linearGradient id="lime" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#E8FF8A"/><stop offset="1" stop-color="#D2F556"/>
+  </linearGradient>
+  <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#ECEAE3"/>
+  </linearGradient>
+  <clipPath id="c01"><circle cx="661" cy="716" r="146"/></clipPath>
+</defs>
+<rect width="1024" height="1024" fill="url(#inkBg)"/>
+<g transform="translate(14 8)">
+  <rect x="217" y="162" width="460" height="570" rx="96" fill="url(#paper)"/>
+  <path d="M392.8,344.0 L392.8,496.0 L526.6,420.0 Z" fill="#202326" stroke="#202326" stroke-width="48" stroke-linejoin="round"/>
+  <circle cx="661" cy="716" r="174" fill="url(#inkBg)"/>
+  <circle cx="661" cy="716" r="146" fill="url(#lime)"/>
+  <g clip-path="url(#c01)" fill="#202326">
+    <circle cx="661" cy="680" r="52"/>
+    <ellipse cx="661" cy="846" rx="110" ry="94"/>
+  </g>
+</g>
+</svg>

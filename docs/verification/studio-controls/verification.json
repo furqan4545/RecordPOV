@@ -1,0 +1,93 @@
+{
+  "verifiedAt": "2026-11-05T20:11:28.332783+00:00",
+  "platform": "iOS",
+  "simulator": {
+    "name": "iPhone 17",
+    "udid": "DDFB4D01-FE46-4C3D-BEB5-6E2B587C85AD",
+    "reusedExisting": true
+  },
+  "changes": {
+    "defaultStyle": "Cutout",
+    "defaultCamera": "Starts once on Studio entry; explicit off remains respected",
+    "layoutLabel": "Small camera",
+    "cutoutSplitReturn": "Rounded; other explicit shapes retained",
+    "splitOriginal": "Complete aspect-fit source over low-resolution blurred/dimmed filler; shared preview/record compositor",
+    "gestureSensitivity": {
+      "drag": 0.65,
+      "rotation": 0.35,
+      "pinchExponent": 0.65
+    },
+    "gestureHandoff": "One finger moves only; count/identity changes rebase immediately; abrupt crossing rejected; bounds keep overlay reachable",
+    "newMicVolume": 0.6,
+    "savedMicVolume": "Explicit values preserved, including mute and previous 100%; missing legacy field uses 60%",
+    "micQualityScope": "Default mix attenuation only; no claimed elimination of raw microphone hiss or hardware clipping",
+    "editor": "Cancellable composition assembly off main actor, visible preparation/update status; independent tools remain usable; Play queues current edits; Save requires latest successful composition; retry shown on failure",
+    "previewRaceSafety": "Old item seek/end callbacks cannot start stale playback or clear new playback intent; first Play tap retries after failure"
+  },
+  "validation": {
+    "uniqueTestsPassed": 93,
+    "unresolvedFailures": 0,
+    "testLogs": [
+      "/tmp/recordpov-studio-behavior-tests.log",
+      "/tmp/recordpov-editor-preparation-tests.log",
+      "/tmp/recordpov-studio-editor-ui-final.log",
+      "/tmp/recordpov-studio-editor-final-validation.log",
+      "/tmp/recordpov-editor-retry-final.log"
+    ],
+    "retiredNavigationTestFailures": "Two UI checks initially used the removed Try Studio button. Corrected to open the seeded synthetic import through Recent; both reruns pass.",
+    "realMediaChecks": [
+      "Default mic-only export amplitude0.15 vs previous0.25; original stem0.1875 unchanged",
+      "Voice cleanup preserves timestamps and passes audio tests",
+      "All four original corners remain visible at multiple split ratios/aspects with nonzero image origin",
+      "Actual AVPlayer drag proxy seeks without rebuilding"
+    ],
+    "sourceHydrationMatches": true,
+    "phoneBuild": "BUILD SUCCEEDED",
+    "phoneBuildLog": "/tmp/recordpov-studio-editor-final-phone-build.log",
+    "physicalGestureOrMicQualityMeasurement": false
+  },
+  "proofImages": [
+    "split-portrait.png",
+    "split-landscape.png",
+    "editor-audio.png",
+    "editor-trim.png",
+    "studio.png"
+  ],
+  "sourceSha256": {
+    "Roast/Models/MediaModels.swift": "9f5829e7788125002b63219738cb6360a459e86ddb7b859c04387ae3ebf79753",
+    "Roast/Models/EditorModels.swift": "47dfecb96738b4cd478f2dcc184bf006b37c0fb2879616dfdc1614ed483a0d60",
+    "Roast/Models/OverlayGestureState.swift": "e8552b8f937715fc87fd535c908b0fdaf5293e9df9b307816c85d5313809cb65",
+    "Roast/Engine/StudioEngine.swift": "1a6aa90fcb0bb0a4a132b693c792880b839551b4f35f353928a7525fa1dc8a0a",
+    "Roast/Engine/StudioLayoutGeometry.swift": "cea684d0c16c48649964f2071f76a3427624d8eced7e66128a31182cf0a372ec",
+    "Roast/Engine/MediaPipeline.swift": "5759109243271716107c80e5018eeb65185b5e6c3f76867a075ca35dc2ecc13c",
+    "Roast/Engine/RecordingAudioComposer.swift": "ea05209a832b04c5bb5697e65d63791adbec3bd213e4f20db782d79827e0c93a",
+    "Roast/Views/HomeView.swift": "34521ea1435e22fca3728191c2db9fcb5f3f870914b6e9715a324d7950db5a4f",
+    "Roast/Views/StudioView.swift": "4d163e1fa6e43aede35f710ede3ed8c235dc1c38b883a47f998bf4aeaed9559d",
+    "Roast/Views/StudioLayoutControls.swift": "79053cc7ea2a0ef0f1ab1be3a9575e1127202f357ae6ea1ef5a55786cf15dbd2",
+    "Roast/Views/OverlayTouchSurface.swift": "b33306be01db0ecb3c52080fcc5d1e3d07d9017a3dcfeb58f2692cb8af31d0fe",
+    "RoastTests/StudioLayoutTests.swift": "351645b9f67fd6131ebf6c9755ca44d78977b1adf49fdfeaceee997ca7396da5",
+    "RoastTests/StudioLayoutRenderTests.swift": "91d29b3cc646bfe63b652287ee0a765d2523ae235f5f4fabdaa4faa4c7942c2d",
+    "RoastTests/OverlayGestureStateTests.swift": "69594d971a811608405ab623350e735c48d7412388e4b5aa9d3fd3a6f9bc4791",
+    "RoastTests/EditorExportTests.swift": "220083cd8e2dbe72aface0ee5595a0fc08dfe10258ec7e54e011c23adc01b285",
+    "RoastTests/EditorTimelineTests.swift": "c53d042840f935685b518c2c323231c3345935d2805ce7167f9802bcc18f3772",
+    "RoastUITests/RoastUITests.swift": "ab9b818a3911d2ce2cff70d6f32614eabffd64ff350f1c0ad3c9149430054cd3",
+    "Roast/Services/EditorExporter.swift": "199c2942d9e76e92466968b140460eb5f67da47160dbc44ef5dbd4ad3bdf340d",
+    "Roast/Services/EditorPreviewController.swift": "879f6b54772113075ccf2b8592d167826020a58b39f692eea0429181ded159c5",
+    "Roast/Views/EditorView.swift": "03ba38d5eca50576ae498a415acc3532994944cf564aa01fe9d9c8b11220e901",
+    "RoastTests/EditorPreviewControllerTests.swift": "67041c281ee0ee55d498e657d095bea83a0ed4245f243d678b4c6269bf81dd47"
+  },
+  "phoneInstallation": {
+    "outcome": "Installed and normally launched",
+    "device": "iPhone 17 Pro Max",
+    "udid": "00008150-001C705921BA401C",
+    "bundleID": "com.furqanali.roast",
+    "processID": 58942,
+    "installationURL": "/private/var/containers/Bundle/Application/BA44A87C-0036-4247-B5D3-C33AE3B949BE/Roast.app/",
+    "binarySha256": "b610219460753e5167876150d1b48742e951628dc840889febee0f75471d5fb1",
+    "diagnosticLaunchFlags": false,
+    "installationProof": "/tmp/recordpov-studio-editor-install.json",
+    "launchProof": "/tmp/recordpov-studio-editor-launch.json",
+    "runningProof": "/tmp/recordpov-studio-editor-running.json",
+    "firstTransfer": "Connection interrupted; retry succeeded"
+  }
+}

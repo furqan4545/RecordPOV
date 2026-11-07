@@ -1,0 +1,36 @@
+{
+  "fill": {
+    "automatic-gradient": "srgb:0.12500,0.13700,0.14900,1.00000"
+  },
+  "groups": [
+    {
+      "layers": [
+        {
+          "image-name": "pov-mark.png",
+          "name": "pov-mark",
+          "position": {
+            "scale": 1,
+            "translation-in-points": [
+              0,
+              0
+            ]
+          }
+        }
+      ],
+      "shadow": {
+        "kind": "neutral",
+        "opacity": 0.5
+      },
+      "translucency": {
+        "enabled": false,
+        "value": 0.5
+      }
+    }
+  ],
+  "supported-platforms": {
+    "circles": [
+      "watchOS"
+    ],
+    "squares": "shared"
+  }
+}

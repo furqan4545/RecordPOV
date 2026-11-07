@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+<title>RecordPOV icon concept: Play + Rec</title>
+<defs>
+  <linearGradient id="inkBg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1024">
+    <stop offset="0" stop-color="#2B2F33"/><stop offset="1" stop-color="#17191C"/>
+  </linearGradient>
+  <linearGradient id="limeBg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1024">
+    <stop offset="0" stop-color="#E8FF8A"/><stop offset="1" stop-color="#CDF04C"/>
+  </linearGradient>
+  <linearGradient id="paperBg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1024">
+    <stop offset="0" stop-color="#FCFBF8"/><stop offset="1" stop-color="#E7E4DA"/>
+  </linearGradient>
+  <linearGradient id="lime" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#E8FF8A"/><stop offset="1" stop-color="#D2F556"/>
+  </linearGradient>
+  <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#ECEAE3"/>
+  </linearGradient>
+</defs>
+<rect width="1024" height="1024" fill="url(#inkBg)"/>
+<path d="M324.4,275.0 L324.4,673.0 L674.7,474.0 Z" fill="url(#paper)" stroke="url(#paper)" stroke-width="72" stroke-linejoin="round"/>
+<circle cx="700" cy="702" r="120" fill="url(#lime)"/>
+</svg>

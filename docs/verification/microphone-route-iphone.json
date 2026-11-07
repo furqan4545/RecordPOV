@@ -1,0 +1,65 @@
+{
+  "afterActivation": {
+    "activeMicrophoneMode": 0,
+    "category": "AVAudioSessionCategoryPlayAndRecord",
+    "categoryOptions": 655404,
+    "echoCancellationAvailable": true,
+    "echoCancellationEnabled": true,
+    "inputChannels": 1,
+    "inputs": [
+      "MicrophoneBuiltIn"
+    ],
+    "mode": "AVAudioSessionModeDefault",
+    "outputChannels": 2,
+    "outputs": [
+      "Speaker"
+    ],
+    "preferredMicrophoneMode": 0,
+    "prefersEchoCancellation": true,
+    "sampleRate": 48000
+  },
+  "afterRouteSettled": {
+    "activeMicrophoneMode": 0,
+    "category": "AVAudioSessionCategoryPlayAndRecord",
+    "categoryOptions": 655404,
+    "echoCancellationAvailable": true,
+    "echoCancellationEnabled": true,
+    "inputChannels": 1,
+    "inputs": [
+      "MicrophoneBuiltIn"
+    ],
+    "mode": "AVAudioSessionModeDefault",
+    "outputChannels": 2,
+    "outputs": [
+      "Speaker"
+    ],
+    "preferredMicrophoneMode": 0,
+    "prefersEchoCancellation": true,
+    "sampleRate": 48000
+  },
+  "audioEngineCreated": false,
+  "before": {
+    "activeMicrophoneMode": 0,
+    "category": "AVAudioSessionCategorySoloAmbient",
+    "categoryOptions": 0,
+    "echoCancellationAvailable": false,
+    "echoCancellationEnabled": false,
+    "inputChannels": 0,
+    "inputs": [],
+    "mode": "AVAudioSessionModeDefault",
+    "outputChannels": 2,
+    "outputs": [
+      "Speaker"
+    ],
+    "preferredMicrophoneMode": 0,
+    "prefersEchoCancellation": false,
+    "sampleRate": 48000
+  },
+  "cameraEnabled": false,
+  "captureSessionCreated": false,
+  "configurationErrors": [],
+  "configurationRestored": true,
+  "createdAt": "2026-11-05T06:05:00Z",
+  "runID": "voice-route-20261105-01",
+  "samplesCaptured": false
+}

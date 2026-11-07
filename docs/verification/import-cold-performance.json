@@ -1,0 +1,170 @@
+{
+  "date": "2026-11-06",
+  "image": "recordpov-media:2026-11-06-3",
+  "scope": "Same public 64.7-second Instagram clip; cold source download in an empty isolated private directory, same Hetzner network and 1.5 vCPU; excludes phone transfer",
+  "beforeMs": 41358,
+  "afterMs": 5419,
+  "before": [
+    {
+      "event": "media.stage",
+      "id": "c6909cc95a00b2ed1a05b6d6",
+      "platform": "instagram",
+      "stage": "preflight",
+      "elapsedMs": 16
+    },
+    {
+      "event": "media.stage",
+      "id": "c6909cc95a00b2ed1a05b6d6",
+      "platform": "instagram",
+      "stage": "extract",
+      "elapsedMs": 2201
+    },
+    {
+      "event": "media.stage",
+      "id": "c6909cc95a00b2ed1a05b6d6",
+      "platform": "instagram",
+      "stage": "download",
+      "elapsedMs": 802
+    },
+    {
+      "event": "media.stage",
+      "id": "c6909cc95a00b2ed1a05b6d6",
+      "platform": "instagram",
+      "stage": "sourceProbe",
+      "elapsedMs": 167
+    },
+    {
+      "event": "media.stage",
+      "id": "c6909cc95a00b2ed1a05b6d6",
+      "platform": "instagram",
+      "stage": "transcode",
+      "elapsedMs": 38016
+    },
+    {
+      "event": "media.stage",
+      "id": "c6909cc95a00b2ed1a05b6d6",
+      "platform": "instagram",
+      "stage": "outputProbe",
+      "elapsedMs": 136
+    },
+    {
+      "event": "media.stage",
+      "id": "c6909cc95a00b2ed1a05b6d6",
+      "platform": "instagram",
+      "stage": "total",
+      "elapsedMs": 41356
+    },
+    {
+      "event": "benchmark.complete",
+      "scope": "cold source fetch plus preparation; empty isolated job directory, same Hetzner network/IP and1.5vCPU limit; phone transfer excluded",
+      "elapsedMs": 41358,
+      "duration": 64.7,
+      "width": 720,
+      "height": 1280,
+      "hasAudio": false,
+      "bytes": 9375270,
+      "privateExtractorFileRemoved": true
+    }
+  ],
+  "after": [
+    {
+      "event": "media.stage",
+      "id": "c6909cc95a00b2ed1a05b6d6",
+      "platform": "instagram",
+      "stage": "preflight",
+      "elapsedMs": 14
+    },
+    {
+      "event": "media.stage",
+      "id": "c6909cc95a00b2ed1a05b6d6",
+      "platform": "instagram",
+      "stage": "extract",
+      "elapsedMs": 3036
+    },
+    {
+      "event": "media.stage",
+      "id": "c6909cc95a00b2ed1a05b6d6",
+      "platform": "instagram",
+      "stage": "download",
+      "elapsedMs": 833
+    },
+    {
+      "event": "media.stage",
+      "id": "c6909cc95a00b2ed1a05b6d6",
+      "platform": "instagram",
+      "stage": "selectedProbe",
+      "elapsedMs": 182
+    },
+    {
+      "event": "media.stage",
+      "id": "c6909cc95a00b2ed1a05b6d6",
+      "platform": "instagram",
+      "stage": "candidateDownload",
+      "elapsedMs": 790
+    },
+    {
+      "event": "media.stage",
+      "id": "c6909cc95a00b2ed1a05b6d6",
+      "platform": "instagram",
+      "stage": "candidateProbe",
+      "elapsedMs": 130
+    },
+    {
+      "event": "media.stage",
+      "id": "c6909cc95a00b2ed1a05b6d6",
+      "platform": "instagram",
+      "stage": "sourceProbe",
+      "elapsedMs": 128
+    },
+    {
+      "event": "media.stage",
+      "id": "c6909cc95a00b2ed1a05b6d6",
+      "platform": "instagram",
+      "stage": "remux",
+      "elapsedMs": 144
+    },
+    {
+      "event": "media.stage",
+      "id": "c6909cc95a00b2ed1a05b6d6",
+      "platform": "instagram",
+      "stage": "outputProbe",
+      "elapsedMs": 136
+    },
+    {
+      "event": "media.stage",
+      "id": "c6909cc95a00b2ed1a05b6d6",
+      "platform": "instagram",
+      "stage": "total",
+      "elapsedMs": 5417
+    },
+    {
+      "event": "benchmark.complete",
+      "image": "2026-11-06-3",
+      "scope": "Actual cold Instagram fetch and preparation; empty isolated directory, same Hetzner IP and1.5vCPU; excludes phone transfer",
+      "elapsedMs": 5419,
+      "duration": 64.7,
+      "width": 720,
+      "height": 1280,
+      "hasAudio": false,
+      "bytes": 7793807,
+      "extractorInfoRemoved": true
+    }
+  ],
+  "checks": {
+    "LinuxServerTests": 65,
+    "failed": 0,
+    "skipped": 0,
+    "rasterPreserved": "720x1280",
+    "durationPreserved": 64.7,
+    "sourceAudio": "none on this clip; separate audible fixtures prove preserved audio",
+    "privateMetadataDeleted": true
+  },
+  "production": {
+    "image": "recordpov-media:2026-11-06-3",
+    "verifiedAt": "2026-11-05T16:08:08.664052+00:00",
+    "health": "ok",
+    "auth": "ok",
+    "newMediaContainersHealthy": true,
+    "nativeDirectDeliveryImplemented": false
+  }
+}

@@ -1,0 +1,23 @@
+{
+  "date": "2026-11-06",
+  "scope": "Server extracts public Instagram URL; full direct CDN download tested from Mac network, not phone; no signed URLs/headers retained",
+  "httpStatus": 200,
+  "bytes": 7793689,
+  "directDownloadMs": 5392,
+  "extractionAndSSHPlusDownloadMs": 13952,
+  "probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 720,
+        "height": 1280
+      }
+    ],
+    "format": {
+      "duration": "64.700000"
+    }
+  }
+}

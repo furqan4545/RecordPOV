@@ -1,0 +1,66 @@
+{
+  "date": "2026-11-06",
+  "scope": "Cold source fetch with first fast-path candidate, before opaque Instagram H264 selection fix; source was correctly rejected VP9 and converted. Not claimed sped up.",
+  "events": [
+    {
+      "event": "media.stage",
+      "id": "c6909cc95a00b2ed1a05b6d6",
+      "platform": "instagram",
+      "stage": "preflight",
+      "elapsedMs": 16
+    },
+    {
+      "event": "media.stage",
+      "id": "c6909cc95a00b2ed1a05b6d6",
+      "platform": "instagram",
+      "stage": "extract",
+      "elapsedMs": 2201
+    },
+    {
+      "event": "media.stage",
+      "id": "c6909cc95a00b2ed1a05b6d6",
+      "platform": "instagram",
+      "stage": "download",
+      "elapsedMs": 802
+    },
+    {
+      "event": "media.stage",
+      "id": "c6909cc95a00b2ed1a05b6d6",
+      "platform": "instagram",
+      "stage": "sourceProbe",
+      "elapsedMs": 167
+    },
+    {
+      "event": "media.stage",
+      "id": "c6909cc95a00b2ed1a05b6d6",
+      "platform": "instagram",
+      "stage": "transcode",
+      "elapsedMs": 38016
+    },
+    {
+      "event": "media.stage",
+      "id": "c6909cc95a00b2ed1a05b6d6",
+      "platform": "instagram",
+      "stage": "outputProbe",
+      "elapsedMs": 136
+    },
+    {
+      "event": "media.stage",
+      "id": "c6909cc95a00b2ed1a05b6d6",
+      "platform": "instagram",
+      "stage": "total",
+      "elapsedMs": 41356
+    },
+    {
+      "event": "benchmark.complete",
+      "scope": "cold source fetch plus preparation; empty isolated job directory, same Hetzner network/IP and1.5vCPU limit; phone transfer excluded",
+      "elapsedMs": 41358,
+      "duration": 64.7,
+      "width": 720,
+      "height": 1280,
+      "hasAudio": false,
+      "bytes": 9375270,
+      "privateExtractorFileRemoved": true
+    }
+  ]
+}

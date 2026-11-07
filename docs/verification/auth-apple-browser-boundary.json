@@ -1,0 +1,17 @@
+{
+  "date": "2026-11-05T15:01:54.587Z",
+  "startStatus": 200,
+  "authorizeStatus": 302,
+  "providerOrigin": "https://appleid.apple.com",
+  "providerPath": "/auth/authorize",
+  "servicesId": "app.recordpov.signin",
+  "callback": "https://api.recordpov.app/api/auth/callback/apple",
+  "responseMode": "form_post",
+  "stateCookies": {
+    "count": 1,
+    "allSecure": true,
+    "allHTTPOnly": true,
+    "crossSiteStateCookie": true
+  },
+  "scope": "authorize redirect boundary only; no real account consent or bearer session created"
+}

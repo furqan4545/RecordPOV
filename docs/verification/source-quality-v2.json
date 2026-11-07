@@ -1,0 +1,72 @@
+{
+  "verifiedAt": "2026-11-05T18:26:46.124907+00:00",
+  "deployment": {
+    "image": "recordpov-media:2026-11-06-6",
+    "health": "ok",
+    "serverTests": 90,
+    "failures": 0
+  },
+  "quality": {
+    "maxSourceLongSide": 3840,
+    "maxSourceShortSide": 2160,
+    "maxSourceFPS": 60,
+    "qualityVersion": 2,
+    "oldServerAndClientQualityCachesBypassed": true,
+    "compatibleStreamsCopied": true,
+    "forcedEncodingCRF": 18,
+    "studioPreviewBefore": "360x640",
+    "studioPreviewAfter": "720x1280",
+    "recordingOutputSettingsChanged": false,
+    "iosFocusedQualityTests": 2,
+    "iosFocusedQualityTestsPassed": true,
+    "youtubeReferenceMetadata": {
+      "result": "OK",
+      "source": "https://youtu.be/bkPwFqa89gE",
+      "title": "Unconventional Productivity Habits That Made Me Successful",
+      "id": "c4f4a1ec76cd41762d74789c",
+      "duration": 426,
+      "hasAudio": null,
+      "playbackUrl": null,
+      "referencePeerConnections": 2,
+      "bytesFromYouTube": 983746,
+      "bytesToYouTube": 8401,
+      "seconds": 12.5,
+      "deliveryKind": "direct",
+      "assetRoles": [
+        "video",
+        "audio"
+      ],
+      "expected": {
+        "hasAudio": true,
+        "duration": 426,
+        "width": 1920,
+        "height": 1080
+      },
+      "maxBytes": 262144000
+    }
+  },
+  "ui": {
+    "recent": "vertical two-column grid",
+    "myVideos": "one unified grid",
+    "unfinishedSectionRemoved": true,
+    "deleteAction": "Long press -> Delete permanently; no second confirmation"
+  },
+  "userRequestedDraftCleanup": {
+    "capturedExistingIDs": 2,
+    "deleted": 2,
+    "errors": {},
+    "remainingExistingDraftFolders": 0,
+    "newFutureDraftsAutomaticallyDeleted": false
+  },
+  "iphone": {
+    "installed": true,
+    "normalFinalLaunch": "passed"
+  },
+  "android": {
+    "focusedTests": 23,
+    "testsPassed": true,
+    "build": "passed",
+    "physicalDeviceVerified": false,
+    "apkSHA256": "5d9f62a76980718019a72908e713670c7502c0f181abffa8d7533a758b0e7694"
+  }
+}

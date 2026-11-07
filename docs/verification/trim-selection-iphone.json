@@ -1,0 +1,54 @@
+{
+  "audioDecoded": false,
+  "cameraEnabled": false,
+  "captureAssetDuration": 28.266666666666666,
+  "captureTracks": [
+    {
+      "duration": 28.266666666666666,
+      "end": 28.266666666666666,
+      "mediaType": "vide",
+      "start": 0,
+      "trackID": 1
+    },
+    {
+      "duration": 28.1509375,
+      "end": 28.1509375,
+      "mediaType": "soun",
+      "start": 0,
+      "trackID": 2
+    }
+  ],
+  "cuts": [],
+  "draftDuration": 28.266666666666666,
+  "exportBoundedDuration": 28.266666666666666,
+  "exportBoundedTrimStart": 0,
+  "exportSegments": [
+    {
+      "outputStart": 0,
+      "sourceEnd": 18.522541308403014,
+      "sourceStart": 0
+    }
+  ],
+  "exportTimelineDuration": 18.522541308403014,
+  "imagesDecoded": false,
+  "metadataOnly": true,
+  "microphoneEnabled": false,
+  "phase": "complete",
+  "productionAudioTrackCount": 2,
+  "productionCompositionDuration": 18.522541308403014,
+  "productionCompositionSucceeded": true,
+  "productionVideoTrackCount": 1,
+  "runIdentifier": "trim-production-check-20261105-final",
+  "sourceAssetDuration": 28.265646258503402,
+  "sourceAudioRanges": [
+    {
+      "duration": 28.265646258503402,
+      "end": 28.265646258503402,
+      "start": 0
+    }
+  ],
+  "timestamp": "2026-11-05T02:28:32Z",
+  "trimEnd": 18.522541308403014,
+  "trimStart": 0,
+  "unboundedTimelineDuration": 18.522541308403014
+}

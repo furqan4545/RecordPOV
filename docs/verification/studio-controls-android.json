@@ -1,0 +1,89 @@
+{
+  "verifiedAt": "2026-11-05T20:03:36.263175+00:00",
+  "platform": "Android",
+  "changes": {
+    "defaultStudioStyle": "Cutout",
+    "defaultStudioCamera": "Starts once on Studio entry, with camera-only permission; explicit camera-off survives source changes",
+    "microphoneCapture": "Existing recorder/AEC/noise-suppression path unchanged; permission requested at Record",
+    "layoutLabel": "Small camera",
+    "layoutStyleReturn": "Only Cutout becomes Rounded; explicit other shapes preserved",
+    "gestureGains": {
+      "drag": 0.65,
+      "rotation": 0.35,
+      "pinchExponent": 0.6
+    },
+    "gestureTransition": "Pointer identity/count changes rebase immediately, one finger never resizes or rotates; three or more fingers suspend transforms until a fresh one/two-finger baseline",
+    "split": "Full-fit sharp original with a darkened low-resolution blurred backdrop, clipped to source pane in preview and recording",
+    "micMixDefault": 0.6,
+    "savedMicMix": "Explicit saved values preserved; missing legacy field defaults to 0.6",
+    "gestureCrossingGuard": "Reject/rebase raw angular steps above 90 degrees per event; preserve slow rotation and angle wrap",
+    "editorStartup": "Sound prepares separately from editing: trim, levels, captions and Close remain usable; Save and mixed preview wait for prepared audio",
+    "editorRaceSafety": "Atomic audio-metadata-only commits preserve newer edits in either completion order; same-draft stem writers serialize across Close/reopen; removed drafts are not recreated"
+  },
+  "validation": {
+    "gradle": "testDebugUnitTest assembleDebug --offline --no-daemon -Pkotlin.incremental=false",
+    "build": "BUILD SUCCESSFUL",
+    "seconds": 27,
+    "tests": {
+      "tests": 157,
+      "failures": 0,
+      "errors": 0,
+      "skipped": 0
+    },
+    "targetedSuites": [
+      {
+        "suite": "studio.roast.app.OverlayGestureStateTest",
+        "tests": 5,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "studio.roast.app.StageGeometryTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "studio.roast.app.DraftPreparationRaceTest",
+        "tests": 4,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      },
+      {
+        "suite": "studio.roast.app.StemMixerTest",
+        "tests": 14,
+        "failures": 0,
+        "errors": 0,
+        "skipped": 0
+      }
+    ],
+    "buildWorkspace": "/tmp/recordpov-home-source",
+    "apk": "/tmp/recordpov-android-studio-build/app/outputs/apk/debug/app-debug.apk",
+    "log": "/tmp/recordpov-android-studio-build-final.log",
+    "physicalAndroidVerified": false,
+    "hydratedSourceMatches": true,
+    "apkSha256": "2cb5dabfc2af2b19872084c4b13b8919398cd0a66c91c9e4640b4b351c66adc9"
+  },
+  "sourceSha256": {
+    "StudioScreen.kt": "ad91a8ee806f83505a7ef3f826ac455d99f20f8d9762d91e422a56f40aff5ee6",
+    "PipGeometry.kt": "051d7b6fe3eddf063298ac4fe1ab7e2e8caf8ed603da925521fd76b33e17337a",
+    "StageGeometry.kt": "877356bac99059f207c98fd2e1aaa14ad577449027eb520bcaeaf70479a21978",
+    "Recording.kt": "e2bf048d38057a376aa88f0eadfbc20ca74565335786baf56a67c399d1889988",
+    "OverlayGestureState.kt": "60bd7e169e9fff698ff77f6eaaf347e2017dde76bcae8e88e7ad4b6790af2e8a",
+    "SplitVideoBackdrop.kt": "8d6a9104570c46df0752892c9f16b3bd4e12adabaf5ef74b705b8d00309d26fc",
+    "AudioEditMath.kt": "35f96377fa4504ecad0d564ff59758cfc60ecd6e7036e0867adf3c43bae7cc75",
+    "Drafts.kt": "96701c0e811dde76fbab1fd519ee7e0a5eed2aa0af1d62046f0a6e6a0d3535e7",
+    "DraftProjectFiles.kt": "f1dabc94b66888189976d3b00d2180e223e04c4c791e5959a6e2193b3947b829",
+    "DraftAudioPreparationGate.kt": "ac85b06785f05e2fe861beb81afd9ebeed899d88e30b9cc366592425af897fa7",
+    "EditorScreen.kt": "f8d7f89a77b964b65fd87113a807accecf8d82b24f327aee2022c769732e5cc9"
+  },
+  "testSha256": {
+    "OverlayGestureStateTest.kt": "0109cf23d1fc6fb701d66d33f8ba7bf746f174db72e32ef1f9383eb4571f72f4",
+    "StageGeometryTest.kt": "f3f48af5d32a9ca18fa35408d22ffaedaee34083f3f745924068c0c7bc0dbbb2",
+    "StemMixerTest.kt": "cac4e24c36eed7d58c2ee76e0a081a711c6b7a7f8684c2d8462c9dffa2204180",
+    "DraftPreparationRaceTest.kt": "5f829dc3911b021be4e18792811c994fbfeb03c59b1f03ebac9cf62d8fc715c0"
+  }
+}

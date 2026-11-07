@@ -1,0 +1,115 @@
+name: recordpov
+
+services:
+  resolver:
+    image: recordpov-media:${IMAGE_TAG:-local}
+    build:
+      context: ..
+      dockerfile: deploy/Dockerfile
+      args:
+        YTDLP_VERSION: ${YTDLP_VERSION:-2026.10.26}
+    # The Linux systemd unit applies egress rules BEFORE starting the worker.
+    # Docker must not restart this worker before that guard on a host reboot.
+    restart: "no"
+    init: true
+    depends_on:
+      youtube-worker:
+        condition: service_healthy
+    user: "10001:10001"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: ${RESOLVER_MEMORY_LIMIT:-1536m}
+    memswap_limit: ${RESOLVER_MEMORY_LIMIT:-1536m}
+    cpus: ${RESOLVER_CPUS:-1.5}
+    pids_limit: 128
+    ulimits:
+      nofile: {soft: 1024, hard: 2048}
+      core: {soft: 0, hard: 0}
+    stop_grace_period: 15s
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=64m,mode=1777
+    ports:
+      - "127.0.0.1:${HOST_PORT:-8787}:8787"
+    dns: ["1.1.1.1", "9.9.9.9"]
+    environment:
+      PUBLIC_BASE_URL: ${PUBLIC_BASE_URL:-https://api.recordpov.app}
+      # Public mobile clients never receive an administrator bearer token.
+      API_TOKEN: ""
+      CORS_ORIGINS: ""
+      TRUSTED_PROXY_IPS: "${RECORDPOV_GATEWAY:-172.30.83.1},${RECORDPOV_CADDY_ADDRESS:-172.30.83.3},127.0.0.1,::1"
+      MAX_DURATION_SECONDS: "3600"
+      MAX_MEDIA_BYTES: "2147483648"
+      RESOLVE_TIMEOUT_SECONDS: "900"
+      YOUTUBE_TIMEOUT_SECONDS: "${YOUTUBE_TIMEOUT_SECONDS:-600}"
+      YOUTUBE_IPC_PATH: /ipc
+      CACHE_TTL_SECONDS: "14400"
+      MAX_CACHE_BYTES: "8589934592"
+      MAX_CONCURRENT_DOWNLOADS: "1"
+      MAX_QUEUED_DOWNLOADS: "4"
+    volumes:
+      - temporary-media:/cache
+      - youtube-ipc:/ipc:ro
+    networks:
+      resolver-egress:
+        ipv4_address: ${RECORDPOV_ADDRESS:-172.30.83.2}
+    logging:
+      driver: json-file
+      options: {max-size: "10m", max-file: "3"}
+
+  youtube-worker:
+    image: recordpov-media:${IMAGE_TAG:-local}
+    restart: "no"
+    init: true
+    command: ["node", "dist/src/youtube-worker.js"]
+    network_mode: none
+    user: "10001:10001"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: ${RESOLVER_MEMORY_LIMIT:-1536m}
+    memswap_limit: ${RESOLVER_MEMORY_LIMIT:-1536m}
+    cpus: ${RESOLVER_CPUS:-1.5}
+    pids_limit: 128
+    ulimits:
+      nofile: {soft: 1024, hard: 2048}
+      core: {soft: 0, hard: 0}
+    stop_grace_period: 15s
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=64m,mode=1777
+    environment:
+      YOUTUBE_IPC_PATH: /ipc
+      YOUTUBE_TIMEOUT_SECONDS: "${YOUTUBE_TIMEOUT_SECONDS:-600}"
+      MAX_DURATION_SECONDS: "3600"
+      MAX_MEDIA_BYTES: "2147483648"
+    volumes:
+      - temporary-media:/cache
+      - youtube-ipc:/ipc
+    healthcheck:
+      test: ["CMD", "node", "--input-type=module", "-e", "import {statSync} from 'node:fs'; if (!statSync('/ipc/worker.sock').isSocket()) process.exit(1)"]
+      interval: 10s
+      timeout: 3s
+      start_period: 10s
+      retries: 3
+    logging:
+      driver: json-file
+      options: {max-size: "10m", max-file: "3"}
+
+volumes:
+  temporary-media:
+    name: recordpov-temporary-media
+  youtube-ipc:
+    name: recordpov-youtube-private-ipc
+
+networks:
+  resolver-egress:
+    name: recordpov-egress
+    driver: bridge
+    enable_ipv6: false
+    driver_opts:
+      com.docker.network.bridge.name: ${RECORDPOV_BRIDGE:-br-recordpov}
+      com.docker.network.bridge.enable_icc: "false"
+    ipam:
+      config:
+        - subnet: ${RECORDPOV_SUBNET:-172.30.83.0/29}
+          gateway: ${RECORDPOV_GATEWAY:-172.30.83.1}

@@ -1,0 +1,165 @@
+{
+  "origin": "https://api.recordpov.app",
+  "image": "recordpov-media:2026-11-06-5",
+  "scope": "Public v2 API metadata/delivery selection; excludes native phone transfer",
+  "results": [
+    {
+      "platform": "instagram",
+      "status": 200,
+      "seconds": 3.307,
+      "deliveryKind": "direct",
+      "assetRoles": [
+        "muxed"
+      ],
+      "expected": {
+        "hasAudio": true,
+        "width": 720,
+        "height": 1280
+      },
+      "id": "5345dc234cc2098e355b45fc",
+      "duration": null,
+      "cacheControl": "no-store",
+      "serverTiming": "resolve;dur=2531"
+    },
+    {
+      "platform": "x",
+      "result": "failed",
+      "type": "HTTPError",
+      "seconds": 180.834,
+      "supersededBy": {
+        "platform": "x",
+        "status": 200,
+        "seconds": 5.126,
+        "deliveryKind": "prepared",
+        "assetRoles": [],
+        "expected": null,
+        "cacheControl": "no-store"
+      },
+      "initialFailureReason": "Queued behind a superseded YouTube prepared-path test before same-raster frame-rate selection was fixed; the test was cancelled, then X was retested successfully."
+    },
+    {
+      "platform": "tiktok",
+      "status": 200,
+      "seconds": 60.875,
+      "deliveryKind": "direct",
+      "assetRoles": [
+        "muxed"
+      ],
+      "expected": {
+        "hasAudio": true,
+        "duration": 27,
+        "width": 576,
+        "height": 1024
+      },
+      "id": "83c3a9aab7fea792816856fb",
+      "duration": 27,
+      "cacheControl": "no-store",
+      "serverTiming": "resolve;dur=59989"
+    }
+  ],
+  "verifiedAt": "2026-11-05T17:06:42.248094+00:00",
+  "youtube": {
+    "result": "OK",
+    "source": "https://youtu.be/bkPwFqa89gE",
+    "title": "Unconventional Productivity Habits That Made Me Successful",
+    "id": "4e1044a7bb5ecb9c2f85de04",
+    "duration": 426,
+    "hasAudio": null,
+    "playbackUrl": null,
+    "referencePeerConnections": 2,
+    "bytesFromYouTube": 982291,
+    "bytesToYouTube": 8423,
+    "seconds": 11.3,
+    "deliveryKind": "direct",
+    "assetRoles": [
+      "video",
+      "audio"
+    ],
+    "expected": {
+      "hasAudio": true,
+      "duration": 426,
+      "width": 1280,
+      "height": 720
+    },
+    "maxBytes": 262144000,
+    "scope": "v2 metadata-only extraction using outbound Mac reference peer, not physical phone transfer"
+  },
+  "physicalIPhone": {
+    "diagnostic": {
+      "deliveryKind": "direct",
+      "httpStatus": 200,
+      "runIdentifier": "direct-iphone-20261106",
+      "serviceHost": "api.recordpov.app",
+      "servicePort": 443,
+      "serviceScheme": "https",
+      "timestamp": "2026-11-05T16:49:20Z",
+      "usingSavedAddress": false,
+      "videoDuration": 59.162,
+      "videoFrameDecoded": true,
+      "videoFrameHeight": 1280,
+      "videoFrameWidth": 720,
+      "videoResolved": true
+    },
+    "localFileProbe": {
+      "codec": "h264",
+      "width": 720,
+      "height": 1280,
+      "audio": "aac",
+      "channels": 2,
+      "sampleRate": 44100,
+      "duration": 59.161587,
+      "bytes": 12606746,
+      "fullAudioVideoDecodePassed": true
+    },
+    "backgroundThenReopenAndRelaunchUITest": {
+      "result": "passed",
+      "seconds": 44.056,
+      "bundle": "/tmp/RecordPOVDirectPhysicalFinal.xcresult"
+    }
+  },
+  "checks": {
+    "serverLinuxTests": 84,
+    "serverFailed": 0,
+    "serverSkipped": 0,
+    "iosUnitTestsBeforeFinalButtonPolicy": 155,
+    "iosSourceLinkIdentityTests": 5,
+    "androidTestsBeforeFinalButtonPolicy": 124,
+    "nativeAndroidHardwareVerified": false,
+    "macBackgroundServerStarted": false,
+    "r2Created": false,
+    "iosUnitTestsAggregate": 160,
+    "androidUnitTests": 135,
+    "androidFailed": 0,
+    "androidSkipped": 0
+  },
+  "homeActions": {
+    "implemented": true,
+    "existingVideoAction": "Open video \u00b7 short title",
+    "differentLinkAction": "Download & open new video",
+    "newLinkActionAppearsOnlyWhenDifferent": true,
+    "transitionRespectsReduceMotion": true,
+    "sameVideoTrackingParametersAndYouTubeURLVariantsReused": true,
+    "keepsEnteredURLWhenOpeningRetainedVideo": true,
+    "automaticallyStartsNewDownloadWhenTyping": false,
+    "simulatorUITest": "passed",
+    "simulatorUITestSeconds": 70.471,
+    "screenshots": [
+      "direct-ui/home-existing.png",
+      "direct-ui/home-new-link.png"
+    ],
+    "physicalButtonUITest": "passed",
+    "physicalButtonUITestSeconds": 37.16,
+    "physicalScreenshots": [
+      "direct-ui/home-existing-iphone.png",
+      "direct-ui/home-new-link-iphone.png"
+    ],
+    "phoneFinalLaunch": "Succeeded normally with saved endpoint; no diagnostic or test arguments"
+  },
+  "androidBuild": {
+    "bytes": 284784319,
+    "sha256": "447e37a04efc653d8bfc539c565c68ff7240a5e8ab7915fc0412f15c363d3993",
+    "path": "../../apps/android/app/build/outputs/apk/debug/app-debug.apk",
+    "physicalHardwareVerified": false,
+    "sourceBuildLocation": "Checksum-verified local copy outside Desktop; original workspace source preserved"
+  }
+}

@@ -1,0 +1,31 @@
+{
+  "scope": "conversion-only; same cached64.7sInstagram source and1.5vCPUquota; networknone",
+  "priorFullEncodeMs": 36343,
+  "normalizationMs": 559,
+  "stages": [
+    {
+      "stage": "sourceProbe",
+      "elapsedMs": 242
+    },
+    {
+      "stage": "remux",
+      "elapsedMs": 195
+    },
+    {
+      "stage": "outputProbe",
+      "elapsedMs": 119
+    }
+  ],
+  "result": {
+    "duration": 64.7,
+    "width": 720,
+    "height": 1280,
+    "hasAudio": false,
+    "mode": "remux"
+  },
+  "videoUnchanged": true,
+  "audioUnchanged": null,
+  "date": "2026-11-06",
+  "image": "recordpov-media:2026-11-06-1",
+  "caveat": "Normalization-only comparison on an already compatible cached file, not total source-platform import time. This public clip has no source audio; separate audible synthetic tests verified audio preservation."
+}

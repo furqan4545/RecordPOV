@@ -1,0 +1,15 @@
+{
+  "httpStatus" : 200,
+  "runIdentifier" : "hetzner-instagram-playback-2026-11-05",
+  "serviceHost" : "api.recordpov.app",
+  "servicePort" : 443,
+  "serviceScheme" : "https",
+  "timestamp" : "2026-11-05T07:01:52Z",
+  "usingSavedAddress" : false,
+  "videoDuration" : 59.164999999999999,
+  "videoFrameDecoded" : true,
+  "videoFrameHeight" : 1280,
+  "videoFrameWidth" : 720,
+  "videoResolved" : true,
+  "videoTitle" : "Video by kldbnc"
+}

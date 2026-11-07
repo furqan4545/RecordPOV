@@ -1,0 +1,134 @@
+{
+  "appDisplayName": "RecordPOV",
+  "branding": "Approved lowercase p\u25cfv; off-white letters, lime record dot, dark ink tile",
+  "source": "apps/logo-assets/README.md",
+  "iosAssets": {
+    "RecordPOV.icon/icon.json": true,
+    "RecordPOV.icon/Assets/pov-mark.png": true,
+    "AppIcon.appiconset/AppIcon.png": true,
+    "RecordPOVMark.imageset/RecordPOVMark.png": true,
+    "oldLayerRemoved": true,
+    "obsoleteRendererRemoved": true,
+    "displayName": "RecordPOV"
+  },
+  "android": {
+    "appDisplayName": "RecordPOV",
+    "assetsMatchApprovedSources": true,
+    "background": "#202326",
+    "resourceBuild": {
+      "task": ":app:processDebugResources",
+      "result": "BUILD SUCCESSFUL",
+      "seconds": 7,
+      "workspace": "/tmp/recordpov-home-source",
+      "currentManifestAndApprovedResourcesSynced": true,
+      "log": "/tmp/recordpov-android-pov-resources.log"
+    },
+    "files": [
+      {
+        "file": "apps/android/app/src/main/res/drawable-nodpi/recordpov_launcher_foreground.png",
+        "size": [
+          432,
+          432
+        ],
+        "sha256": "22314c606ca822811436d566958f4082cb1ff18ee852aea140a610546ad8aa7e"
+      },
+      {
+        "file": "apps/android/app/src/main/res/drawable-nodpi/recordpov_mark.png",
+        "size": [
+          192,
+          192
+        ],
+        "sha256": "aaf8d2d8d186ec15fbc7a859a0445399ffec4541d19388cfd0d4315f41b70f47"
+      },
+      {
+        "file": "apps/android/app/src/main/res/mipmap-hdpi/ic_recordpov.png",
+        "size": [
+          72,
+          72
+        ],
+        "sha256": "a87080805b509bba9c06ec5ecff9bce628dabbb49995784ef8af0d626bae8867"
+      },
+      {
+        "file": "apps/android/app/src/main/res/mipmap-mdpi/ic_recordpov.png",
+        "size": [
+          48,
+          48
+        ],
+        "sha256": "c391ac218342c70169678c6aa6c398c7a9a8242cd89f09f4b99b2098bb17c377"
+      },
+      {
+        "file": "apps/android/app/src/main/res/mipmap-xhdpi/ic_recordpov.png",
+        "size": [
+          96,
+          96
+        ],
+        "sha256": "cb95213c544a40d19db0b749341ff9529d02fb95d75f2ad00d02c0850833a658"
+      },
+      {
+        "file": "apps/android/app/src/main/res/mipmap-xxhdpi/ic_recordpov.png",
+        "size": [
+          144,
+          144
+        ],
+        "sha256": "a636bc0a8dd3e5d41085a87830223e9a9b5c0747d0ec8b2ec28c973bb9f6c8a0"
+      },
+      {
+        "file": "apps/android/app/src/main/res/mipmap-xxxhdpi/ic_recordpov.png",
+        "size": [
+          192,
+          192
+        ],
+        "sha256": "aaf8d2d8d186ec15fbc7a859a0445399ffec4541d19388cfd0d4315f41b70f47"
+      }
+    ]
+  },
+  "oldRendererRemoved": true,
+  "iosBuild": {
+    "simulator": "BUILD SUCCEEDED",
+    "physical": "BUILD SUCCEEDED",
+    "codeSignatureVerified": true,
+    "existingSimulator": "iPhone 17 DDFB4D01-FE46-4C3D-BEB5-6E2B587C85AD",
+    "physicalArtifact": {
+      "artifact": "/Users/topg/Library/Developer/Xcode/DerivedData/Roast-Phone/Build/Products/Debug-iphoneos/Roast.app",
+      "bundleIdentifier": "com.furqanali.roast",
+      "displayName": "RecordPOV",
+      "name": "RecordPOV",
+      "serviceURL": "https://api.recordpov.app",
+      "icon": {
+        "CFBundlePrimaryIcon": {
+          "CFBundleIconFiles": [
+            "RecordPOV60x60"
+          ],
+          "CFBundleIconName": "RecordPOV"
+        }
+      },
+      "team": [
+        "37P86CG9SS"
+      ],
+      "aliProvisioned": true,
+      "profileExpiry": "2027-11-05 14:39:02",
+      "assetsCarSha256": "98f624f505ad0781d2fcfe45820222923c5b02f0384bbc82302e86e9c16f137a"
+    },
+    "sourceAudit": {
+      "hashEqualFiles": 94,
+      "approvedIconFilesChanged": 4,
+      "cloudStubUsedFromExistingHydratedCopy": "TimelineThumbnailLoader.swift (matching 2055 bytes and modification time to archive precision)"
+    },
+    "simulatorInstall": "success"
+  },
+  "physicalIPhoneInstall": {
+    "outcome": "success",
+    "device": "Ali (existing connected iPhone 17 Pro Max)"
+  },
+  "physicalIPhoneLaunch": {
+    "outcome": "success",
+    "device": "Ali (existing connected iPhone 17 Pro Max)"
+  },
+  "simulatorScreenshot": "simulator-home.png",
+  "verifiedAt": "2026-11-05T19:01:22.851782+00:00",
+  "inAppMarkVisuallyVerified": true,
+  "physicalIPhoneNormalLaunch": {
+    "outcome": "success",
+    "diagnosticEnvironmentRemoved": true
+  }
+}

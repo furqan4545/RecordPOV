@@ -1,0 +1,52 @@
+# Optional; use ONLY if this host has no existing listener on ports 80/443.
+services:
+  caddy:
+    image: recordpov-edge:${IMAGE_TAG:-local}
+    build:
+      context: .
+      dockerfile: Caddy.Dockerfile
+    restart: "no"
+    init: true
+    user: "10002:10002"
+    read_only: true
+    cap_drop: [ALL]
+    security_opt: ["no-new-privileges:true"]
+    mem_limit: 256m
+    memswap_limit: 256m
+    cpus: 0.5
+    pids_limit: 64
+    # Keep long-distance media transfers responsive on lossy connections.
+    # This affects this edge's network namespace, never the host or workers.
+    sysctls:
+      net.ipv4.tcp_congestion_control: bbr
+    environment:
+      RECORDPOV_UPSTREAM: resolver:8787
+    ports:
+      - "80:8080"
+      - "443:8443"
+    tmpfs:
+      - /tmp:rw,noexec,nosuid,nodev,size=16m,mode=1777
+    volumes:
+      - ./Caddyfile.standalone:/etc/caddy/Caddyfile:ro
+      - ./Caddyfile:/etc/caddy/recordpov-site.caddy:ro
+      - caddy-data:/data
+      - caddy-config:/config
+    networks:
+      resolver-egress:
+        ipv4_address: ${RECORDPOV_CADDY_ADDRESS:-172.30.83.3}
+    logging:
+      driver: json-file
+      options: {max-size: "10m", max-file: "3"}
+
+volumes:
+  caddy-data:
+    name: recordpov-caddy-data
+  caddy-config:
+    name: recordpov-caddy-config
+
+networks:
+  resolver-egress:
+    driver_opts:
+      # The resolver-only firewall still denies new connections to this edge.
+      # This permits the edge to initiate requests to resolver:8787.
+      com.docker.network.bridge.enable_icc: "true"

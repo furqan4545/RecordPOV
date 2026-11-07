@@ -1,0 +1,65 @@
+{
+  "verifiedAt": "2026-11-05T20:24:33.777308+00:00",
+  "platform": "iOS",
+  "screen": "Saved-video detail",
+  "cause": "Light paper sheet inherited white text and dark appearance from Studio. Detail now owns foreground/tint/color scheme.",
+  "changes": [
+    "Explicit ink text on paper, including header and saved status",
+    "Compact header with labelled accessible close/options buttons",
+    "Large unclipped native video preview and stable non-autoplay player",
+    "Full-width Share action, native share sheet, playback pauses for every activation method",
+    "Read-only saved status; Save to Photos offered only when needed, live saving progress/error",
+    "Scroll layout at accessibility text sizes or short heights; header stays visible; long titles wrap"
+  ],
+  "contrastRatios": {
+    "inkOnPaper": 14.51,
+    "mutedOnPaper": 4.59
+  },
+  "validation": {
+    "existingSimulatorReused": "iPhone 17 / DDFB4D01-FE46-4C3D-BEB5-6E2B587C85AD",
+    "photoSaveTests": {
+      "passed": 9,
+      "failed": 0,
+      "realPhotosMutated": false
+    },
+    "screenTests": {
+      "passed": 3,
+      "failed": 0,
+      "names": [
+        "RoastUITests.RoastUITests testSavedVideoDetailHasReadableStatusAndOneShareAction",
+        "RoastUITests.RoastUITests testSavedVideoDetailSupportsLargeText",
+        "RoastUITests.RoastUITests testSavedVideoWithoutPhotosCopyOffersSave"
+      ],
+      "log": "/tmp/recordpov-saved-video-redesign-final.log",
+      "resultBundle": "/tmp/recordpov-saved-video-redesign-final.xcresult"
+    },
+    "visualReview": "Normal saved/unsaved and largest accessibility text screenshots reviewed. Header and actions remain inside screen.",
+    "physicalBuild": "BUILD SUCCEEDED",
+    "physicalBuildLog": "/tmp/recordpov-saved-video-phone-build.log",
+    "sourceMatchesBuild": true,
+    "initialIssuesCorrected": [
+      "Native Copy activity is a cell, not a button; selector corrected",
+      "Large-text overflow fixed with explicitly bounded scroll area, single-line header, and wrapping action labels"
+    ]
+  },
+  "sourceSha256": {
+    "Roast/Views/LibraryView.swift": "0b98cba0d8abcfc6425e4c613ba674bcb6ba7ca3c363756a505d20213fdf739b",
+    "Roast/Views/TakeDetailView.swift": "be08bcccb534aa9ba8036dba11725bf54987b813ac9578b2b5a7c2bba5864015",
+    "RoastUITests/RoastUITests.swift": "1c376c9a12412879ed2645c68e264bee1c5513dd9124e06b2b04f13b58975e2f"
+  },
+  "images": [
+    "saved.png",
+    "optional-photos-save.png",
+    "largest-text.png"
+  ],
+  "phoneInstallation": {
+    "outcome": "Installed and normally launched",
+    "device": "Ali iPhone17 Pro Max",
+    "udid": "00008150-001C705921BA401C",
+    "bundleIdentifier": "com.furqanali.roast",
+    "installationProof": "/tmp/recordpov-saved-video-install.json",
+    "launchProof": "/tmp/recordpov-saved-video-launch.json",
+    "runningProof": "/tmp/recordpov-saved-video-running.json",
+    "binarySha256": "f925290cb2e173d0d613e8a4e829639fe02c8529c2b610b9d56620995e3a0026"
+  }
+}

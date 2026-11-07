@@ -1,0 +1,37 @@
+{
+  "result": "OK",
+  "source": "https://www.youtube.com/watch?v=jNQXAC9IVRw",
+  "title": "Me at the zoo",
+  "id": "6c2dbdd5fed028bcebfb3e7c",
+  "duration": 18.948,
+  "hasAudio": true,
+  "playbackUrl": "https://api.recordpov.app/v1/media/6c2dbdd5fed028bcebfb3e7c/file",
+  "referencePeerConnections": 3,
+  "bytesFromYouTube": 1592064,
+  "bytesToYouTube": 10490,
+  "seconds": 15.4,
+  "client": "One-shot outbound Mac reference peer; not physical phone verification",
+  "probe": {
+    "programs": [],
+    "stream_groups": [],
+    "streams": [
+      {
+        "codec_name": "h264",
+        "codec_type": "video",
+        "width": 320,
+        "height": 240
+      },
+      {
+        "codec_name": "aac",
+        "codec_type": "audio",
+        "sample_rate": "44100",
+        "channels": 2
+      }
+    ],
+    "format": {
+      "duration": "18.947483",
+      "size": "632006"
+    }
+  },
+  "fullAudioVideoDecodePassed": true
+}

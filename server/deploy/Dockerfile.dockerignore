@@ -1,0 +1,13 @@
+**
+!package.json
+!package-lock.json
+!tsconfig.json
+!src/
+!src/**
+!test/
+!test/**
+!deploy/
+!deploy/Dockerfile
+!deploy/Dockerfile.dockerignore
+!deploy/compose.yaml
+!deploy/compose.caddy.yaml

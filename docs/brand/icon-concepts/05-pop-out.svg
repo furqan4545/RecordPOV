@@ -1,0 +1,27 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" width="1024" height="1024">
+<title>RecordPOV icon concept: Pop-out</title>
+<defs>
+  <linearGradient id="inkBg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1024">
+    <stop offset="0" stop-color="#2B2F33"/><stop offset="1" stop-color="#17191C"/>
+  </linearGradient>
+  <linearGradient id="limeBg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1024">
+    <stop offset="0" stop-color="#E8FF8A"/><stop offset="1" stop-color="#CDF04C"/>
+  </linearGradient>
+  <linearGradient id="paperBg" gradientUnits="userSpaceOnUse" x1="0" y1="0" x2="0" y2="1024">
+    <stop offset="0" stop-color="#FCFBF8"/><stop offset="1" stop-color="#E7E4DA"/>
+  </linearGradient>
+  <linearGradient id="lime" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#E8FF8A"/><stop offset="1" stop-color="#D2F556"/>
+  </linearGradient>
+  <linearGradient id="paper" x1="0" y1="0" x2="0" y2="1">
+    <stop offset="0" stop-color="#FFFFFF"/><stop offset="1" stop-color="#ECEAE3"/>
+  </linearGradient>
+  <clipPath id="c05"><rect x="208" y="383" width="608" height="384" rx="66"/></clipPath>
+</defs>
+<rect width="1024" height="1024" fill="url(#inkBg)"/>
+<rect x="190" y="365" width="644" height="420" rx="84" fill="none" stroke="#F7F5F0" stroke-width="36"/>
+<ellipse cx="512" cy="753" rx="236" ry="230" fill="url(#lime)" clip-path="url(#c05)"/>
+<circle cx="512" cy="357" r="162" fill="url(#inkBg)"/>
+<circle cx="512" cy="357" r="136" fill="url(#lime)"/>
+<circle cx="748" cy="452" r="26" fill="#F7F5F0"/>
+</svg>

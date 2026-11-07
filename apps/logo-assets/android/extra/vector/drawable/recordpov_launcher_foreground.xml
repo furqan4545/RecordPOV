@@ -1,0 +1,20 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!-- RecordPOV p-dot-v launcher icon, foreground. 108dp adaptive layer; artwork sits inside the 66dp safe zone. -->
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:aapt="http://schemas.android.com/aapt"
+    android:width="108dp" android:height="108dp"
+    android:viewportWidth="1536" android:viewportHeight="1536">
+    <path android:pathData="M424.8,667.2 L424.8,937.8" android:fillColor="#00000000" android:strokeColor="#F7F5F0"
+        android:strokeWidth="70.4" android:strokeLineCap="round" android:strokeLineJoin="round" />
+    <path android:pathData="M424.8,747.5 a80.3,80.3 0 1,0 160.6,0 a80.3,80.3 0 1,0 -160.6,0 Z" android:fillColor="#00000000" android:strokeColor="#F7F5F0"
+        android:strokeWidth="70.4" android:strokeLineCap="round" android:strokeLineJoin="round" />
+    <path android:pathData="M961.6,667.2 L1036.4,827.8 L1111.2,667.2" android:fillColor="#00000000" android:strokeColor="#F7F5F0"
+        android:strokeWidth="70.4" android:strokeLineCap="round" android:strokeLineJoin="round" />
+    <path android:pathData="M666.8,747.5 a110,110 0 1,0 220,0 a110,110 0 1,0 -220,0 Z">
+        <aapt:attr name="android:fillColor">
+            <gradient android:type="linear" android:startX="776.8" android:startY="637.5"
+                android:endX="776.8" android:endY="857.5"
+                android:startColor="#E8FF8A" android:endColor="#D2F556" />
+        </aapt:attr>
+    </path>
+</vector>

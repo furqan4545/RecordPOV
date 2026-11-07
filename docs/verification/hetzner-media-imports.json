@@ -1,0 +1,264 @@
+{
+  "verifiedAt": "2026-11-05T07:19:38.674Z",
+  "origin": "https://api.recordpov.app",
+  "host": "77.42.83.163",
+  "healthHTTPStatus": 200,
+  "tools": {
+    "node": "v22.23.4",
+    "ytDlp": "2026.10.26",
+    "ytDlpEjs": "0.8.0",
+    "curlCffi": "0.17.0",
+    "browserTransportTargets": {
+      "verified": true,
+      "examples": [
+        "Chrome-152/Windows-10",
+        "Safari-27.0/Ios-27.0",
+        "Firefox-155/Windows-10",
+        "Edge-101/Windows-10"
+      ],
+      "globalOverrideConfigured": false
+    }
+  },
+  "method": "Sequential production deploy/smoke.mjs imports; read-only SSH ffprobe and bounded metadata-only extraction. No cookies, login, proxy, service configuration or source changes.",
+  "imports": [
+    {
+      "platform": "instagram",
+      "sourceURL": "https://www.instagram.com/reel/DfR0-RNR-Y8/",
+      "result": "passed",
+      "resolveHTTPStatus": 200,
+      "elapsedSeconds": 65.4,
+      "id": "5345dc234cc2098e355b45fc",
+      "title": "Video by kldbnc",
+      "durationSeconds": 59.165,
+      "fileBytes": 15448346,
+      "playbackURL": "https://api.recordpov.app/v1/media/5345dc234cc2098e355b45fc/file",
+      "expiresAt": "2026-11-05T11:00:52.444Z",
+      "range": {
+        "request": "bytes=0-31",
+        "status": 206,
+        "contentType": "video/mp4",
+        "mp4FtypVerified": true
+      },
+      "ffprobe": {
+        "video": {
+          "codec": "h264",
+          "width": 720,
+          "height": 1280,
+          "pixelFormat": "yuv420p",
+          "durationSeconds": 59.033333
+        },
+        "audio": {
+          "codec": "aac",
+          "sampleRate": 44100,
+          "channels": 2,
+          "durationSeconds": 59.163991
+        },
+        "formatDurationSeconds": 59.165,
+        "fileBytes": 15448346
+      },
+      "testedImage": "recordpov-media:2026-11-05-1"
+    },
+    {
+      "platform": "youtube",
+      "sourceURL": "https://youtu.be/bkPwFqa89gE",
+      "result": "blocked_by_upstream_guest_challenge",
+      "resolveHTTPStatus": 422,
+      "apiError": {
+        "code": "SOURCE_RESTRICTED",
+        "message": "This video is not publicly accessible to the server. Import a copy from your device instead."
+      },
+      "upstreamMetadataExitCode": 1,
+      "upstreamMessage": "Sign in to confirm you’re not a bot.",
+      "normalizedFileCreated": false,
+      "runtimeDependencyWarning": false,
+      "availabilityCrossCheck": {
+        "method": "Official YouTube oEmbed from local Mac, no video download",
+        "httpStatus": 401,
+        "result": "Unauthorized; does not independently establish whether the video is private or embedding is restricted"
+      },
+      "testedImage": "recordpov-media:2026-11-05-1"
+    },
+    {
+      "platform": "youtube",
+      "sourceURL": "https://www.youtube.com/watch?v=jNQXAC9IVRw",
+      "result": "blocked_by_upstream_guest_challenge",
+      "startedAt": "2026-11-05T07:18:44.381Z",
+      "smokeProcessSeconds": 3.3,
+      "resolveHTTPStatus": 422,
+      "apiError": {
+        "code": "SOURCE_PLATFORM_BLOCKED",
+        "message": "This platform blocked the download. Choose a video from your device instead."
+      },
+      "upstreamMetadataExitCode": 1,
+      "upstreamMessage": "Sign in to confirm you’re not a bot.",
+      "normalizedFileCreated": false,
+      "scope": "Parent-confirmed currently public YouTube video, unchanged default clients",
+      "testedImage": "recordpov-media:2026-11-05-2",
+      "previousAPIError": {
+        "code": "SOURCE_RESTRICTED",
+        "message": "This video is not publicly accessible to the server. Import a copy from your device instead."
+      },
+      "transportDependencyRetested": true
+    },
+    {
+      "platform": "x",
+      "sourceURL": "https://x.com/historyinmemes/status/1790637656616943991",
+      "result": "passed",
+      "startedAt": "2026-11-05T07:08:57.793Z",
+      "elapsedSeconds": 15.4,
+      "resolveHTTPStatus": 200,
+      "id": "c13953f7f495d36e75f9e2ff",
+      "title": "Historic Vids - One of the most intense moments in history",
+      "durationSeconds": 15.558,
+      "fileBytes": 2007307,
+      "playbackURL": "https://api.recordpov.app/v1/media/c13953f7f495d36e75f9e2ff/file",
+      "expiresAt": "2026-11-05T11:09:13.168Z",
+      "range": {
+        "request": "bytes=0-31",
+        "status": 206,
+        "contentType": "video/mp4",
+        "mp4FtypVerified": true
+      },
+      "ffprobe": {
+        "video": {
+          "codec": "h264",
+          "width": 728,
+          "height": 720,
+          "pixelFormat": "yuv420p",
+          "durationSeconds": 15.466667
+        },
+        "audio": {
+          "codec": "aac",
+          "sampleRate": 44100,
+          "channels": 2,
+          "durationSeconds": 15.557007
+        },
+        "formatDurationSeconds": 15.558,
+        "fileBytes": 2007307
+      },
+      "olderFixtureAttempt": {
+        "sourceURL": "https://x.com/starwars/status/665052190608723968",
+        "resolveHTTPStatus": 422,
+        "apiError": {
+          "code": "SOURCE_UNAVAILABLE",
+          "message": "This link does not contain an accessible video. Check the link or import a local copy."
+        },
+        "upstreamHTTPStatus": 500,
+        "upstreamMessage": "Domain Not Found",
+        "reason": "Old tweet references unavailable amp.twimg.com media page; one modern native-video fixture used as authorized fallback."
+      },
+      "testedImage": "recordpov-media:2026-11-05-1"
+    },
+    {
+      "platform": "tiktok",
+      "sourceURL": "https://www.tiktok.com/@patroxofficial/video/6742501081818877190",
+      "result": "passed",
+      "testedImage": "recordpov-media:2026-11-05-2",
+      "startedAt": "2026-11-05T07:18:16.963Z",
+      "elapsedSeconds": 16.1,
+      "resolveHTTPStatus": 200,
+      "id": "83c3a9aab7fea792816856fb",
+      "title": "Tag 1 Friend reverse this Video and look what happens 🤩😱 @skyandtami ...",
+      "durationSeconds": 27.467,
+      "fileBytes": 2494569,
+      "playbackURL": "https://api.recordpov.app/v1/media/83c3a9aab7fea792816856fb/file",
+      "expiresAt": "2026-11-05T11:18:32.991Z",
+      "range": {
+        "request": "bytes=0-31",
+        "status": 206,
+        "contentType": "video/mp4",
+        "mp4FtypVerified": true
+      },
+      "ffprobe": {
+        "video": {
+          "codec": "h264",
+          "width": 540,
+          "height": 960,
+          "pixelFormat": "yuv420p",
+          "durationSeconds": 27.466667
+        },
+        "audio": {
+          "codec": "aac",
+          "sampleRate": 44100,
+          "channels": 2,
+          "durationSeconds": 27.399002
+        },
+        "formatDurationSeconds": 27.467,
+        "fileBytes": 2494569
+      },
+      "initialImage1Failure": {
+        "resolveHTTPStatus": 422,
+        "apiError": {
+          "code": "SOURCE_UNAVAILABLE",
+          "message": "This platform could not provide the video. Try again later or import a copy from your device."
+        },
+        "upstreamMessage": "Unexpected response from webpage request",
+        "runtimeWarning": "The extractor is attempting impersonation, but no impersonate target is available."
+      },
+      "fix": "Official optional curl-cffi transport extra installed; same source succeeds without account state or forced browser target."
+    }
+  ],
+  "additionalMetadataCheck": {
+    "sourceURL": "https://www.youtube.com/watch?v=BaW_jenozKc",
+    "scope": "One parent-authorized official yt-dlp fixture, metadata only; no download",
+    "exitCode": 1,
+    "upstreamMessage": "This video is unavailable",
+    "conclusion": "Different error; fixture availability is unconfirmed, so this does not establish whether all public YouTube URLs are blocked."
+  },
+  "recommendations": [
+    "Keep the platform-blocked message and local-file fallback for YouTube; do not advertise successful hosted YouTube imports based on these checks.",
+    "The supported Node runtime and matched EJS dependency are installed; no runtime-install or storage change is indicated by this error.",
+    "Keep current public-only extraction and local-file import fallback. Do not add account cookies, login proxies or token providers without a separate reviewed decision.",
+    "Official yt-dlp docs expose player_client selection but discourage trying all clients; the wiki mweb fallback requires a PO token. No alternate client or token configuration was applied."
+  ],
+  "references": [
+    "https://github.com/yt-dlp/yt-dlp/wiki/EJS",
+    "https://github.com/yt-dlp/yt-dlp/wiki/Extractors#youtube",
+    "https://github.com/yt-dlp/yt-dlp/blob/2026.10.26/README.md#extractor-arguments",
+    "https://github.com/yt-dlp/yt-dlp/blob/2026.10.26/README.md#impersonation",
+    "https://github.com/yt-dlp/yt-dlp/blob/2026.10.26/yt_dlp/extractor/twitter.py",
+    "https://github.com/yt-dlp/yt-dlp/blob/2026.10.26/yt_dlp/extractor/tiktok.py"
+  ],
+  "release": {
+    "image": "recordpov-media:2026-11-05-2",
+    "origin": "https://api.recordpov.app",
+    "healthHTTPStatus": 200,
+    "noCookiesOrLoginProxies": true,
+    "noMacServerStarted": true,
+    "note": "Instagram and X fresh imports passed image1; TikTok and known-public YouTube were retested on image2. All successful files were checked with remote ffprobe."
+  },
+  "releaseFixes": {
+    "botChallengeClassification": {
+      "code": "SOURCE_PLATFORM_BLOCKED",
+      "httpStatus": 422,
+      "message": "This platform blocked the download. Choose a video from your device instead.",
+      "generic403AndPrivateClassificationPreserved": true
+    },
+    "transportDependency": "yt-dlp[default,curl-cffi]==2026.10.26",
+    "checks": {
+      "serverTests": 24,
+      "packagingTests": 3,
+      "typecheck": "passed",
+      "build": "passed"
+    },
+    "deploymentStatus": "Image2 live; new bot classification independently verified through public API; TikTok transport verified by successful same-source import"
+  },
+  "configuredLimits": {
+    "maxSourceDurationSeconds": 900,
+    "maxNormalizedFileBytes": 262144000,
+    "resolveDeadlineSeconds": 180,
+    "completedCacheMaxBytes": 2147483648,
+    "cacheTTLSeconds": 14400,
+    "activeImports": 1,
+    "queuedImports": 4,
+    "importAttemptsPerIPPerMinute": 20,
+    "note": "Deployment profile configuration; host firewall/restart/quota enforcement checked separately by the parent task. Cache bounds exclude transient staging files."
+  },
+  "outcome": {
+    "instagram": "passed",
+    "x": "passed",
+    "tiktok": "passed",
+    "youtube": "blocked_by_upstream_guest_challenge",
+    "limitation": "Two YouTube URLs, including parent-confirmed public Me at the zoo, were blocked by an upstream bot challenge. No claim that every YouTube URL fails, and no authenticated bypass was attempted."
+  }
+}

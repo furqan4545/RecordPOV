@@ -1,0 +1,15 @@
+{
+  "httpStatus" : 200,
+  "runIdentifier" : "youtube-phone-control-2026-11-05-v3",
+  "serviceHost" : "api.recordpov.app",
+  "servicePort" : 443,
+  "serviceScheme" : "https",
+  "timestamp" : "2026-11-05T08:11:46Z",
+  "usingSavedAddress" : false,
+  "videoDuration" : 18.948,
+  "videoFrameDecoded" : true,
+  "videoFrameHeight" : 240,
+  "videoFrameWidth" : 320,
+  "videoResolved" : true,
+  "videoTitle" : "Me at the zoo"
+}

@@ -1,0 +1,62 @@
+{
+  "verifiedAt": "2026-11-05T08:28:08.129741+00:00",
+  "release": "2026-11-05-3",
+  "origin": "https://api.recordpov.app",
+  "route": "foreground phone connection \u2192 private yt-dlp/FFmpeg worker on Hetzner \u2192 local app video",
+  "youtube": {
+    "control": {
+      "url": "https://www.youtube.com/watch?v=jNQXAC9IVRw",
+      "uncachedPhysicalIPhone": true,
+      "duration": 18.948,
+      "video": "h264 320x240",
+      "audio": "aac 44100Hz stereo",
+      "nativeFrameDecoded": true
+    },
+    "original": {
+      "url": "https://youtu.be/bkPwFqa89gE",
+      "title": "Unconventional Productivity Habits That Made Me Successful",
+      "sourceDurationSeconds": 426,
+      "uncachedPhysicalIPhoneUIImportPassed": true,
+      "openedStudioAndVideoReady": true,
+      "uiTestSeconds": 350.41,
+      "failures": 0,
+      "normalizedDurationSeconds": 425.734,
+      "normalizedBytes": 47971333,
+      "video": "h264 1280x720",
+      "audio": "aac 44100Hz stereo"
+    },
+    "androidProductionCoreLiveTest": {
+      "uncached": true,
+      "seconds": 24.381,
+      "fullMP4Bytes": 714394,
+      "video": "h264 320x240",
+      "audio": "aac 44100Hz stereo",
+      "fullDecodePassed": true
+    }
+  },
+  "checks": {
+    "serverTests": 36,
+    "packagingTests": 3,
+    "iosTransportTests": 10,
+    "iosSimulatorYouTubeStudioUITest": true,
+    "androidTests": 86,
+    "iphoneOriginalYouTubeStudioUITest": true,
+    "instagramRangeRegression": true,
+    "xRangeRegression": true,
+    "tiktokRangeRegression": true,
+    "macServerOff": true
+  },
+  "boundaries": {
+    "workerNetwork": "none",
+    "youtubeAccountCookies": false,
+    "permanentAppSecret": false,
+    "foregroundRequiredDuringYouTubeFetch": true,
+    "projects": "on-device",
+    "r2": false
+  },
+  "testEvidence": {
+    "iphoneControl": "youtube-control-iphone.json",
+    "originalTestLog": "/tmp/recordpov-youtube-original-ui.log",
+    "originalXcresult": "/tmp/RecordPOVYouTubeOriginalPhone.xcresult"
+  }
+}

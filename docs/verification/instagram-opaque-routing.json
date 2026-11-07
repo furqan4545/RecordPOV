@@ -1,0 +1,156 @@
+{
+  "verifiedAt": "2026-11-05T19:19:37.174440+00:00",
+  "source": {
+    "url": "https://www.instagram.com/reel/DfQcAhsJuIQ/",
+    "id": "15575017e87c8f6fc14ec53d"
+  },
+  "finding": "An unverified opaque Instagram MP4 was described with the preferred source raster. Native validation rejected its actual lower resolution, then the server prepared the original source successfully. No server crash was evidenced.",
+  "liveBefore": {
+    "deployedImage": "recordpov-media:2026-11-06-7",
+    "directResolveMs": 3293,
+    "preparedResolveMs": 55840,
+    "stagesMs": {
+      "extract": 3255,
+      "download": 1057,
+      "selectedProbe": 133,
+      "candidateDownload": 770,
+      "candidateProbe": 128,
+      "sourceProbe": 135,
+      "transcode": 50169,
+      "outputProbe": 155,
+      "total": 55830
+    }
+  },
+  "exactMetadataComparison": {
+    "sourceId": "15575017e87c8f6fc14ec53d",
+    "metadataSHA256": "6547aa97b469c7e34d3cfb0511c505b1962c612208db1959a7f93bbd6ae4d3ec",
+    "sameExactMetadataCompared": true,
+    "before": {
+      "metadataSHA256": "6547aa97b469c7e34d3cfb0511c505b1962c612208db1959a7f93bbd6ae4d3ec",
+      "deliveryKind": "direct",
+      "expected": {
+        "width": 1080,
+        "height": 1920,
+        "hasAudio": true
+      },
+      "selectedFormatIDs": [
+        "1"
+      ]
+    },
+    "actualOpaqueFormats": [
+      {
+        "formatID": "1",
+        "width": 720,
+        "height": 1280,
+        "fps": 30,
+        "videoCodec": "h264",
+        "audioProfile": "HE-AAC",
+        "duration": 20.803
+      },
+      {
+        "formatID": "2",
+        "width": 720,
+        "height": 1280,
+        "fps": 30,
+        "videoCodec": "h264",
+        "audioProfile": "HE-AAC",
+        "duration": 20.803
+      },
+      {
+        "formatID": "3",
+        "width": 720,
+        "height": 1280,
+        "fps": 30,
+        "videoCodec": "h264",
+        "audioProfile": "HE-AAC",
+        "duration": 20.803
+      }
+    ],
+    "preparedOriginal": {
+      "width": 1080,
+      "height": 1920,
+      "fps": 60,
+      "videoCodec": "h264",
+      "audioProfile": "AAC-LC",
+      "duration": 20.806,
+      "bytes": 10851162
+    },
+    "after": {
+      "deliveryKind": "prepared",
+      "unverifiedDirectDescriptorReturned": false,
+      "sourceResolutionAndFrameRatePolicyChanged": false
+    }
+  },
+  "changes": {
+    "opaqueDirectShortcutRemoved": true,
+    "provenH264AACDirectDeliveryRetained": true,
+    "initialV2InspectionReusedWithinSamePreparationJob": true,
+    "youTubeWorkerOptionsCompatibilityRetained": true,
+    "privateLoadInfoMode": "0600",
+    "privateMetadataCleanedAfterSuccessAndFailure": true,
+    "sourceQualityLimitsOrNormalizationPresetsChanged": false,
+    "cacheIdentityOrContentsChanged": false,
+    "bbrOrDeploymentConfigurationChanged": false
+  },
+  "validation": {
+    "typecheck": "passed",
+    "targetedTests": {
+      "passed": 38,
+      "failed": 0
+    },
+    "fullMacSuite": {
+      "passed": 96,
+      "failed": 0,
+      "skipped": 0
+    },
+    "regressions": [
+      "Observed 1080p source with opaque MP4s requires preparation.",
+      "Known 720p or 30 fps variants cannot replace the preferred 1080p60 source.",
+      "Proven matching H264/AAC remains eligible for direct delivery.",
+      "One v2 inspection is passed to the same preparation job without a second extraction.",
+      "Reused metadata is revalidated, stored privately and cleaned up.",
+      "Existing YouTube isolated transport and metadata reuse remain compatible."
+    ]
+  },
+  "limits": "This removes the predictable failed phone download and duplicate extraction. The observed clip still needs its original 1080p60 VP9 source converted to native H264; no removal of that approximately 50-second conversion is claimed.",
+  "deployment": "Patch tested locally; not deployed by this agent.",
+  "privacy": {
+    "signedCDNURLsInReport": false,
+    "requestHeadersInReport": false,
+    "privateRawMetadataRemovedAfterProof": true,
+    "privateCandidateMediaRemovedAfterProof": true
+  },
+  "release": {
+    "verifiedAt": "2026-11-05T19:23:36.057984+00:00",
+    "mediaImage": "recordpov-media:2026-11-06-8",
+    "edgeImage": "recordpov-edge:2026-11-06-8",
+    "linuxTests": {
+      "passed": 96,
+      "failed": 0,
+      "skipped": 0
+    },
+    "iosFocusedTests": {
+      "passed": 12,
+      "failed": 0,
+      "existingSimulatorOnly": true
+    },
+    "physicalIPhoneBuild": "BUILD SUCCEEDED",
+    "physicalIPhoneInstall": "success",
+    "physicalIPhoneLaunch": "success",
+    "liveAPI": {
+      "videoId": "15575017e87c8f6fc14ec53d",
+      "deliveryKind": "prepared",
+      "width": 1080,
+      "height": 1920,
+      "hasAudio": true,
+      "duration": 20.806,
+      "preparedCacheHit": true
+    },
+    "rangeResponse": 206,
+    "youtubeWorkerNetwork": "none",
+    "caddyCongestionControl": "bbr",
+    "hostDefaultCongestionControl": "cubic",
+    "newPovBrandingPreserved": true,
+    "preparingLabelInstalled": true
+  }
+}
