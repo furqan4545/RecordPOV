@@ -1,0 +1,3 @@
+User-agent: *
+Allow: /
+Sitemap: https://recordpov.app/sitemap.xml
