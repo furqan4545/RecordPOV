@@ -1,0 +1,8 @@
+{
+  "name": "recordpov-web",
+  "type": "module",
+  "private": true,
+  "dependencies": {
+    "@vercel/blob": "2.4.0"
+  }
+}

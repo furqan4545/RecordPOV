@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>RecordPOV | Reaction videos from your phone</title>
-  <meta name="description" content="Record reactions, commentary, and picture-in-picture videos. Put yourself in the frame, fine-tune your take, and share it from your phone.">
+  <title>RecordPOV | Roast a viral Reel</title>
+  <meta name="description" content="See a viral Instagram Reel? Copy the link, paste it into RecordPOV, and record your reaction right on top. Completely free for iOS and Android.">
   <meta name="theme-color" content="#f7f5ee">
   <meta property="og:type" content="website">
-  <meta property="og:title" content="RecordPOV | Put yourself in the frame.">
-  <meta property="og:description" content="A pocket studio for reactions, commentary, and picture-in-picture videos.">
+  <meta property="og:title" content="RecordPOV | See a viral Reel? Roast it.">
+  <meta property="og:description" content="Copy the Instagram link. Paste it into RecordPOV. Record your reaction over the video.">
   <meta property="og:url" content="https://recordpov.app/">
   <meta property="og:image" content="https://recordpov.app/assets/social.jpg">
   <meta name="twitter:card" content="summary_large_image">
@@ -17,18 +17,16 @@
   <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
   <link rel="preload" href="/assets/space-grotesk.woff2" as="font" type="font/woff2" crossorigin>
   <link rel="stylesheet" href="/assets/site.css">
+  <script src="/assets/waitlist.js" defer></script>
 </head>
 <body>
   <a class="skip-link" href="#main">Skip to content</a>
   <svg class="symbol-library" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
     <symbol id="arrow" viewBox="0 0 24 24"><path d="M4 12h15m-6-6 6 6-6 6"/></symbol>
     <symbol id="down" viewBox="0 0 24 24"><path d="M12 4v15m-6-6 6 6 6-6"/></symbol>
-    <symbol id="frame" viewBox="0 0 24 24"><path d="M9 3H5a2 2 0 0 0-2 2v4m12-6h4a2 2 0 0 1 2 2v4M3 15v4a2 2 0 0 0 2 2h4m6 0h4a2 2 0 0 0 2-2v-4"/><circle cx="12" cy="12" r="3"/></symbol>
-    <symbol id="sliders" viewBox="0 0 24 24"><path d="M5 3v7m0 4v7m7-18v11m0 4v3m7-18v3m0 4v11M2 10h6m1 8h6m1-12h6"/></symbol>
-    <symbol id="share" viewBox="0 0 24 24"><path d="M12 15V3m-4 4 4-4 4 4M6 11H4v10h16V11h-2"/></symbol>
+    <symbol id="link" viewBox="0 0 24 24"><path d="m10 13 4-4m-7 6-1 1a3.5 3.5 0 0 0 5 5l4-4a3.5 3.5 0 0 0 0-5m2-3 1-1a3.5 3.5 0 0 0-5-5l-4 4a3.5 3.5 0 0 0 0 5"/></symbol>
+    <symbol id="instagram" viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></symbol>
     <symbol id="lock" viewBox="0 0 24 24"><rect x="5" y="10" width="14" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3m-4 5v2"/></symbol>
-    <symbol id="apple" viewBox="0 0 24 24"><path fill="currentColor" stroke="none" d="M17.2 12.3c0-1.9 1.5-2.8 1.6-2.9-.9-1.3-2.3-1.5-2.8-1.6-1.2-.1-2.3.7-2.9.7-.6 0-1.5-.7-2.5-.7-1.3 0-2.5.8-3.2 1.9-1.4 2.4-.4 6 1 8 0.7 1 1.4 2.1 2.5 2 1 0 1.4-.6 2.7-.6 1.2 0 1.6.6 2.7.6s1.7-1 2.4-2c.8-1.1 1.1-2.2 1.1-2.3-.1 0-2.6-1-2.6-3.1ZM15.2 6.6c.6-.7 1-1.7.9-2.7-.9 0-1.9.6-2.5 1.3-.6.6-1 1.6-.9 2.6 1 .1 1.9-.5 2.5-1.2Z"/></symbol>
-    <symbol id="play" viewBox="0 0 24 24"><path d="m5 3 15 9-15 9Z" fill="none"/><path d="m5 3 10 12m-10 6L15 9"/></symbol>
   </svg>
 
   <header class="site-header">
@@ -36,86 +34,99 @@
       <a class="brand" href="/" aria-label="RecordPOV home"><img src="/assets/favicon.svg" alt="" width="36" height="36">RecordPOV</a>
       <nav aria-label="Main navigation">
         <a href="#how">How it works</a>
-        <a href="#screens">Screens</a>
         <a href="/support/">Support</a>
       </nav>
-      <a class="button button-outline header-button" href="#availability">Get the app <svg class="icon"><use href="#arrow"/></svg></a>
+      <a class="button button-outline header-button" href="#availability">Get notified <svg class="icon" aria-hidden="true"><use href="#arrow"/></svg></a>
     </div>
   </header>
 
   <main id="main">
     <section class="hero shell" aria-labelledby="hero-title">
       <div class="hero-copy">
-        <p class="label eyebrow"><span class="rec-dot"></span> YOUR POCKET REACTION STUDIO</p>
-        <h1 id="hero-title">Put yourself<br class="hero-break"> in the <span>frame.</span></h1>
-        <p class="hero-description">Record your reaction alongside a video, make it your own, and share the finished take. All from your phone.</p>
+        <p class="label eyebrow"><span class="rec-dot"></span> REACTION VIDEOS FOR IOS &amp; ANDROID</p>
+        <h1 id="hero-title">See a viral Reel?<br class="hero-break"> <span>Roast it.</span></h1>
+        <p class="hero-description">Find a viral video on Instagram. Copy the link, paste it into RecordPOV, and record your reaction right on top of the video.</p>
         <div class="hero-actions">
-          <a class="button button-ink" href="#screens">See the app <svg class="icon"><use href="#arrow"/></svg></a>
-          <a class="text-link" href="#how">How it works <svg class="icon"><use href="#down"/></svg></a>
+          <a class="button button-ink" href="#availability">Notify me at launch <svg class="icon" aria-hidden="true"><use href="#arrow"/></svg></a>
+          <a class="text-link" href="#how">See the steps <svg class="icon" aria-hidden="true"><use href="#down"/></svg></a>
         </div>
-        <p class="hero-platforms">For iPhone, iPad &amp; Android</p>
+        <p class="hero-platforms">Completely free. No hidden subscriptions.</p>
       </div>
 
-      <figure class="hero-visual" aria-label="RecordPOV Studio with an outdoor demo clip and an editor preview">
-        <div class="stage-top label"><span><i></i> RECORDPOV STUDIO</span><span>01 / 03</span></div>
+      <figure class="hero-visual">
+        <div class="stage-top label" aria-hidden="true"><span><i></i> RECORDPOV</span><span>REACTION MODE</span></div>
         <div class="stage-orbit" aria-hidden="true"></div>
         <span class="stage-cross stage-cross-one" aria-hidden="true">+</span>
         <span class="stage-cross stage-cross-two" aria-hidden="true">+</span>
-        <div class="phone hero-phone-back"><img src="/assets/editor.webp" alt="" width="600" height="1304"></div>
-        <div class="phone hero-phone"><img src="/assets/studio.webp" alt="The RecordPOV camera layout in Studio" width="600" height="1304" fetchpriority="high"></div>
-        <div class="stage-tag label"><span class="rec-dot"></span> YOUR TAKE</div>
-        <figcaption class="stage-caption label"><span>FIG. 01</span> THE CAMERA LAYOUT</figcaption>
+        <div class="phone hero-phone"><img src="/assets/onboarding-record.webp" alt="RecordPOV’s Tap record onboarding screen, with the creator’s reaction over an Alex Hormozi video" width="660" height="1434" fetchpriority="high"></div>
+        <div class="stage-tag label" aria-hidden="true"><span class="rec-dot"></span> YOUR REACTION</div>
+        <figcaption class="stage-caption label">THE REEL + YOUR REACTION</figcaption>
       </figure>
     </section>
 
     <section id="how" class="workflow">
       <div class="shell">
-        <div class="section-heading">
-          <p class="label kicker">THE WORKFLOW</p>
-          <h2>From clip to finished take.</h2>
+        <div class="section-heading screens-heading">
+          <div><p class="label kicker">HOW IT WORKS</p><h2>Copy. Paste. React.</h2></div>
+          <p>Go from a Reel in your feed to a video with your take on top.</p>
         </div>
-        <ol class="steps">
-          <li><div class="step-top"><svg class="icon"><use href="#frame"/></svg><span class="label">01 / RECORD</span></div><h3>Get in the shot.</h3><p>Pick a video or photo. Put your camera in a corner, split the screen, or take center stage with a background cutout.</p></li>
-          <li><div class="step-top"><svg class="icon"><use href="#sliders"/></svg><span class="label">02 / EDIT</span></div><h3>Make it your take.</h3><p>Trim to the good part. Balance your voice, source audio, and music. Add captions that are generated on your device.</p></li>
-          <li><div class="step-top"><svg class="icon"><use href="#share"/></svg><span class="label">03 / SHARE</span></div><h3>Send it out.</h3><p>Sign in to save your finished video, then share it from your phone. Find your recordings and drafts again in My videos.</p></li>
+        <ol class="step-grid" id="screens">
+          <li class="step-card step-copy">
+            <p class="label">01 / COPY</p>
+            <h3>Find a viral Reel.</h3>
+            <p>Open Instagram, find a Reel you want to roast or react to, and tap <strong>Share → Copy link</strong>.</p>
+            <div class="step-visual">
+              <figure class="reel-example">
+                <img src="/assets/reel-example.webp" alt="Example Reel showing Alex Hormozi" width="474" height="842" loading="lazy">
+                <span class="reel-label"><svg class="icon" aria-hidden="true"><use href="#instagram"/></svg> Instagram Reel</span>
+                <figcaption class="copy-cue"><svg class="icon" aria-hidden="true"><use href="#link"/></svg> Copy link</figcaption>
+              </figure>
+            </div>
+          </li>
+          <li class="step-card step-paste">
+            <p class="label">02 / PASTE</p>
+            <h3>Paste the link.</h3>
+            <p>Open RecordPOV, paste the Instagram link into Create, then tap <strong>Download &amp; open video</strong>.</p>
+            <div class="step-visual">
+              <img class="step-phone" src="/assets/onboarding-paste.webp" alt="RecordPOV’s Paste a link onboarding screen showing an Instagram Reel link" width="660" height="1434" loading="lazy">
+            </div>
+          </li>
+          <li class="step-card step-record">
+            <p class="label">03 / RECORD</p>
+            <h3>Record over it.</h3>
+            <p>Turn on your camera and mic. Hit <strong>Record</strong> and talk while the Reel plays. Your reaction goes right on top.</p>
+            <div class="step-visual">
+              <img class="step-phone" src="/assets/onboarding-record.webp" alt="RecordPOV onboarding showing a reaction being recorded on top of the Reel" width="660" height="1434" loading="lazy">
+            </div>
+          </li>
         </ol>
       </div>
-    </section>
-
-    <section id="screens" class="screens shell">
-      <div class="section-heading screens-heading">
-        <div><p class="label kicker">INSIDE RECORDPOV</p><h2>A closer look.</h2></div>
-        <p>See the iPhone app in action, or open the Android gallery below.</p>
-      </div>
-      <div class="screen-grid">
-        <figure><img src="/assets/screen-studio.webp" width="624" height="1356" alt="Studio screenshot showing camera layout controls and a mountain bike clip" loading="lazy"><figcaption><span class="label">01</span> Record your reaction</figcaption></figure>
-        <figure><img src="/assets/screen-editor.webp" width="624" height="1356" alt="Editor screenshot showing the video preview and trim timeline" loading="lazy"><figcaption><span class="label">02</span> Edit your take</figcaption></figure>
-        <figure><img src="/assets/screen-create.webp" width="624" height="1356" alt="Create screenshot showing how to start a new video" loading="lazy"><figcaption><span class="label">03</span> Start with a clip</figcaption></figure>
-      </div>
-      <details class="android-gallery">
-        <summary>See Android screenshots</summary>
-        <div class="screen-grid">
-          <figure><img src="/assets/android-studio.webp" width="630" height="1120" alt="Android Studio showing the video source and camera layout controls" loading="lazy"><figcaption><span class="label">01</span> Record your reaction</figcaption></figure>
-          <figure><img src="/assets/android-editor.webp" width="630" height="1120" alt="Android editor with a trim timeline and separate audio controls" loading="lazy"><figcaption><span class="label">02</span> Edit your take</figcaption></figure>
-          <figure><img src="/assets/android-create.webp" width="630" height="1120" alt="Android Create screen with media import controls and a recent clip" loading="lazy"><figcaption><span class="label">03</span> Start with a clip</figcaption></figure>
-        </div>
-      </details>
     </section>
 
     <section id="availability" class="availability shell">
       <div class="launch-panel">
         <div class="launch-copy">
-          <p class="label"><span class="rec-dot"></span> RECORDPOV</p>
-          <h2>Ready when you are.</h2>
-          <p>RecordPOV is getting ready for the App Store and Google Play.</p>
-          <div class="platform-list">
-            <span><svg class="icon"><use href="#apple"/></svg> iPhone &amp; iPad</span>
-            <span><svg class="icon"><use href="#play"/></svg> Android</span>
-          </div>
+          <p class="label launch-status"><span class="rec-dot"></span> AWAITING STORE REVIEW</p>
+          <h2>Get the launch email.</h2>
+          <p>Drop your email and we’ll let you know when RecordPOV goes live on iOS and Android.</p>
+          <p class="free-copy">Completely free. No hidden subscriptions. <strong>no fucking scam</strong></p>
+          <form id="waitlist" class="waitlist-form" action="/api/waitlist" method="post">
+            <label for="waitlist-email">Email address</label>
+            <div class="waitlist-row">
+              <input id="waitlist-email" name="email" type="email" autocomplete="email" inputmode="email" placeholder="you@example.com" maxlength="254" required>
+              <button class="button button-ink" type="submit">Notify me <svg class="icon" aria-hidden="true"><use href="#arrow"/></svg></button>
+            </div>
+            <div hidden><label>Company <input name="company" type="text" tabindex="-1" autocomplete="off"></label></div>
+            <p class="waitlist-note">One email about the launch. <a href="/privacy/#launch-email">Privacy policy</a></p>
+          </form>
+          <p id="waitlist-feedback" class="waitlist-feedback" role="status"></p>
+          <p id="waitlist-joined" class="waitlist-fallback" role="status">You’re on the list. We’ll email you when RecordPOV is live.</p>
+          <p id="waitlist-invalid" class="waitlist-fallback" role="status">Enter a valid email address and try again.</p>
+          <p id="waitlist-retry" class="waitlist-fallback" role="status">We couldn’t save your email. Try again in a moment.</p>
         </div>
         <img class="launch-mark" src="/assets/favicon.svg" width="180" height="180" alt="" loading="lazy">
       </div>
-      <a class="privacy-callout" href="/privacy/"><svg class="icon"><use href="#lock"/></svg> Your recordings and drafts stay on your device. <span>Privacy details <svg class="icon"><use href="#arrow"/></svg></span></a>
+      <a class="privacy-callout" href="/privacy/"><svg class="icon" aria-hidden="true"><use href="#lock"/></svg> Your recordings and drafts stay on your device. <span>Privacy details <svg class="icon" aria-hidden="true"><use href="#arrow"/></svg></span></a>
     </section>
   </main>
 
