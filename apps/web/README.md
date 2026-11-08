@@ -8,4 +8,4 @@ Preview locally from this folder with:
 python3 -m http.server 8765 --directory public
 ```
 
-The screenshot gallery uses smaller copies of the iPhone store artwork in `docs/store/app-store-iphone`. Update the availability section with verified store URLs when the listings go live.
+The screenshot galleries use smaller copies of the iPhone and Android store artwork in `docs/store`. Update the availability section with verified store URLs when the listings go live.

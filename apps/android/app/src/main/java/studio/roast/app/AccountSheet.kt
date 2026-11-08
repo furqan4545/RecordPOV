@@ -16,6 +16,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalUriHandler
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.semantics.contentDescription
 import androidx.compose.ui.semantics.semantics
@@ -28,6 +29,7 @@ import androidx.compose.ui.unit.sp
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable internal fun AccountSheet(accounts:RecordPovAccounts,onDismiss:()->Unit,onSignedInToSave:(()->Unit)?=null) {
     val context=LocalContext.current
+    val uriHandler = LocalUriHandler.current
     val state by accounts.state.collectAsState()
     var deleteConfirmation by remember{mutableStateOf(false)}
     val signedInToSave by rememberUpdatedState(onSignedInToSave)
@@ -98,6 +100,9 @@ import androidx.compose.ui.unit.sp
                 OutlinedButton(onClick=accounts::signOut,enabled=!state.busy,modifier=Modifier.fillMaxWidth().height(44.dp),shape=RoundedCornerShape(12.dp)) {Text("Sign out")}
                 TextButton(onClick={deleteConfirmation=true},enabled=!state.busy,modifier=Modifier.height(44.dp),
                     colors=ButtonDefaults.textButtonColors(contentColor=MaterialTheme.colorScheme.error)) {Text("Delete account")}
+            }
+            TextButton(onClick = { uriHandler.openUri("https://recordpov.app/privacy/") }) {
+                Text("Privacy policy")
             }
         }
     }

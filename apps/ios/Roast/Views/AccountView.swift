@@ -137,6 +137,9 @@ struct AccountView: View {
                     }
                 }
             }
+            Section {
+                Link("Privacy policy", destination: URL(string: "https://recordpov.app/privacy/")!)
+            }
         }
         .scrollContentBackground(.hidden).background(RoastTheme.paper)
         .tint(RoastTheme.ink)

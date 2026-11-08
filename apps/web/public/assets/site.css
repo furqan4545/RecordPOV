@@ -73,6 +73,9 @@ h1,h2,h3{font-family:var(--head);font-weight:700;line-height:.99;letter-spacing:
 .screen-grid figure img{width:100%;border-radius:18px;background:#e5d9fa}
 .screen-grid figcaption{display:flex;align-items:baseline;gap:10px;margin:10px 2px 0;font-weight:700;font-size:.9rem}
 .screen-grid .label{color:var(--muted)}
+.android-gallery{max-width:1040px;margin:24px auto 0;border-top:1px solid var(--line)}
+.android-gallery summary{cursor:pointer;width:fit-content;padding:13px 3px;font-weight:700;font-size:.9rem}
+.android-gallery[open] .screen-grid{margin-top:6px}
 .availability{margin-bottom:46px}
 .launch-panel{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:clamp(26px,5.7vw,72px);background:var(--lime);border-radius:23px;overflow:hidden}
 .launch-copy .label{display:flex;align-items:center;gap:8px;margin-bottom:14px}

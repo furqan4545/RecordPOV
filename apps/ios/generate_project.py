@@ -70,7 +70,7 @@ productReference = {ident(base + 2)}; productType = "com.apple.product-type.{tar
     for offset, configuration in [(7, "Debug"), (8, "Release")]:
         settings = f'''PRODUCT_BUNDLE_IDENTIFIER = "{target['bundle']}"; PRODUCT_NAME = "$(TARGET_NAME)";
 SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; TARGETED_DEVICE_FAMILY = "1,2";
-CODE_SIGN_STYLE = Automatic; MARKETING_VERSION = 0.1.0; CURRENT_PROJECT_VERSION = 1;
+CODE_SIGN_STYLE = Automatic; MARKETING_VERSION = 1.0; CURRENT_PROJECT_VERSION = 1;
 SWIFT_EMIT_LOC_STRINGS = YES;'''
         if name == "Roast":
             settings += '''INFOPLIST_FILE = Configuration/Info.plist; GENERATE_INFOPLIST_FILE = NO;
