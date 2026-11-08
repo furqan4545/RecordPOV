@@ -34,24 +34,16 @@ internal fun storedMixGains(edit:JSONObject)=MixGains(edit.optDouble("sourceGain
 
 class DraftStore(private val context:Context) {
     val directory=File(context.filesDir,"drafts").apply{mkdirs()}
-    private val preferences=context.getSharedPreferences("roast",Context.MODE_PRIVATE)
     private val projects=DraftProjectFiles(directory)
     fun newCapture():File=File(directory,"capture-${UUID.randomUUID()}.mp4")
     fun list():List<ReactionDraft> = directory.listFiles().orEmpty().filter{it.isDirectory}.mapNotNull{load(it.name)}
         .sortedByDescending{File(it.directory,"project.json").lastModified()}
     fun delete(id:String) {
         OwnedMediaDeletion.draft(directory,id)
-        if(preferences.getString("pendingDraft",null)==id)preferences.edit().remove("pendingDraft").apply()
     }
     fun load(id:String):ReactionDraft?=projects.load(id)
     fun save(draft:ReactionDraft)=projects.save(draft)
     fun saveEdits(draft:ReactionDraft):ReactionDraft=projects.saveEdits(draft)
-    fun markPending(draft:ReactionDraft){preferences.edit().putString("pendingDraft",draft.id).apply()}
-    fun consumePending():ReactionDraft? {
-        val id=preferences.getString("pendingDraft",null)?:return null
-        preferences.edit().remove("pendingDraft").apply()
-        return load(id)
-    }
     suspend fun prepare(capture:File,segments:List<SourceAudioSegment>,fallbackDurationMs:Long,title:String="Your video",prepareStems:Boolean=true):ReactionDraft=withContext(Dispatchers.IO) {
         val root=File(directory,UUID.randomUUID().toString()).apply{mkdirs()}
         val original=File(root,"capture.mp4")

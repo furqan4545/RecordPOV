@@ -2,15 +2,22 @@ import AVKit
 import SwiftUI
 
 struct TakeDetailView: View {
-    let take: SavedTake
     let library: TakeLibrary
+    /// The video shown. Re-edit swaps in the newly saved one.
+    @State private var take: SavedTake
+    @State private var editableDraft: RecordingDraft?
+    @State private var reEditDraft: RecordingDraft?
     @Environment(\.dismiss) private var dismiss
     @Environment(\.scenePhase) private var scenePhase
     @Environment(\.dynamicTypeSize) private var dynamicTypeSize
     @State private var player: AVPlayer?
     @State private var errorMessage: String?
-    @State private var roastLaunch: StudioLaunch?
     @State private var isSharing = false
+
+    init(take: SavedTake, library: TakeLibrary) {
+        _take = State(initialValue: take)
+        self.library = library
+    }
 
     private var isSaved: Bool { library.isSavedToPhotos(take) }
     private var isSaving: Bool { library.isSavingToPhotos(take) }
@@ -47,13 +54,18 @@ struct TakeDetailView: View {
         .presentationDragIndicator(.visible)
         .task {
             if player == nil { player = AVPlayer(url: take.fileURL) }
+            editableDraft = Self.draft(for: take)
+        }
+        .onChange(of: take.id) { _, _ in
+            player?.pause()
+            player = AVPlayer(url: take.fileURL)
+            editableDraft = Self.draft(for: take)
         }
         .onChange(of: scenePhase) { _, phase in
             if phase != .active { player?.pause() }
         }
         .onDisappear { player?.pause() }
         .sheet(isPresented: $isSharing) { SavedVideoShareSheet(url: take.fileURL) }
-        .fullScreenCover(item: $roastLaunch) { StudioView(launch: $0, library: library) }
     }
 
     private var header: some View {
@@ -64,6 +76,14 @@ struct TakeDetailView: View {
                 .accessibilityAddTraits(.isHeader)
             Spacer(minLength: 12)
             Menu {
+                if let draft = editableDraft {
+                    Button("Re-edit", systemImage: "slider.horizontal.3") {
+                        player?.pause()
+                        reEditDraft = draft
+                    }
+                    .disabled(isSaving)
+                    .accessibilityIdentifier("reEditSavedVideoButton")
+                }
                 Button("Delete from My videos", systemImage: "trash", role: .destructive) {
                     player?.pause()
                     do { try library.delete(take); dismiss() }
@@ -81,6 +101,16 @@ struct TakeDetailView: View {
             .accessibilityIdentifier("closeSavedVideoButton")
         }
         .buttonStyle(.plain)
+        // Back to the editor with the same recording and edits; saving replaces this video.
+        .fullScreenCover(item: $reEditDraft) { draft in
+            EditorView(draft: draft, library: library) { take = $0 }
+        }
+    }
+
+    /// The draft this video was saved from, if it's still on this iPhone.
+    private static func draft(for take: SavedTake) -> RecordingDraft? {
+        guard let id = take.draftID else { return nil }
+        return (try? DraftStore().list())?.first { $0.id == id }?.draft
     }
 
     private func headerIcon(_ symbol: String) -> some View {
@@ -169,13 +199,6 @@ struct TakeDetailView: View {
                         .overlay(RoundedRectangle(cornerRadius: 14).strokeBorder(RoastTheme.ink.opacity(0.14)))
                 }
                 .accessibilityIdentifier("saveTakeToPhotosButton")
-            }
-            if take.kind == "Screen" {
-                Button("Add my camera reaction") {
-                    player?.pause()
-                    roastLaunch = StudioLaunch(source: .video(take.fileURL, "Screen recording"))
-                }
-                .font(.subheadline.weight(.semibold)).frame(minHeight: 44)
             }
         }
         .buttonStyle(.plain)

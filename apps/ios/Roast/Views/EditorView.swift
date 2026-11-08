@@ -21,6 +21,9 @@ struct EditorView: View {
     @State private var captionStatus = ""
     @AppStorage("captionLanguageIdentifier") private var captionLocale = "en-US"
     @State private var message: String?
+    @Environment(AccountService.self) private var account
+    @State private var showSignIn = false
+    @State private var saveAfterSignIn = false
 
     init(draft: RecordingDraft, library: TakeLibrary, onSaved: @escaping (SavedTake) -> Void = { _ in }) {
         self.draft = draft
@@ -93,10 +96,28 @@ struct EditorView: View {
                     }
                 }
             }
-            PrimaryButton(title: isExporting ? "Saving your video…" : "Save video", symbol: "checkmark",
-                          isLoading: isExporting) { Task { await saveVideo() } }
+            // Not saved yet: a pending mark on the right, then a spinner there while it saves.
+            PrimaryButton(title: isExporting ? "Saving your video…" : "Save video", symbol: "circle.dashed",
+                          isLoading: isExporting, spinnerAtTrailing: true, action: requestSave)
                 .disabled(busy || captionTask != nil || !preview.isReady(for: edits) || editedDuration < 0.04)
                 .accessibilityIdentifier("saveEditedVideoButton")
+                // Saving needs an account: the existing Account screen asks, then the save continues.
+                .sheet(isPresented: $showSignIn, onDismiss: continueSaveAfterSignIn) {
+                    NavigationStack {
+                        AccountView(account: account, title: "Sign in", onSignedIn: {
+                            // Only a sign-in finished while the sheet is open saves; Not now never does.
+                            guard showSignIn else { return }
+                            saveAfterSignIn = true
+                            showSignIn = false
+                        })
+                            .toolbar {
+                                ToolbarItem(placement: .cancellationAction) {
+                                    Button("Not now") { showSignIn = false }
+                                        .accessibilityIdentifier("saveSignInNotNowButton")
+                                }
+                            }
+                    }
+                }
         }
         .padding(.horizontal, 18).padding(.top, 4).padding(.bottom, 8)
         .foregroundStyle(RoastTheme.ink).background(RoastTheme.paper.ignoresSafeArea())
@@ -173,6 +194,8 @@ struct EditorView: View {
                 }
             }
             .tint(RoastTheme.ink).frame(minHeight: 44).disabled(draft.microphoneURL == nil)
+            // iOS 26 switches draw a little wider than their frame; keep them clear of the panel's edge.
+            .padding(.trailing, 4)
             .accessibilityIdentifier("cleanVoiceToggle")
             EditorGainRow(title: "Original video", symbol: "speaker.wave.2", value: $edits.sourceVolume, available: draft.sourceAudioURL != nil)
             if edits.musicURL != nil {
@@ -276,6 +299,7 @@ struct EditorView: View {
                 .font(.caption).foregroundStyle(RoastTheme.muted).fixedSize(horizontal: false, vertical: true)
             if !edits.captions.isEmpty {
                 Toggle("Show captions", isOn: $edits.captionsEnabled).font(.subheadline).tint(RoastTheme.ink)
+                    .padding(.trailing, 4)
                 Button("Correct caption text") { showCaptionCorrections = true }
                     .font(.system(size: 13, weight: .semibold)).frame(minHeight: 44)
             }
@@ -340,6 +364,18 @@ struct EditorView: View {
         }
     }
 
+    private func requestSave() {
+        if account.session == nil { showSignIn = true }
+        else { Task { await saveVideo() } }
+    }
+
+    /// The Account screen shares this editor's service, so the new session is already here.
+    private func continueSaveAfterSignIn() {
+        guard saveAfterSignIn else { return }
+        saveAfterSignIn = false
+        if account.session != nil { Task { await saveVideo() } }
+    }
+
     private func saveVideo() async {
         guard !busy, captionTask == nil, preview.isReady(for: edits) else { return }
         editTask?.cancel()
@@ -353,14 +389,13 @@ struct EditorView: View {
             let url = try await EditorExporter.export(draft: draft, edits: edits)
             defer { try? FileManager.default.removeItem(at: url) }
             let exportedDuration = try await AVURLAsset(url: url).load(.duration).seconds
-            let take = try library.add(url: url, title: draft.title, duration: exportedDuration)
+            // The draft stays so Re-edit can reopen it. A re-edited save replaces the earlier
+            // save of this draft in My videos; Photos keeps the copy it already has.
+            let earlier = library.takes.filter { $0.draftID == draft.id }
+            let take = try library.add(url: url, title: draft.title, duration: exportedDuration, draftID: draft.id)
+            for old in earlier { try? library.delete(old) }
             do { try await library.saveToPhotos(take) } catch { /* The library exposes its recoverable Photos error. */ }
             preview.close()
-            let folder = draft.videoURL.deletingLastPathComponent()
-            if folder.lastPathComponent == draft.id.uuidString,
-               folder.deletingLastPathComponent().lastPathComponent == "Drafts" {
-                try? FileManager.default.removeItem(at: folder)
-            }
             onSaved(take)
             dismiss()
         } catch { message = error.localizedDescription }

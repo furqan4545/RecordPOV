@@ -6,15 +6,21 @@ struct RoastApp: App {
     @Environment(\.scenePhase) private var scenePhase
     private let importer = VideoImportCoordinator.shared
     @State private var library = TakeLibrary()
+    /// One sign-in state for the whole app: the Create avatar, Profile and the editor's Save.
+    @State private var account = AccountService()
     @State private var selectedTab: AppTab = .create
     #if DEBUG
     @State private var editorPreviewDraft: RecordingDraft?
     #endif
-    private enum AppTab: Hashable { case create, takes, screen }
+    private enum AppTab: Hashable { case create, takes }
     init() {
         MediaServiceSettings.migrateLegacyDefaultIfNeeded()
         #if DEBUG
         UserRequestedDraftCleanup.runIfRequested()
+        // Lets a developer see the first-launch onboarding again without deleting the app.
+        if ProcessInfo.processInfo.environment["ROAST_RESET_ONBOARDING"] == "1" {
+            UserDefaults.standard.removeObject(forKey: "didFinishOnboarding")
+        }
         #endif
     }
     var body: some Scene {
@@ -25,9 +31,6 @@ struct RoastApp: App {
                 }
                 Tab("My videos", systemImage: "rectangle.stack", value: AppTab.takes) {
                     NavigationStack { LibraryView(library: library, onCreate: { selectedTab = .create }) }
-                }
-                Tab("Screen", systemImage: "record.circle", value: AppTab.screen) {
-                    ScreenTakeView(library: library)
                 }
             }
             .tint(RoastTheme.ink)
@@ -77,6 +80,8 @@ struct RoastApp: App {
                 }
                 #endif
             }
+            .task { await account.load() }
+            .environment(account)
         }
     }
 }

@@ -96,7 +96,6 @@ import kotlin.math.roundToInt
     val lens by (camera?.lens?:noLens).collectAsState()
     val noSwitch=remember{MutableStateFlow(false)}
     val switchingCamera by (camera?.switching?:noSwitch).collectAsState()
-    val screenActive by ScreenTakeService.running.collectAsState()
     var frame by remember{mutableStateOf<Bitmap?>(null)}
     val player=remember{ExoPlayer.Builder(context).build().apply{repeatMode=Player.REPEAT_MODE_OFF}}
     var texture by remember{mutableStateOf<SourceTextureView?>(null)}
@@ -134,17 +133,14 @@ import kotlin.math.roundToInt
     val latestClock by rememberUpdatedState({takeClock()})
     fun startCamera() {
         if(!studioOpen||!owner.lifecycle.currentState.isAtLeast(Lifecycle.State.STARTED))return
-        if(screenActive){error="Finish your screen recording before starting another camera recording.";return}
         if(camera==null)camera=CameraFeed(context).also{it.removeBackground=placement.style==PipStyle.Cutout;it.start(owner){message->error=message}}
     }
     val defaultCameraPermission=rememberLauncherForActivityResult(ActivityResultContracts.RequestPermission()){granted ->
         if(granted)startCamera()else error="Allow camera access to add yourself. You can change this in Android Settings."
     }
     LaunchedEffect(Unit) {
-        if(!screenActive) {
-            if(ContextCompat.checkSelfPermission(context,Manifest.permission.CAMERA)==PackageManager.PERMISSION_GRANTED)startCamera()
-            else defaultCameraPermission.launch(Manifest.permission.CAMERA)
-        }
+        if(ContextCompat.checkSelfPermission(context,Manifest.permission.CAMERA)==PackageManager.PERMISSION_GRANTED)startCamera()
+        else defaultCameraPermission.launch(Manifest.permission.CAMERA)
     }
     fun selectSource(next:MediaSource) {
         if(recording)timeline.close(player.currentPosition,takeClock())
@@ -393,8 +389,7 @@ import kotlin.math.roundToInt
                 }
             } else if(camera==null) {
                 Surface(modifier=Modifier.align(Alignment.BottomEnd).padding(14.dp).height(44.dp),enabled=!saving&&!starting,shape=RoundedCornerShape(12.dp),color=Color.White.copy(alpha=.92f),onClick={
-                    if(screenActive)error="Finish your screen recording before starting another camera recording."
-                    else if(ContextCompat.checkSelfPermission(context,Manifest.permission.CAMERA)==PackageManager.PERMISSION_GRANTED)startCamera()
+                    if(ContextCompat.checkSelfPermission(context,Manifest.permission.CAMERA)==PackageManager.PERMISSION_GRANTED)startCamera()
                     else defaultCameraPermission.launch(Manifest.permission.CAMERA)
                 }) {
                     Row(Modifier.padding(horizontal=12.dp),verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(8.dp)) {

@@ -50,10 +50,12 @@ private data class PreviewBuild(val draft:ReactionDraft,val sourcePositionMs:Lon
 
 @OptIn(UnstableApi::class)
 @kotlin.OptIn(ExperimentalMaterial3Api::class)
-@Composable fun EditorScreen(initialDraft:ReactionDraft,store:TakeStore,onClose:()->Unit,onDone:(File)->Unit) {
+@Composable fun EditorScreen(initialDraft:ReactionDraft,store:TakeStore,onClose:()->Unit,onDone:(File)->Unit,
+    onSignInToSave:(save:()->Unit)->Unit) {
     val context=LocalContext.current
     val scope=rememberCoroutineScope()
     val drafts=remember{DraftStore(context)}
+    val accounts=remember{RecordPovAccounts.get(context)}
     var draft by remember(initialDraft.id){mutableStateOf(initialDraft)}
     var error by remember{mutableStateOf<String?>(initialDraft.preparationError?.takeUnless{it=="Audio is being prepared."})}
     var working by remember{mutableStateOf<String?>(null)}
@@ -126,6 +128,20 @@ private data class PreviewBuild(val draft:ReactionDraft,val sourcePositionMs:Lon
         }
     }
     fun cancelWork(){task?.cancel();if(working?.startsWith("Transcribing")==true)working="Cancelling after this speech segment…"}
+    fun save()=work("Finishing your video…") {
+        val target=File(store.directory,"Video ${draft.id.take(8)}-v${draft.revision}.mp4")
+        previewMutex.withLock {
+            if(previewRevision==draft.revision&&preview.length()>0)withContext(Dispatchers.IO){
+                val temporary=File(store.directory,".${target.name}.copy")
+                try{preview.copyTo(temporary,overwrite=true);check(temporary.renameTo(target)){"Your final app copy could not be saved. The draft is safe."}}
+                finally{temporary.delete()}
+            }
+            else renderDraft(context,draft,target)
+        }
+        finalFile=target
+        try{store.saveToPhotos(target)}catch(e:Exception){throw IllegalStateException("Gallery save failed. Your final video and editable draft are safe in RecordPOV. Tap Save to retry. ${e.localizedMessage.orEmpty()}",e)}
+        onDone(target)
+    }
     fun prepareAudio() {
         if(audioPreparing||draft.audioReady)return
         audioPreparing=true
@@ -193,20 +209,9 @@ private data class PreviewBuild(val draft:ReactionDraft,val sourcePositionMs:Lon
         Row(Modifier.fillMaxWidth().padding(horizontal=12.dp).height(52.dp),verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.SpaceBetween) {
             IconButton(onClick=onClose,enabled=!busy,modifier=Modifier.size(44.dp)){Icon(Icons.Rounded.Close,"Close editor; keep draft")}
             Text("Edit video",fontWeight=FontWeight.Bold,fontSize=17.sp)
-            Button(onClick={work("Finishing your video…") {
-                val target=File(store.directory,"Video ${draft.id.take(8)}-v${draft.revision}.mp4")
-                previewMutex.withLock {
-                    if(previewRevision==draft.revision&&preview.length()>0)withContext(Dispatchers.IO){
-                        val temporary=File(store.directory,".${target.name}.copy")
-                        try{preview.copyTo(temporary,overwrite=true);check(temporary.renameTo(target)){"Your final app copy could not be saved. The draft is safe."}}
-                        finally{temporary.delete()}
-                    }
-                    else renderDraft(context,draft,target)
-                }
-                finalFile=target
-                try{store.saveToPhotos(target)}catch(e:Exception){throw IllegalStateException("Gallery save failed. Your final video and editable draft are safe in RecordPOV. Tap Save to retry. ${e.localizedMessage.orEmpty()}",e)}
-                onDone(target)
-            }},enabled=!busy&&!dragging&&draft.audioReady&&validTrim,modifier=Modifier.height(48.dp),shape=RoundedCornerShape(12.dp),contentPadding=PaddingValues(horizontal=18.dp)) {Text("Save")}
+            // Saving needs an account, as on iOS: signed out, Save opens Account, and only a sign-in there continues the save.
+            Button(onClick={if(SaveSignIn.needed(accounts.state.value.session))onSignInToSave{save()} else save()},
+                enabled=!busy&&!dragging&&draft.audioReady&&validTrim,modifier=Modifier.height(48.dp),shape=RoundedCornerShape(12.dp),contentPadding=PaddingValues(horizontal=18.dp)) {Text("Save")}
         }
         LazyColumn(Modifier.weight(1f),contentPadding=PaddingValues(horizontal=18.dp,vertical=12.dp),verticalArrangement=Arrangement.spacedBy(14.dp)) {
             item {

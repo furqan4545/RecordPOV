@@ -6,14 +6,25 @@ struct LibraryView: View {
     @AppStorage("lastOpenedImportedVideoID") private var lastOpenedImportedID = ""
     @State private var importedLaunch: StudioLaunch?
     @State private var shelf: VideoShelf = .saved
+    @State private var selection = VideoSelection()
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: 24) {
-                Text("My videos")
-                    .font(.system(size: 32, weight: .bold, design: .rounded))
-                    .accessibilityAddTraits(.isHeader)
-                    .padding(.top, 20)
+                HStack(alignment: .firstTextBaseline) {
+                    Text("My videos")
+                        .font(.system(size: 32, weight: .bold, design: .rounded))
+                        .accessibilityAddTraits(.isHeader)
+                    Spacer()
+                    Button(selection.isActive ? "Cancel" : "Select") {
+                        if selection.isActive { selection.end() } else { selection.isActive = true }
+                    }
+                    .font(.system(.body, design: .rounded, weight: .semibold))
+                    .frame(minHeight: 44)
+                    .buttonStyle(.plain)
+                    .accessibilityIdentifier("selectVideosButton")
+                }
+                .padding(.top, 20)
                 Picker("Show", selection: $shelf) {
                     Text("Saved videos").tag(VideoShelf.saved)
                     Text("Imported videos").tag(VideoShelf.imported)
@@ -21,7 +32,7 @@ struct LibraryView: View {
                 .pickerStyle(.segmented)
                 .controlSize(.large)
                 .accessibilityIdentifier("myVideosFilter")
-                HomeRecentVideos(library: library, title: nil, shelf: shelf) { video in
+                HomeRecentVideos(library: library, title: nil, shelf: shelf, selection: selection) { video in
                     VideoImportCoordinator.shared.deferOpeningUntilRequested()
                     if VideoImportCoordinator.shared.ready?.id == video.id { VideoImportCoordinator.shared.consumeReady() }
                     lastOpenedImportedID = video.id.uuidString
@@ -36,6 +47,10 @@ struct LibraryView: View {
             }.padding(.horizontal, 24).padding(.bottom, 25)
         }
         .foregroundStyle(RoastTheme.ink).background(RoastTheme.paper)
+        .safeAreaInset(edge: .bottom) {
+            if selection.isActive { DeleteSelectedBar(selection: selection, identifier: "deleteSelectedVideosButton") }
+        }
+        .onChange(of: shelf) { _, _ in selection.end() }
         .toolbar(.hidden, for: .navigationBar)
         .fullScreenCover(item: $importedLaunch) { StudioView(launch: $0, library: library) }
     }

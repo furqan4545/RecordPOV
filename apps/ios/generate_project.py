@@ -17,13 +17,11 @@ project_id, main_group, products, project_configs = map(ident, [1, 2, 3, 4])
 google_package, google_product, google_swift_product = map(ident, [500, 501, 502])
 targets = [
     dict(name="Roast", folder="Roast", product="Roast.app", kind="application", base=100, bundle="$(ROAST_APP_BUNDLE_ID)"),
-    dict(name="ScreenBroadcast", folder="ScreenBroadcast", product="ScreenBroadcast.appex", kind="app-extension", base=200, bundle="$(ROAST_APP_BUNDLE_ID).ScreenBroadcast"),
     dict(name="RoastTests", folder="RoastTests", product="RoastTests.xctest", kind="bundle.unit-test", base=300, bundle="$(ROAST_APP_BUNDLE_ID).tests"),
     dict(name="RoastUITests", folder="RoastUITests", product="RoastUITests.xctest", kind="bundle.ui-testing", base=400, bundle="$(ROAST_APP_BUNDLE_ID).uitests"),
 ]
 item(project_id, f'''isa = PBXProject; attributes = {{ BuildIndependentTargetsInParallel = 1; LastUpgradeCheck = 2700;
-TargetAttributes = {{ {ident(100)} = {{ SystemCapabilities = {{ com.apple.ApplicationGroups.iOS = {{ enabled = 1; }}; com.apple.SignInWithApple = {{ enabled = 1; }}; }}; }};
-{ident(200)} = {{ SystemCapabilities = {{ com.apple.ApplicationGroups.iOS = {{ enabled = 1; }}; }}; }}; }}; }};
+TargetAttributes = {{ {ident(100)} = {{ SystemCapabilities = {{ com.apple.SignInWithApple = {{ enabled = 1; }}; }}; }}; }}; }};
 buildConfigurationList = {project_configs}; compatibilityVersion = "Xcode 16.0"; developmentRegion = en;
 hasScannedForEncodings = 0; knownRegions = (en, Base); mainGroup = {main_group};
 preferredProjectObjectVersion = 77; productRefGroup = {products}; projectDirPath = ""; projectRoot = "";
@@ -38,7 +36,7 @@ for number, name in [(5, "Debug"), (6, "Release")]:
 IPHONEOS_DEPLOYMENT_TARGET = 26.0; SDKROOT = iphoneos; SWIFT_VERSION = 5.0;
 SWIFT_STRICT_CONCURRENCY = minimal; ENABLE_USER_SCRIPT_SANDBOXING = YES;
 DEVELOPMENT_TEAM = 37P86CG9SS;
-ROAST_APP_BUNDLE_ID = com.furqanali.roast; ROAST_APP_GROUP_ID = group.com.furqanali.roast;
+ROAST_APP_BUNDLE_ID = com.furqanali.roast;
 ROAST_MEDIA_SERVICE_URL = "https://api.recordpov.app";
 ROAST_APPLE_SIGN_IN_ENABLED = YES; ROAST_GOOGLE_REVERSED_CLIENT_ID = "com.googleusercontent.apps.1001069179671-mvl07vu7kdrebl4atf9hjf2smqi4nrmm";
 DEBUG_INFORMATION_FORMAT = {'dwarf' if debug else '"dwarf-with-dsym"'};
@@ -53,10 +51,7 @@ for target in targets:
     base, name = target["base"], target["name"]
     phases = [ident(base + 3), ident(base + 4), ident(base + 5)]
     deps = []
-    if name == "Roast":
-        phases.append(ident(110))
-        deps.append(ident(112))
-    elif name in ("RoastTests", "RoastUITests"):
+    if name in ("RoastTests", "RoastUITests"):
         deps.append(ident(base + 12))
         item(ident(base + 11), f"isa = PBXContainerItemProxy; containerPortal = {project_id}; proxyType = 1; remoteGlobalIDString = {ident(100)}; remoteInfo = Roast;")
         item(ident(base + 12), f"isa = PBXTargetDependency; target = {ident(100)}; targetProxy = {ident(base + 11)};")
@@ -66,10 +61,11 @@ fileSystemSynchronizedGroups = ({ident(base + 1)}); name = {name}; productName =
 packageProductDependencies = ({f"{google_product}, {google_swift_product}" if name == "Roast" else ""});
 productReference = {ident(base + 2)}; productType = "com.apple.product-type.{target['kind']}";''')
     item(ident(base + 1), f"isa = PBXFileSystemSynchronizedRootGroup; path = {target['folder']}; sourceTree = \"<group>\";")
-    file_type = "wrapper.application" if target["kind"] == "application" else "wrapper.app-extension" if target["kind"] == "app-extension" else "wrapper.cfbundle"
+    file_type = "wrapper.application" if target["kind"] == "application" else "wrapper.cfbundle"
     item(ident(base + 2), f'isa = PBXFileReference; explicitFileType = "{file_type}"; includeInIndex = 0; path = {target["product"]}; sourceTree = BUILT_PRODUCTS_DIR;')
     for offset, phase in [(3, "PBXSourcesBuildPhase"), (4, "PBXFrameworksBuildPhase"), (5, "PBXResourcesBuildPhase")]:
-        item(ident(base + offset), f"isa = {phase}; buildActionMask = 2147483647; files = ({f"{ident(503)}, {ident(504)}" if name == "Roast" and offset == 4 else ""}); runOnlyForDeploymentPostprocessing = 0;")
+        files = f"{ident(503)}, {ident(504)}" if name == "Roast" and offset == 4 else ""
+        item(ident(base + offset), f"isa = {phase}; buildActionMask = 2147483647; files = ({files}); runOnlyForDeploymentPostprocessing = 0;")
     item(ident(base + 6), f"isa = XCConfigurationList; buildConfigurations = ({ident(base + 7)}, {ident(base + 8)}); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release;")
     for offset, configuration in [(7, "Debug"), (8, "Release")]:
         settings = f'''PRODUCT_BUNDLE_IDENTIFIER = "{target['bundle']}"; PRODUCT_NAME = "$(TARGET_NAME)";
@@ -80,10 +76,6 @@ SWIFT_EMIT_LOC_STRINGS = YES;'''
             settings += '''INFOPLIST_FILE = Configuration/Info.plist; GENERATE_INFOPLIST_FILE = NO;
 CODE_SIGN_ENTITLEMENTS = Configuration/Roast-Account.entitlements; ASSETCATALOG_COMPILER_APPICON_NAME = RecordPOV;
 LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";'''
-        elif name == "ScreenBroadcast":
-            settings += '''INFOPLIST_FILE = Configuration/Broadcast-Info.plist; GENERATE_INFOPLIST_FILE = NO;
-CODE_SIGN_ENTITLEMENTS = Configuration/Roast.entitlements; APPLICATION_EXTENSION_API_ONLY = YES; SKIP_INSTALL = YES;
-LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @executable_path/../../Frameworks";'''
         elif name == "RoastTests":
             settings += '''GENERATE_INFOPLIST_FILE = YES; BUNDLE_LOADER = "$(TEST_HOST)";
 TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Roast.app/Roast";'''
@@ -97,11 +89,6 @@ item(google_swift_product, f'isa = XCSwiftPackageProductDependency; package = {g
 item(ident(503), f'isa = PBXBuildFile; productRef = {google_product};')
 item(ident(504), f'isa = PBXBuildFile; productRef = {google_swift_product};')
 
-item(ident(110), f'isa = PBXCopyFilesBuildPhase; buildActionMask = 2147483647; dstPath = ""; dstSubfolderSpec = 13; files = ({ident(111)}); name = "Embed App Extensions"; runOnlyForDeploymentPostprocessing = 0;')
-item(ident(111), f'isa = PBXBuildFile; fileRef = {ident(202)}; settings = {{ ATTRIBUTES = (RemoveHeadersOnCopy); }};')
-item(ident(112), f'isa = PBXTargetDependency; target = {ident(200)}; targetProxy = {ident(113)};')
-item(ident(113), f'isa = PBXContainerItemProxy; containerPortal = {project_id}; proxyType = 1; remoteGlobalIDString = {ident(200)}; remoteInfo = ScreenBroadcast;')
-
 (project / "project.pbxproj").write_text('// !$*UTF8*$!\n{\n\tarchiveVersion = 1;\n\tclasses = {};\n\tobjectVersion = 77;\n\tobjects = {\n' + '\n'.join(objects) + f'\n\t}};\n\trootObject = {project_id};\n}}\n')
 schemes = project / "xcshareddata" / "xcschemes"
 schemes.mkdir(parents=True, exist_ok=True)
@@ -110,7 +97,7 @@ def buildable(target):
     return f'<BuildableReference BuildableIdentifier="primary" BlueprintIdentifier="{ident(target["base"])}" BuildableName="{target["product"]}" BlueprintName="{target["name"]}" ReferencedContainer="container:Roast.xcodeproj"/>'
 
 app = buildable(targets[0])
-testables = ''.join(f'<TestableReference skipped="NO">{buildable(t)}</TestableReference>' for t in targets[2:])
+testables = ''.join(f'<TestableReference skipped="NO">{buildable(t)}</TestableReference>' for t in targets[1:])
 (schemes / "Roast.xcscheme").write_text(f'''<?xml version="1.0" encoding="UTF-8"?>
 <Scheme LastUpgradeVersion="2700" version="1.7">
 <BuildAction parallelizeBuildables="YES" buildImplicitDependencies="YES"><BuildActionEntries>

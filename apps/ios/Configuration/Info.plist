@@ -46,8 +46,6 @@
 	<string>Save your finished videos to Photos.</string>
 	<key>NSSpeechRecognitionUsageDescription</key>
 	<string>Generate captions from your microphone recording on this device.</string>
-	<key>RoastAppGroupIdentifier</key>
-	<string>$(ROAST_APP_GROUP_ID)</string>
 	<key>RoastMediaServiceURL</key>
 	<string>$(ROAST_MEDIA_SERVICE_URL)</string>
 	<key>UIApplicationSceneManifest</key>

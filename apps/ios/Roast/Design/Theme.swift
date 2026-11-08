@@ -48,14 +48,17 @@ struct PrimaryButton: View {
     let title: String
     var symbol: String = "arrow.up.right"
     var isLoading = false
+    /// Shows the spinner where the symbol sits (right side) instead of before the title.
+    var spinnerAtTrailing = false
     var action: () -> Void
     var body: some View {
         Button(action: action) {
             HStack(spacing: 10) {
-                if isLoading { ProgressView().tint(RoastTheme.ink) }
+                if isLoading && !spinnerAtTrailing { ProgressView().tint(RoastTheme.ink) }
                 Text(title).font(.system(size: 15, weight: .semibold))
                 Spacer(minLength: 0)
-                if !isLoading { Image(systemName: symbol).font(.system(size: 14, weight: .semibold)) }
+                if isLoading && spinnerAtTrailing { ProgressView().tint(RoastTheme.ink) }
+                else if !isLoading { Image(systemName: symbol).font(.system(size: 14, weight: .semibold)) }
             }
             .padding(.horizontal, 16).frame(minHeight: 48)
             .foregroundStyle(RoastTheme.ink)

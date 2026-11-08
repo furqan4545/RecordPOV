@@ -23,22 +23,35 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 
+/** Settings → Account. The editor's Save also opens it while signed out: then [onSignedInToSave] is set, the sheet is
+ *  titled Sign in with a Not now button, and a sign-in finished while it is open continues the save, as on iOS. */
 @OptIn(ExperimentalMaterial3Api::class)
-@Composable internal fun AccountSheet(accounts:RecordPovAccounts,onDismiss:()->Unit) {
+@Composable internal fun AccountSheet(accounts:RecordPovAccounts,onDismiss:()->Unit,onSignedInToSave:(()->Unit)?=null) {
     val context=LocalContext.current
     val state by accounts.state.collectAsState()
     var deleteConfirmation by remember{mutableStateOf(false)}
+    val signedInToSave by rememberUpdatedState(onSignedInToSave)
+    val userId=state.session?.user?.id
+    var seenUserId by remember{mutableStateOf(userId)}
+    LaunchedEffect(userId) {
+        val previous=seenUserId
+        seenUserId=userId
+        if(SaveSignIn.signedIn(previous,userId))signedInToSave?.invoke()
+    }
     LaunchedEffect(Unit){accounts.refresh()}
-    ModalBottomSheet(onDismissRequest={if(state.deletingAfterSignIn)accounts.cancelDeletion();onDismiss()},containerColor=Bone) {
+    val dismiss={if(state.deletingAfterSignIn)accounts.cancelDeletion();onDismiss()}
+    ModalBottomSheet(onDismissRequest=dismiss,containerColor=Bone) {
         Column(Modifier.fillMaxWidth().verticalScroll(rememberScrollState()).padding(horizontal=24.dp).padding(bottom=32.dp),
             verticalArrangement=Arrangement.spacedBy(16.dp)) {
             Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically) {
-                Text("Account",fontSize=28.sp,fontWeight=FontWeight.Bold,modifier=Modifier.weight(1f))
+                Text(if(onSignedInToSave!=null)"Sign in" else "Account",fontSize=28.sp,fontWeight=FontWeight.Bold,modifier=Modifier.weight(1f))
+                if(onSignedInToSave!=null)TextButton(onClick=dismiss,modifier=Modifier.height(44.dp)){Text("Not now")}
                 IconButton(onClick=accounts::refresh,enabled=!state.busy&&!state.loading,modifier=Modifier.size(44.dp)){
                     Icon(Icons.Rounded.Refresh,"Refresh account",Modifier.size(21.dp))
                 }
             }
-            Text("Sign-in is optional. Your videos and drafts stay on this phone.",color=Muted,fontSize=14.sp,lineHeight=20.sp)
+            Text(if(state.session==null)"Sign in to save your videos. Your videos and drafts stay on this phone." else "Your videos and drafts stay on this phone.",
+                color=Muted,fontSize=14.sp,lineHeight=20.sp)
             if(state.loading || state.busy)Row(horizontalArrangement=Arrangement.spacedBy(10.dp),verticalAlignment=Alignment.CenterVertically) {
                 CircularProgressIndicator(Modifier.size(18.dp),strokeWidth=2.dp,color=Ink)
                 Text(if(state.loading)"Restoring account…" else "Please wait…",fontSize=13.sp,color=Muted)

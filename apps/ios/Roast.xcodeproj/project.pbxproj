@@ -7,19 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		00000000000000000000006F /* ScreenBroadcast.appex in Embed App Extensions */ = {isa = PBXBuildFile; fileRef = 0000000000000000000000CA /* ScreenBroadcast.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		0000000000000000000001F7 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = 0000000000000000000001F5 /* GoogleSignIn */; };
 		0000000000000000000001F8 /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 0000000000000000000001F6 /* GoogleSignInSwift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
-		000000000000000000000071 /* PBXContainerItemProxy */ = {
-			isa = PBXContainerItemProxy;
-			containerPortal = 000000000000000000000001 /* Project object */;
-			proxyType = 1;
-			remoteGlobalIDString = 0000000000000000000000C8;
-			remoteInfo = ScreenBroadcast;
-		};
 		000000000000000000000137 /* PBXContainerItemProxy */ = {
 			isa = PBXContainerItemProxy;
 			containerPortal = 000000000000000000000001 /* Project object */;
@@ -36,30 +28,15 @@
 		};
 /* End PBXContainerItemProxy section */
 
-/* Begin PBXCopyFilesBuildPhase section */
-		00000000000000000000006E /* Embed App Extensions */ = {
-			isa = PBXCopyFilesBuildPhase;
-			buildActionMask = 2147483647;
-			dstPath = "";
-			dstSubfolderSpec = 13;
-			files = (
-				00000000000000000000006F /* ScreenBroadcast.appex in Embed App Extensions */,
-			);
-			name = "Embed App Extensions";
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-/* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
 		000000000000000000000066 /* Roast.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Roast.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		0000000000000000000000CA /* ScreenBroadcast.appex */ = {isa = PBXFileReference; explicitFileType = "wrapper.app-extension"; includeInIndex = 0; path = ScreenBroadcast.appex; sourceTree = BUILT_PRODUCTS_DIR; };
 		00000000000000000000012E /* RoastTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RoastTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		000000000000000000000192 /* RoastUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = RoastUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
 		000000000000000000000065 /* Roast */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = Roast; sourceTree = "<group>"; };
-		0000000000000000000000C9 /* ScreenBroadcast */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = ScreenBroadcast; sourceTree = "<group>"; };
 		00000000000000000000012D /* RoastTests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = RoastTests; sourceTree = "<group>"; };
 		000000000000000000000191 /* RoastUITests */ = {isa = PBXFileSystemSynchronizedRootGroup; explicitFileTypes = {}; explicitFolders = (); path = RoastUITests; sourceTree = "<group>"; };
 /* End PBXFileSystemSynchronizedRootGroup section */
@@ -71,13 +48,6 @@
 			files = (
 				0000000000000000000001F7 /* GoogleSignIn in Frameworks */,
 				0000000000000000000001F8 /* GoogleSignInSwift in Frameworks */,
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0000000000000000000000CC /* Frameworks */ = {
-			isa = PBXFrameworksBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -102,7 +72,6 @@
 			isa = PBXGroup;
 			children = (
 				000000000000000000000065 /* Roast */,
-				0000000000000000000000C9 /* ScreenBroadcast */,
 				00000000000000000000012D /* RoastTests */,
 				000000000000000000000191 /* RoastUITests */,
 				000000000000000000000003 /* Products */,
@@ -113,7 +82,6 @@
 			isa = PBXGroup;
 			children = (
 				000000000000000000000066 /* Roast.app */,
-				0000000000000000000000CA /* ScreenBroadcast.appex */,
 				00000000000000000000012E /* RoastTests.xctest */,
 				000000000000000000000192 /* RoastUITests.xctest */,
 			);
@@ -130,12 +98,10 @@
 				000000000000000000000067 /* Sources */,
 				000000000000000000000068 /* Frameworks */,
 				000000000000000000000069 /* Resources */,
-				00000000000000000000006E /* Embed App Extensions */,
 			);
 			buildRules = (
 			);
 			dependencies = (
-				000000000000000000000070 /* PBXTargetDependency */,
 			);
 			fileSystemSynchronizedGroups = (
 				000000000000000000000065 /* Roast */,
@@ -148,28 +114,6 @@
 			productName = Roast;
 			productReference = 000000000000000000000066 /* Roast.app */;
 			productType = "com.apple.product-type.application";
-		};
-		0000000000000000000000C8 /* ScreenBroadcast */ = {
-			isa = PBXNativeTarget;
-			buildConfigurationList = 0000000000000000000000CE /* Build configuration list for PBXNativeTarget "ScreenBroadcast" */;
-			buildPhases = (
-				0000000000000000000000CB /* Sources */,
-				0000000000000000000000CC /* Frameworks */,
-				0000000000000000000000CD /* Resources */,
-			);
-			buildRules = (
-			);
-			dependencies = (
-			);
-			fileSystemSynchronizedGroups = (
-				0000000000000000000000C9 /* ScreenBroadcast */,
-			);
-			name = ScreenBroadcast;
-			packageProductDependencies = (
-			);
-			productName = ScreenBroadcast;
-			productReference = 0000000000000000000000CA /* ScreenBroadcast.appex */;
-			productType = "com.apple.product-type.app-extension";
 		};
 		00000000000000000000012C /* RoastTests */ = {
 			isa = PBXNativeTarget;
@@ -228,17 +172,7 @@
 				TargetAttributes = {
 					000000000000000000000064 = {
 						SystemCapabilities = {
-							com.apple.ApplicationGroups.iOS = {
-								enabled = 1;
-							};
 							com.apple.SignInWithApple = {
-								enabled = 1;
-							};
-						};
-					};
-					0000000000000000000000C8 = {
-						SystemCapabilities = {
-							com.apple.ApplicationGroups.iOS = {
 								enabled = 1;
 							};
 						};
@@ -262,7 +196,6 @@
 			projectRoot = "";
 			targets = (
 				000000000000000000000064 /* Roast */,
-				0000000000000000000000C8 /* ScreenBroadcast */,
 				00000000000000000000012C /* RoastTests */,
 				000000000000000000000190 /* RoastUITests */,
 			);
@@ -271,13 +204,6 @@
 
 /* Begin PBXResourcesBuildPhase section */
 		000000000000000000000069 /* Resources */ = {
-			isa = PBXResourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
-		0000000000000000000000CD /* Resources */ = {
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
@@ -308,13 +234,6 @@
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
-		0000000000000000000000CB /* Sources */ = {
-			isa = PBXSourcesBuildPhase;
-			buildActionMask = 2147483647;
-			files = (
-			);
-			runOnlyForDeploymentPostprocessing = 0;
-		};
 		00000000000000000000012F /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
@@ -332,11 +251,6 @@
 /* End PBXSourcesBuildPhase section */
 
 /* Begin PBXTargetDependency section */
-		000000000000000000000070 /* PBXTargetDependency */ = {
-			isa = PBXTargetDependency;
-			target = 0000000000000000000000C8 /* ScreenBroadcast */;
-			targetProxy = 000000000000000000000071 /* PBXContainerItemProxy */;
-		};
 		000000000000000000000138 /* PBXTargetDependency */ = {
 			isa = PBXTargetDependency;
 			target = 000000000000000000000064 /* Roast */;
@@ -367,7 +281,6 @@
 				ONLY_ACTIVE_ARCH = YES;
 				ROAST_APPLE_SIGN_IN_ENABLED = YES;
 				ROAST_APP_BUNDLE_ID = com.furqanali.roast;
-				ROAST_APP_GROUP_ID = group.com.furqanali.roast;
 				ROAST_GOOGLE_REVERSED_CLIENT_ID = "com.googleusercontent.apps.1001069179671-mvl07vu7kdrebl4atf9hjf2smqi4nrmm";
 				ROAST_MEDIA_SERVICE_URL = "https://api.recordpov.app";
 				SDKROOT = iphoneos;
@@ -392,7 +305,6 @@
 				ONLY_ACTIVE_ARCH = NO;
 				ROAST_APPLE_SIGN_IN_ENABLED = YES;
 				ROAST_APP_BUNDLE_ID = com.furqanali.roast;
-				ROAST_APP_GROUP_ID = group.com.furqanali.roast;
 				ROAST_GOOGLE_REVERSED_CLIENT_ID = "com.googleusercontent.apps.1001069179671-mvl07vu7kdrebl4atf9hjf2smqi4nrmm";
 				ROAST_MEDIA_SERVICE_URL = "https://api.recordpov.app";
 				SDKROOT = iphoneos;
@@ -441,54 +353,6 @@
 				MARKETING_VERSION = 0.1.0;
 				PRODUCT_BUNDLE_IDENTIFIER = "$(ROAST_APP_BUNDLE_ID)";
 				PRODUCT_NAME = "$(TARGET_NAME)";
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Release;
-		};
-		0000000000000000000000CF /* Debug */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
-				CODE_SIGN_ENTITLEMENTS = Configuration/Roast.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = "Configuration/Broadcast-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "$(ROAST_APP_BUNDLE_ID).ScreenBroadcast";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
-				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
-				SWIFT_EMIT_LOC_STRINGS = YES;
-				TARGETED_DEVICE_FAMILY = "1,2";
-			};
-			name = Debug;
-		};
-		0000000000000000000000D0 /* Release */ = {
-			isa = XCBuildConfiguration;
-			buildSettings = {
-				APPLICATION_EXTENSION_API_ONLY = YES;
-				CODE_SIGN_ENTITLEMENTS = Configuration/Roast.entitlements;
-				CODE_SIGN_STYLE = Automatic;
-				CURRENT_PROJECT_VERSION = 1;
-				GENERATE_INFOPLIST_FILE = NO;
-				INFOPLIST_FILE = "Configuration/Broadcast-Info.plist";
-				LD_RUNPATH_SEARCH_PATHS = (
-					"$(inherited)",
-					"@executable_path/Frameworks",
-					"@executable_path/../../Frameworks",
-				);
-				MARKETING_VERSION = 0.1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = "$(ROAST_APP_BUNDLE_ID).ScreenBroadcast";
-				PRODUCT_NAME = "$(TARGET_NAME)";
-				SKIP_INSTALL = YES;
 				SUPPORTED_PLATFORMS = "iphoneos iphonesimulator";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -578,15 +442,6 @@
 			buildConfigurations = (
 				00000000000000000000006B /* Debug */,
 				00000000000000000000006C /* Release */,
-			);
-			defaultConfigurationIsVisible = 0;
-			defaultConfigurationName = Release;
-		};
-		0000000000000000000000CE /* Build configuration list for PBXNativeTarget "ScreenBroadcast" */ = {
-			isa = XCConfigurationList;
-			buildConfigurations = (
-				0000000000000000000000CF /* Debug */,
-				0000000000000000000000D0 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
 			defaultConfigurationName = Release;

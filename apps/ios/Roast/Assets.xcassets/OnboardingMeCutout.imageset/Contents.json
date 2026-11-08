@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "me-cutout.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

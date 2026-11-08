@@ -339,7 +339,11 @@ final class StudioCameraCapture: @unchecked Sendable {
         audioOutput.setSampleBufferDelegate(frames, queue: frames.queue)
         observers.append(NotificationCenter.default.addObserver(
             forName: AVCaptureSession.wasInterruptedNotification, object: session, queue: nil
-        ) { [weak self] _ in
+        ) { [weak self] note in
+            #if DEBUG
+            let reason = (note.userInfo?[AVCaptureSessionInterruptionReasonKey] as? NSNumber)?.intValue ?? -1
+            self?.trace("session.interrupted reason=\(reason)")
+            #endif
             self?.queue.async { [weak self] in
                 guard let self, self.videoInput != nil || self.audioInput != nil else { return }
                 self.frames.clearCamera()
@@ -351,7 +355,11 @@ final class StudioCameraCapture: @unchecked Sendable {
         ) { [weak self] _ in self?.onStatus?(nil, false) })
         observers.append(NotificationCenter.default.addObserver(
             forName: AVCaptureSession.runtimeErrorNotification, object: session, queue: nil
-        ) { [weak self] _ in
+        ) { [weak self] note in
+            #if DEBUG
+            let error = note.userInfo?[AVCaptureSessionErrorKey] as? NSError
+            self?.trace("session.runtimeError code=\(error?.code ?? 0) \(error?.localizedDescription ?? "")")
+            #endif
             self?.queue.async { [weak self] in
                 // An unused AVCaptureSession can report unavailable hardware in the
                 // simulator. A photo/video preview must not surface a camera error
@@ -865,7 +873,9 @@ final class StudioCameraCapture: @unchecked Sendable {
 
     private func trace(_ phase: String) {
         #if DEBUG
-        guard ProcessInfo.processInfo.environment["ROAST_CAMERA_DIAGNOSTICS"] == "1" else { return }
+        // ROAST_CAMERA_TRACE logs camera setup without running the launch-time camera diagnostic.
+        let environment = ProcessInfo.processInfo.environment
+        guard environment["ROAST_CAMERA_DIAGNOSTICS"] == "1" || environment["ROAST_CAMERA_TRACE"] == "1" else { return }
         let line = "ROAST_CAMERA_CAPTURE \(phase)\n"
         FileHandle.standardOutput.write(Data(line.utf8))
         #endif

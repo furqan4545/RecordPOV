@@ -14,6 +14,7 @@ import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.animation.AnimatedContent
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.Crossfade
+import androidx.compose.animation.core.EaseInOut
 import androidx.compose.animation.core.tween
 import androidx.compose.animation.fadeIn
 import androidx.compose.animation.fadeOut
@@ -79,8 +80,7 @@ private val RoastColors=lightColorScheme(primary=Ink,onPrimary=Color.White,secon
     error=Color(0xFFB43127))
 
 @OptIn(ExperimentalMaterial3Api::class)
-@Composable fun RoastApp(notice:String?,clearNotice:()->Unit,
-    enableCamera:((()->Unit),(()->Unit))->Unit,startScreenTake:(PipStyle)->Unit) {
+@Composable fun RoastApp(enableCamera:((()->Unit),(()->Unit))->Unit) {
     val context=LocalContext.current
     val resolver=remember{MediaResolver(context)}
     val imports=remember{ImportCoordinator.get(context)}
@@ -104,7 +104,6 @@ private val RoastColors=lightColorScheme(primary=Ink,onPrimary=Color.White,secon
         onDispose{owner.lifecycle.removeObserver(observer)}
     }
     val store=remember{TakeStore(context)}
-    val draftStore=remember{DraftStore(context)}
     val accounts=remember{RecordPovAccounts.get(context)}
     val accountState by accounts.state.collectAsState()
     val accountReturns by accounts.returnEvents.collectAsState()
@@ -114,10 +113,12 @@ private val RoastColors=lightColorScheme(primary=Ink,onPrimary=Color.White,secon
     var draft by remember{mutableStateOf<ReactionDraft?>(null)}
     var settings by remember{mutableStateOf(false)}
     var account by remember{mutableStateOf(false)}
+    // Set while Account was opened by the editor's Save: a sign-in there continues that save; Not now never does.
+    var saveAfterSignIn by remember{mutableStateOf<(()->Unit)?>(null)}
+    val onboarding=remember{OnboardingPreference(context)}
+    var onboardingDone by remember{mutableStateOf(onboarding.finished)}
     var libraryVersion by remember{mutableIntStateOf(0)}
     var libraryShelf by rememberSaveable{mutableStateOf(VideoShelf.Saved)}
-    val screenRecording by ScreenTakeService.running.collectAsState()
-    val pendingDraft by ScreenTakeService.readyDraft.collectAsState()
     val snack=remember{SnackbarHostState()}
     fun openImported(video:ImportedVideo) {
         imports.deferOpening()
@@ -140,15 +141,14 @@ private val RoastColors=lightColorScheme(primary=Ink,onPrimary=Color.White,secon
             homeInputHydrated=true
         }
     }
-    LaunchedEffect(notice){notice?.let{snack.showSnackbar(it);clearNotice()}}
     LaunchedEffect(accountReturns){if(accountReturns>0){settings=false;account=true}}
-    LaunchedEffect(screenRecording){if(!screenRecording)libraryVersion++}
-    LaunchedEffect(tab,source,draft,settings,account,screenRecording){
-        if(tab!=0||source!=null||draft!=null||settings||account||screenRecording)sourceOpenSequence++
+    LaunchedEffect(tab,source,draft,settings,account){
+        if(tab!=0||source!=null||draft!=null||settings||account)sourceOpenSequence++
     }
     LaunchedEffect(importRecord?.id,importRecord?.status){if(importRecord?.status==ImportStatus.Ready)libraryVersion++}
-    fun createVisible()=foreground&&tab==0&&source==null&&draft==null&&!settings&&!account&&!screenRecording
-    LaunchedEffect(importRecord?.id,importRecord?.status,autoOpenJobId,foreground,tab,source,draft,settings,account,screenRecording){
+    // A finished import waits until the first-launch onboarding is done, as on iOS.
+    fun createVisible()=foreground&&onboardingDone&&tab==0&&source==null&&draft==null&&!settings&&!account
+    LaunchedEffect(importRecord?.id,importRecord?.status,autoOpenJobId,foreground,onboardingDone,tab,source,draft,settings,account){
         if(importRecord?.status==ImportStatus.Ready&&importRecord?.id==autoOpenJobId&&createVisible()){
             // Completion updates the observed job state; keep navigation in the root scope
             // so consuming that state cannot cancel its own file/open operation.
@@ -180,7 +180,6 @@ private val RoastColors=lightColorScheme(primary=Ink,onPrimary=Color.White,secon
             }
         }
     }
-    LaunchedEffect(pendingDraft){draftStore.consumePending()?.let{draft=it;source=null;libraryVersion++}}
     MaterialTheme(colorScheme=RoastColors,typography=Typography(),shapes=Shapes(
         extraSmall=RoundedCornerShape(8.dp),small=RoundedCornerShape(12.dp),medium=RoundedCornerShape(16.dp),
         large=RoundedCornerShape(20.dp),extraLarge=RoundedCornerShape(24.dp))) {
@@ -188,27 +187,30 @@ private val RoastColors=lightColorScheme(primary=Ink,onPrimary=Color.White,secon
             Box(Modifier.fillMaxSize()) {
             when {
                 draft!=null -> EditorScreen(initialDraft=draft!!,store=store,onClose={draft=null;libraryVersion++},
-                    onDone={draft=null;source=null;tab=1;libraryShelf=VideoShelf.Saved;libraryVersion++;scope.launch{snack.showSnackbar("Saved to Gallery. Your editable draft is kept in My videos.")}})
+                    onDone={draft=null;source=null;tab=1;libraryShelf=VideoShelf.Saved;libraryVersion++;scope.launch{snack.showSnackbar("Saved to Gallery. Your editable draft is kept in My videos.")}},
+                    onSignInToSave={save->saveAfterSignIn=save;account=true})
                 source!=null -> StudioScreen(initialSource=source!!,store=store,enableCamera=enableCamera,
                     onClose={source=null;libraryVersion++},onDraftReady={draft=it;source=null;libraryVersion++})
-                else -> Scaffold(containerColor=Bone,
-                    bottomBar={
-                        Row(Modifier.navigationBarsPadding().padding(horizontal=24.dp,vertical=10.dp)
-                            .fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(Color.White.copy(alpha=.94f))
-                            .padding(4.dp),horizontalArrangement=Arrangement.spacedBy(4.dp)) {
-                            GlassTab("Create",Icons.Rounded.AddCircleOutline,tab==0,Modifier.weight(1f)){tab=0}
-                            GlassTab("My videos",Icons.Rounded.VideoLibrary,tab==1,Modifier.weight(1f)){tab=1;libraryVersion++}
-                            GlassTab("Screen",Icons.Rounded.PhoneAndroid,tab==2,Modifier.weight(1f)){tab=2}
-                        }
-                    }) { padding ->
-                    AnimatedContent(targetState=tab,label="App tabs",modifier=Modifier.padding(padding)) { selected ->
-                        when(selected) {
-                            0 -> CreateScreen(resolver,imports,store,libraryVersion,homeURL,onURL={homeURL=it},
-                                onSource={imports.deferOpening();sourceOpenSequence++;source=it},onSettings={settings=true},
-                                onOpenSaved=::openImported,onEdit={imports.deferOpening();draft=it},
-                                onError={scope.launch{snack.showSnackbar(it)}})
-                            2 -> ScreenTakeIntro(onStart=startScreenTake)
-                            else -> LibraryScreen(store,libraryVersion,libraryShelf,onShelf={libraryShelf=it},onCreate={tab=0},onEdit={imports.deferOpening();draft=it},onImport=::openImported,onError={scope.launch{snack.showSnackbar(it)}})
+                // First launch only: the welcome and how-it-works screens replace Create and the tab bar until Start.
+                else -> Crossfade(targetState=onboardingDone,animationSpec=tween(250,easing=EaseInOut),label="Onboarding") {done ->
+                    if(!done)OnboardingScreen(onFinish={onboarding.finished=true;onboardingDone=true})
+                    else Scaffold(containerColor=Bone,
+                        bottomBar={
+                            Row(Modifier.navigationBarsPadding().padding(horizontal=24.dp,vertical=10.dp)
+                                .fillMaxWidth().clip(RoundedCornerShape(18.dp)).background(Color.White.copy(alpha=.94f))
+                                .padding(4.dp),horizontalArrangement=Arrangement.spacedBy(4.dp)) {
+                                GlassTab("Create",Icons.Rounded.AddCircleOutline,tab==0,Modifier.weight(1f)){tab=0}
+                                GlassTab("My videos",Icons.Rounded.VideoLibrary,tab==1,Modifier.weight(1f)){tab=1;libraryVersion++}
+                            }
+                        }) { padding ->
+                        AnimatedContent(targetState=tab,label="App tabs",modifier=Modifier.padding(padding)) { selected ->
+                            when(selected) {
+                                0 -> CreateScreen(resolver,imports,store,libraryVersion,homeURL,onURL={homeURL=it},
+                                    onSource={imports.deferOpening();sourceOpenSequence++;source=it},onSettings={settings=true},
+                                    onOpenSaved=::openImported,onEdit={imports.deferOpening();draft=it},
+                                    onError={scope.launch{snack.showSnackbar(it)}})
+                                else -> LibraryScreen(store,libraryVersion,libraryShelf,onShelf={libraryShelf=it},onCreate={tab=0},onEdit={imports.deferOpening();draft=it},onImport=::openImported,onError={scope.launch{snack.showSnackbar(it)}})
+                            }
                         }
                     }
                 }
@@ -224,7 +226,7 @@ private val RoastColors=lightColorScheme(primary=Ink,onPrimary=Color.White,secon
                             Icon(Icons.Rounded.PersonOutline,null,Modifier.size(23.dp))
                             Column(Modifier.weight(1f),verticalArrangement=Arrangement.spacedBy(3.dp)) {
                                 Text("Account",fontWeight=FontWeight.SemiBold,fontSize=15.sp)
-                                Text(accountState.session?.user?.name?.takeIf{it.isNotBlank()} ?: if(accountState.session!=null)"Signed in" else "Optional sign-in",fontSize=12.sp,color=Muted)
+                                Text(accountState.session?.user?.name?.takeIf{it.isNotBlank()} ?: if(accountState.session!=null)"Signed in" else "Sign in to save your videos",fontSize=12.sp,color=Muted)
                             }
                             Icon(Icons.AutoMirrored.Rounded.ArrowForward,null,Modifier.size(18.dp))
                         }
@@ -242,7 +244,8 @@ private val RoastColors=lightColorScheme(primary=Ink,onPrimary=Color.White,secon
                     },modifier=Modifier.fillMaxWidth().height(48.dp),shape=RoundedCornerShape(12.dp)){Text("Save address")}
                 }
             }
-            if(account)AccountSheet(accounts,onDismiss={account=false})
+            if(account)AccountSheet(accounts,onDismiss={account=false;saveAfterSignIn=null},
+                onSignedInToSave=saveAfterSignIn?.let{save->{account=false;saveAfterSignIn=null;save()}})
             }
         }
     }
@@ -442,36 +445,6 @@ private val RoastColors=lightColorScheme(primary=Ink,onPrimary=Color.White,secon
                     }
                 }}
                 if(row.size==1)Spacer(Modifier.weight(1f))
-            }
-        }
-    }
-}
-
-@Composable fun ScreenTakeIntro(onStart:(PipStyle)->Unit) {
-    val context=LocalContext.current
-    val recording by ScreenTakeService.running.collectAsState()
-    var style by remember{mutableStateOf(PipStyle.Square)}
-    LazyColumn(Modifier.fillMaxSize(),contentPadding=PaddingValues(24.dp),verticalArrangement=Arrangement.spacedBy(20.dp)) {
-        item {
-            Column(verticalArrangement=Arrangement.spacedBy(10.dp)) {
-                Text("Screen recording",fontSize=32.sp,lineHeight=37.sp,fontWeight=FontWeight.Bold,modifier=Modifier.padding(top=12.dp))
-                Text("Record your screen with your camera on top.",fontSize=16.sp,lineHeight=23.sp,color=Muted)
-            }
-        }
-        item {
-            Surface(shape=RoundedCornerShape(20.dp),color=Color.White,border=BorderStroke(1.dp,Rule)) {
-                Column(Modifier.padding(20.dp),verticalArrangement=Arrangement.spacedBy(16.dp)) {
-                    if(recording)Text("Screen recording is active. Adjust your camera from the floating controls.",fontWeight=FontWeight.SemiBold,fontSize=15.sp,lineHeight=21.sp)
-                    else {
-                        Text("Camera style",fontWeight=FontWeight.SemiBold,fontSize=15.sp)
-                        StylePicker(style){style=it}
-                    }
-                    Button(onClick={if(recording)ScreenTakeService.stop(context) else onStart(style)},modifier=Modifier.fillMaxWidth().height(48.dp),shape=RoundedCornerShape(12.dp),colors=ButtonDefaults.buttonColors(containerColor=Ink,contentColor=Lime)) {
-                        Icon(if(recording)Icons.Rounded.Stop else Icons.Rounded.FiberManualRecord,null,Modifier.size(18.dp))
-                        Spacer(Modifier.width(10.dp));Text(if(recording)"Finish recording" else "Start recording",fontWeight=FontWeight.SemiBold)
-                    }
-                    Text("Android will ask to share your screen and allow a floating camera. Stop from its button or the recording notification.",fontSize=13.sp,lineHeight=19.sp,color=Muted)
-                }
             }
         }
     }

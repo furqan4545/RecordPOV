@@ -2,7 +2,7 @@ import PhotosUI
 import SwiftUI
 
 private enum HomeSheet: String, Identifiable {
-    case settings
+    case profile
     var id: String { rawValue }
 }
 
@@ -10,9 +10,11 @@ struct HomeView: View {
     let library: TakeLibrary
     @Environment(\.openURL) private var openURL
     @Environment(\.scenePhase) private var scenePhase
+    @Environment(AccountService.self) private var account
     private let importer = VideoImportCoordinator.shared
     @AppStorage("resolverAddress") private var resolverAddress = MediaResolver.defaultAddress
     @AppStorage("lastOpenedImportedVideoID") private var lastOpenedImportedID = ""
+    @AppStorage("didFinishOnboarding") private var didFinishOnboarding = false
     private let importedVideos = ImportedVideoLibrary.shared
     @State private var link = ""
     @State private var errorMessage: String?
@@ -23,6 +25,8 @@ struct HomeView: View {
     @State private var launch: StudioLaunch?
     @State private var sheet: HomeSheet?
     @State private var isVisible = false
+    /// Recent's Select mode, started by holding a video.
+    @State private var recentSelection = VideoSelection()
     @FocusState private var linkFocused: Bool
 
     private var isResolving: Bool { loadingPhase != .idle }
@@ -30,28 +34,42 @@ struct HomeView: View {
     private var readyWillAutoOpen: Bool { importer.shouldAutomaticallyOpen }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: 22) {
-                header
-                importCard
-                HomeRecentVideos(library: library, onOpenImport: openImportedVideo)
+        Group {
+            if didFinishOnboarding {
+                ScrollView {
+                    VStack(alignment: .leading, spacing: 22) {
+                        header
+                        importCard
+                        HomeRecentVideos(library: library, selection: recentSelection, onOpenImport: openImportedVideo)
+                    }
+                    .padding(.horizontal, 22).padding(.top, 8).padding(.bottom, 30)
+                }
+                .safeAreaInset(edge: .bottom) {
+                    if recentSelection.isActive {
+                        DeleteSelectedBar(selection: recentSelection, identifier: "deleteSelectedRecentVideosButton")
+                    }
+                }
+                .background(RoastTheme.paper)
+                .scrollDismissesKeyboard(.interactively)
+            } else {
+                OnboardingView { didFinishOnboarding = true }
             }
-            .padding(.horizontal, 22).padding(.top, 8).padding(.bottom, 30)
         }
-        .background(RoastTheme.paper)
+        .animation(.easeInOut(duration: 0.25), value: didFinishOnboarding)
         .buttonStyle(.plain)
         .toolbar(.hidden, for: .navigationBar)
-        .scrollDismissesKeyboard(.interactively)
+        .toolbarVisibility(didFinishOnboarding ? .automatic : .hidden, for: .tabBar)
         // Opens a finished import once the sheet has fully gone, not mid-dismissal.
         .sheet(item: $sheet, onDismiss: { openReadyImport() }) { destination in
             switch destination {
-            case .settings: SettingsView()
+            case .profile: ProfileView()
             }
         }
         .fullScreenCover(item: $launch) { StudioView(launch: $0, library: library) }
         .onAppear { isVisible = true; importer.resumeIfNeeded(); openReadyImport() }
         .onDisappear { isVisible = false }
         .onChange(of: importer.ready?.id) { _, _ in openReadyImport() }
+        .onChange(of: didFinishOnboarding) { _, _ in openReadyImport() }
         .onChange(of: scenePhase) { _, phase in
             if phase == .active { importer.resumeIfNeeded(); openReadyImport() }
         }
@@ -61,7 +79,9 @@ struct HomeView: View {
             isImporting = true
             defer { isImporting = false }
             do {
-                launch = try await importMedia(item)
+                let picked = try await importMedia(item)
+                await waitForPresentationsToClear()
+                launch = picked
                 selectedMedia = nil
             } catch { errorMessage = "This file couldn’t be opened. Try another video or photo." }
         }
@@ -72,12 +92,11 @@ struct HomeView: View {
             BrandMark()
             Text("RecordPOV").font(.system(size: 25, weight: .bold, design: .rounded))
             Spacer()
-            Button { sheet = .settings } label: {
-                Image(systemName: "slider.horizontal.3").font(.system(size: 16, weight: .medium))
-                    .frame(width: 34, height: 34).background(RoastTheme.ink.opacity(0.05), in: Circle())
+            Button { sheet = .profile } label: {
+                ProfileAvatar(user: account.session?.user, size: 36)
                     .frame(width: 44, height: 44).contentShape(Rectangle())
             }
-            .buttonStyle(.plain).accessibilityLabel("Settings")
+            .buttonStyle(.plain).accessibilityLabel("Profile").accessibilityIdentifier("profileButton")
         }
         .foregroundStyle(RoastTheme.ink)
     }
@@ -104,8 +123,7 @@ struct HomeView: View {
                 .accessibilityLabel("Paste video link from clipboard")
             }
             .padding(.horizontal, 13).frame(minHeight: 48).background(RoastTheme.paper, in: RoundedRectangle(cornerRadius: 12))
-            Text("Instagram  ·  YouTube  ·  TikTok  ·  X")
-                .font(.caption).foregroundStyle(RoastTheme.muted)
+            PlatformIconRow(size: 24)
 
             VStack(alignment: .leading, spacing: 10) {
                 PrimaryButton(title: isResolving ? loadingPhase.buttonTitle : "Download & open video",
@@ -161,7 +179,8 @@ struct HomeView: View {
     }
 
     private func openReadyImport(force: Bool = false) {
-        guard isVisible, scenePhase == .active, sheet == nil, launch == nil, !isImporting,
+        // A finished import waits until the first-launch onboarding is done.
+        guard didFinishOnboarding, isVisible, scenePhase == .active, sheet == nil, launch == nil, !isImporting,
               let ready = importer.ready else { return }
         guard force || readyWillAutoOpen else { return }
         // A file removed outside the app must not open an empty Studio. Ready
@@ -189,6 +208,25 @@ struct HomeView: View {
 
 }
 
+/// The Photos picker can still be closing when its pick arrives. Opening Studio over a
+/// closing sheet leaves a Studio whose video never loads and that can't be tapped, so
+/// wait until nothing is presented or mid-transition (at most 3 seconds).
+@MainActor
+func waitForPresentationsToClear() async {
+    for _ in 0..<60 {
+        let busy = UIApplication.shared.connectedScenes
+            .compactMap { $0 as? UIWindowScene }
+            .flatMap(\.windows)
+            .filter(\.isKeyWindow)
+            .contains { window in
+                guard let root = window.rootViewController else { return false }
+                return root.presentedViewController != nil || root.transitionCoordinator != nil
+            }
+        if !busy { return }
+        try? await Task.sleep(for: .milliseconds(50))
+    }
+}
+
 @MainActor
 func importMedia(_ item: PhotosPickerItem) async throws -> StudioLaunch {
     if item.supportedContentTypes.contains(where: { $0.conforms(to: .movie) }) {
@@ -202,49 +240,4 @@ func importMedia(_ item: PhotosPickerItem) async throws -> StudioLaunch {
         throw CocoaError(.fileReadCorruptFile)
     }
     return StudioLaunch(source: .image(image, "Photo"))
-}
-
-struct SettingsView: View {
-    @Environment(\.dismiss) private var dismiss
-    @AppStorage("resolverAddress") private var address = MediaResolver.defaultAddress
-    @State private var draft = ""
-    private var valid: Bool {
-        guard let url = URL(string: draft.trimmingCharacters(in: .whitespacesAndNewlines)) else { return false }
-        return ["http", "https"].contains(url.scheme ?? "") && url.host != nil && url.user == nil && url.password == nil
-    }
-    var body: some View {
-        NavigationStack {
-            Form {
-                Section {
-                    NavigationLink { AccountView() } label: { Label("Account", systemImage: "person.crop.circle") }
-                        .accessibilityIdentifier("accountSettingsButton")
-                }
-                Section("Video links") {
-                    TextField("Media service address", text: $draft)
-                        .keyboardType(.URL).textInputAutocapitalization(.never).autocorrectionDisabled()
-                    Text("The service opens public video links for the studio. Local videos and photos work without it.")
-                        .font(.footnote).foregroundStyle(.secondary)
-                    if !valid { Text("Enter a complete http:// or https:// address.").font(.caption).foregroundStyle(.red) }
-                }
-                Section("Made for your device") {
-                    Label("Camera background removal runs on-device.", systemImage: "sparkles")
-                    Label("Finished videos save to Photos automatically.", systemImage: "photo")
-                    Label("Your camera opens in Studio. Recording starts when you tap Record.", systemImage: "camera")
-                }.font(.subheadline)
-                Section("RecordPOV") {
-                    Link("recordpov.app", destination: URL(string: "https://recordpov.app")!)
-                }
-            }
-            .navigationTitle("Settings").navigationBarTitleDisplayMode(.inline)
-            .toolbar {
-                ToolbarItem(placement: .cancellationAction) { Button("Cancel") { dismiss() } }
-                ToolbarItem(placement: .confirmationAction) {
-                    Button("Save") { address = draft.trimmingCharacters(in: .whitespacesAndNewlines); dismiss() }
-                        .disabled(!valid)
-                }
-            }
-            .onAppear { draft = address }
-        }
-        .presentationDetents([.large])
-    }
 }

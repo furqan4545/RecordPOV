@@ -5,6 +5,7 @@ final class RoastUITests: XCTestCase {
 
     @MainActor func testSavedVideoDetailHasReadableStatusAndOneShareAction() throws {
         let app = XCUIApplication()
+        app.launchArguments += ["-didFinishOnboarding", "YES"]
         app.launch()
         try openSavedVideoFixture(in: app, id: "A63947CD-0FBF-4B17-B8FD-8D8DA1CBB014")
         XCTAssertTrue(app.staticTexts["savedVideoTitle"].exists)
@@ -21,6 +22,7 @@ final class RoastUITests: XCTestCase {
 
     @MainActor func testSavedVideoWithoutPhotosCopyOffersSave() throws {
         let app = XCUIApplication()
+        app.launchArguments += ["-didFinishOnboarding", "YES"]
         app.launch()
         try openSavedVideoFixture(in: app, id: "983B871F-C2A9-4A99-90DC-17E7291E11B5")
         XCTAssertTrue(app.descendants(matching: .any)["savedVideoStatus"].label.contains("Saved in My videos"))
@@ -36,6 +38,7 @@ final class RoastUITests: XCTestCase {
 
     @MainActor func testSavedVideoDetailSupportsLargeText() throws {
         let app = XCUIApplication()
+        app.launchArguments += ["-didFinishOnboarding", "YES"]
         app.launchArguments += ["-UIPreferredContentSizeCategoryName", "UICTContentSizeCategoryAccessibilityXXXL"]
         app.launch()
         try openSavedVideoFixture(in: app, id: "A63947CD-0FBF-4B17-B8FD-8D8DA1CBB014")
@@ -64,40 +67,35 @@ final class RoastUITests: XCTestCase {
         XCTAssertTrue(app.buttons["closeSavedVideoButton"].waitForExistence(timeout: 6))
     }
 
-    @MainActor func testAccountIsOptionalAndAccessibleFromSettings() throws {
+    @MainActor func testAvatarOpensProfileWithOnlyTheProfile() throws {
         let app = XCUIApplication()
+        app.launchArguments += ["-didFinishOnboarding", "YES"]
         app.launch()
         XCTAssertTrue(app.textFields["videoLinkField"].waitForExistence(timeout: 8))
-        app.buttons["Settings"].tap()
-        let account = app.buttons["accountSettingsButton"]
-        XCTAssertTrue(account.waitForExistence(timeout: 5))
-        account.tap()
-        XCTAssertTrue(app.navigationBars["Account"].waitForExistence(timeout: 5))
+        app.buttons["profileButton"].tap()
+        XCTAssertTrue(app.navigationBars["Profile"].waitForExistence(timeout: 5))
         XCTAssertTrue(app.buttons["accountAppleSignInButton"].waitForExistence(timeout: 15))
         XCTAssertTrue(app.buttons["accountGoogleSignInButton"].exists)
+        XCTAssertFalse(app.textFields["Media service address"].exists)
+        XCTAssertFalse(app.staticTexts["Made for your device"].exists)
         let proof = XCTAttachment(screenshot: app.screenshot())
-        proof.name = "RecordPOV optional Apple and Google account"
+        proof.name = "RecordPOV profile, signed out"
         proof.lifetime = .keepAlways
         add(proof)
-        app.navigationBars["Account"].buttons["Settings"].tap()
-        app.buttons["Cancel"].tap()
+        app.buttons["profileDoneButton"].tap()
         XCTAssertTrue(app.textFields["videoLinkField"].waitForExistence(timeout: 5))
     }
 
-    @MainActor func testCreateAndScreenRecordingHaveSeparateTabs() throws {
+    @MainActor func testCreateAndMyVideosAreTheOnlyTabs() throws {
         let app = XCUIApplication()
+        app.launchArguments += ["-didFinishOnboarding", "YES"]
         app.launch()
         XCTAssertTrue(app.textFields["videoLinkField"].waitForExistence(timeout: 8))
         XCTAssertTrue(app.staticTexts["RecordPOV"].exists)
         XCTAssertTrue(app.buttons["openStudioButton"].exists)
-        XCTAssertFalse(app.buttons["screenTakeButton"].exists)
         let home = XCTAttachment(screenshot: app.screenshot())
         home.name = "RecordPOV create"; home.lifetime = .keepAlways; add(home)
-        app.tabBars.buttons["Screen"].tap()
-        XCTAssertTrue(app.navigationBars["Screen recording"].waitForExistence(timeout: 5))
-        XCTAssertFalse(app.buttons["Done"].exists)
-        let screen = XCTAttachment(screenshot: app.screenshot())
-        screen.name = "RecordPOV screen recording"; screen.lifetime = .keepAlways; add(screen)
+        XCTAssertFalse(app.tabBars.buttons["Screen"].exists, "Screen recording was removed.")
         app.tabBars.buttons["My videos"].tap()
         XCTAssertTrue(app.staticTexts["My videos"].waitForExistence(timeout: 5))
         app.tabBars.buttons["Create"].tap()
@@ -106,6 +104,7 @@ final class RoastUITests: XCTestCase {
 
     @MainActor func testUnfinishedTakeCanBeReopenedWithoutLosingItsDraft() throws {
         let app = XCUIApplication()
+        app.launchArguments += ["-didFinishOnboarding", "YES"]
         app.launch()
         app.tabBars.buttons["My videos"].tap()
         let row = app.buttons["recentDraft-CB4001FA-5E5D-43B7-843A-CA4779B8C0F0"]
@@ -124,6 +123,7 @@ final class RoastUITests: XCTestCase {
 
     @MainActor func testSyntheticEditorExposesIndependentAudioCutsAndOptionalCaptions() throws {
         let app = XCUIApplication()
+        app.launchArguments += ["-didFinishOnboarding", "YES"]
         app.launchEnvironment["ROAST_EDITOR_PREVIEW"] = "1"
         app.launch()
         guard app.staticTexts["Edit video"].waitForExistence(timeout: 6) else {
@@ -162,6 +162,7 @@ final class RoastUITests: XCTestCase {
 
     @MainActor func testTrimHandlesSeekPreviewAndKeepSaveAvailable() throws {
         let app = XCUIApplication()
+        app.launchArguments += ["-didFinishOnboarding", "YES"]
         app.launchEnvironment["ROAST_EDITOR_PREVIEW"] = "1"
         app.launch()
         guard app.staticTexts["Edit video"].waitForExistence(timeout: 6) else {
@@ -196,6 +197,7 @@ final class RoastUITests: XCTestCase {
 
     @MainActor func testStudioIsReachableWithoutCameraSetup() throws {
         let app = XCUIApplication()
+        app.launchArguments += ["-didFinishOnboarding", "YES"]
         app.launch()
         let imported = try openSyntheticStudio(in: app)
         XCTAssertTrue(app.buttons["recordTakeButton"].waitForExistence(timeout: 8))
@@ -219,6 +221,7 @@ final class RoastUITests: XCTestCase {
 
     @MainActor func testLayoutsCanBeChosenBeforeRecordingWithoutTurningOnCamera() throws {
         let app = XCUIApplication()
+        app.launchArguments += ["-didFinishOnboarding", "YES"]
         app.launch()
         _ = try openSyntheticStudio(in: app)
         let menu = app.buttons["studioLayoutMenu"]
@@ -244,6 +247,7 @@ final class RoastUITests: XCTestCase {
 
     @MainActor func testRecordingDelayCanBeTurnedOffAndPersists() throws {
         let app = XCUIApplication()
+        app.launchArguments += ["-didFinishOnboarding", "YES"]
         app.launch()
         let example = app.buttons["tryStudioButton"]
         XCTAssertTrue(example.waitForExistence(timeout: 8))
@@ -270,6 +274,7 @@ final class RoastUITests: XCTestCase {
 
     @MainActor func testInvalidLinkShowsErrorAndPreservesInput() throws {
         let app = XCUIApplication()
+        app.launchArguments += ["-didFinishOnboarding", "YES"]
         app.launch()
         let input = app.textFields["videoLinkField"]
         XCTAssertTrue(input.waitForExistence(timeout: 8))
@@ -303,6 +308,7 @@ final class RoastUITests: XCTestCase {
             throw XCTSkip("The configured media service is unavailable for the background import check.")
         }
         let app = XCUIApplication()
+        app.launchArguments += ["-didFinishOnboarding", "YES"]
         app.launchArguments += ["-resolverAddress", service]
         app.launch()
         let input = app.textFields["videoLinkField"]
@@ -361,6 +367,7 @@ final class RoastUITests: XCTestCase {
             throw XCTSkip("The configured media service is unavailable for the public-link integration check.")
         }
         let app = XCUIApplication()
+        app.launchArguments += ["-didFinishOnboarding", "YES"]
         app.launchArguments += ["-resolverAddress", service]
         app.launch()
         let input = app.textFields["videoLinkField"]
@@ -380,6 +387,7 @@ final class RoastUITests: XCTestCase {
 
     @MainActor func testCreateSeparatesAddingMediaFromRecentThumbnails() throws {
         let app = XCUIApplication()
+        app.launchArguments += ["-didFinishOnboarding", "YES"]
         app.launchArguments += ["-resolverAddress", "https://offline.invalid"]
         app.launch()
         XCTAssertTrue(app.textFields["videoLinkField"].waitForExistence(timeout: 8))
@@ -400,6 +408,111 @@ final class RoastUITests: XCTestCase {
         XCTAssertTrue(app.buttons["sourcePlaybackButton"].waitForExistence(timeout: 12))
         XCTAssertTrue(app.buttons["addMyCameraButton"].exists)
         app.buttons["closeStudioButton"].tap()
+    }
+
+    @MainActor func testFirstLaunchShowsWelcomeThenFourSteps() throws {
+        let app = XCUIApplication()
+        app.launchArguments += ["-didFinishOnboarding", "NO"]
+        app.launch()
+        XCTAssertTrue(app.staticTexts["React to any video"].waitForExistence(timeout: 8))
+        XCTAssertFalse(app.textFields["videoLinkField"].exists)
+        let next = app.buttons["onboardingNextButton"]
+        for title in ["Paste a link", "Turn on camera and mic", "Tap record", "Export and share"] {
+            next.tap()
+            XCTAssertTrue(app.staticTexts[title].waitForExistence(timeout: 5))
+        }
+        XCTAssertTrue(next.staticTexts["Start"].exists)
+        let screenshot = XCTAttachment(screenshot: app.screenshot())
+        screenshot.name = "Onboarding step 4"
+        screenshot.lifetime = .keepAlways; add(screenshot)
+    }
+
+    @MainActor func testSaveAsksForSignInAndNotNowKeepsTheEditorOpen() throws {
+        let app = XCUIApplication()
+        app.launchArguments += ["-didFinishOnboarding", "YES"]
+        app.launchEnvironment["ROAST_EDITOR_PREVIEW"] = "1"
+        app.launch()
+        guard app.staticTexts["Edit video"].waitForExistence(timeout: 6) else {
+            throw XCTSkip("Seed the synthetic Caches/EditorTest fixtures to check sign-in before saving.")
+        }
+        let save = app.buttons["saveEditedVideoButton"]
+        expectation(for: NSPredicate(format: "enabled == true"), evaluatedWith: save)
+        waitForExpectations(timeout: 10)
+        save.tap()
+        XCTAssertTrue(app.navigationBars["Sign in"].waitForExistence(timeout: 5))
+        XCTAssertTrue(app.buttons["accountAppleSignInButton"].waitForExistence(timeout: 15))
+        XCTAssertTrue(app.buttons["accountGoogleSignInButton"].exists)
+        app.buttons["saveSignInNotNowButton"].tap()
+        XCTAssertTrue(app.staticTexts["Edit video"].waitForExistence(timeout: 5))
+        XCTAssertFalse(app.navigationBars["Sign in"].exists)
+        XCTAssertTrue(save.exists, "Not now keeps the edit open and unsaved.")
+    }
+
+    @MainActor func testMyVideosSelectModeShowsDeleteAndCancelEndsIt() throws {
+        let app = XCUIApplication()
+        app.launchArguments += ["-didFinishOnboarding", "YES"]
+        app.launch()
+        app.tabBars.buttons["My videos"].tap()
+        let select = app.buttons["selectVideosButton"]
+        XCTAssertTrue(select.waitForExistence(timeout: 5))
+        select.tap()
+        XCTAssertEqual(select.label, "Cancel")
+        let delete = app.buttons["deleteSelectedVideosButton"]
+        XCTAssertTrue(delete.waitForExistence(timeout: 3))
+        XCTAssertFalse(delete.isEnabled, "Delete waits until a video is checked.")
+        select.tap()
+        XCTAssertEqual(select.label, "Select")
+        XCTAssertFalse(delete.exists)
+    }
+
+    @MainActor func testMyVideosHoldShowsSelectAndDelete() throws {
+        let app = XCUIApplication()
+        app.launchArguments += ["-didFinishOnboarding", "YES"]
+        app.launch()
+        app.tabBars.buttons["My videos"].tap()
+        let card = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH 'recentSaved-' OR identifier BEGINSWITH 'recentDraft-'")).firstMatch
+        guard card.waitForExistence(timeout: 5) else { throw XCTSkip("Needs a video in My videos.") }
+        card.press(forDuration: 1.2)
+        XCTAssertTrue(app.buttons["Delete permanently"].waitForExistence(timeout: 3), "Holding a video offers Delete.")
+        let menu = XCTAttachment(screenshot: app.screenshot())
+        menu.name = "My videos hold menu"; menu.lifetime = .keepAlways; add(menu)
+        // The menu's Select, not the Select button at the top.
+        app.buttons.matching(NSPredicate(format: "label == 'Select' AND identifier != 'selectVideosButton'")).firstMatch.tap()
+        let delete = app.buttons["deleteSelectedVideosButton"]
+        XCTAssertTrue(delete.waitForExistence(timeout: 3))
+        XCTAssertEqual(delete.label, "Delete 1", "The held video starts checked.")
+        let header = app.buttons["selectVideosButton"]
+        XCTAssertEqual(header.label, "Cancel")
+        header.tap()
+        XCTAssertTrue(delete.waitForNonExistence(timeout: 3), "Cancel ends selecting.")
+        XCTAssertTrue(card.exists, "Cancel deletes nothing.")
+    }
+
+    @MainActor func testCreateRecentHoldShowsSelectAndDelete() throws {
+        let app = XCUIApplication()
+        app.launchArguments += ["-didFinishOnboarding", "YES"]
+        app.launchArguments += ["-resolverAddress", "https://offline.invalid"]
+        app.launch()
+        XCTAssertTrue(app.staticTexts["Recent"].waitForExistence(timeout: 8))
+        let card = app.buttons.matching(NSPredicate(format: "identifier BEGINSWITH %@", "recentImported-")).firstMatch
+        guard card.waitForExistence(timeout: 5) else { throw XCTSkip("Needs an imported video in Recent.") }
+        card.press(forDuration: 1.2)
+        XCTAssertTrue(app.buttons["Delete permanently"].waitForExistence(timeout: 3), "Holding a video offers Delete.")
+        let menu = XCTAttachment(screenshot: app.screenshot())
+        menu.name = "Recent hold menu"; menu.lifetime = .keepAlways; add(menu)
+        app.buttons["Select"].tap()
+        let cancel = app.buttons["cancelRecentSelectionButton"]
+        let delete = app.buttons["deleteSelectedRecentVideosButton"]
+        XCTAssertTrue(cancel.waitForExistence(timeout: 3), "Cancel shows next to Recent while selecting.")
+        XCTAssertTrue(delete.waitForExistence(timeout: 3))
+        XCTAssertEqual(delete.label, "Delete 1", "The held video starts checked.")
+        XCTAssertFalse(app.buttons["sourcePlaybackButton"].exists, "Selecting must not open Studio.")
+        let selecting = XCTAttachment(screenshot: app.screenshot())
+        selecting.name = "Recent while selecting"; selecting.lifetime = .keepAlways; add(selecting)
+        cancel.tap()
+        XCTAssertTrue(delete.waitForNonExistence(timeout: 3), "Cancel ends selecting.")
+        XCTAssertFalse(cancel.exists)
+        XCTAssertTrue(card.exists, "Cancel deletes nothing.")
     }
 
     @MainActor private func homeLinkAction(in app: XCUIApplication) -> XCUIElement {

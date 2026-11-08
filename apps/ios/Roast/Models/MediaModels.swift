@@ -112,13 +112,14 @@ struct SavedTake: Identifiable, Codable, Equatable {
     let duration: TimeInterval
     let kind: String
     var photoAssetIdentifier: String? = nil
+    /// The editing draft this video was saved from, kept so Re-edit can reopen it.
+    var draftID: UUID? = nil
 
     var fileURL: URL { TakeLibrary.directory.appendingPathComponent(fileName) }
     var formattedDuration: String { duration.minuteSecond }
     var displayKind: String {
         switch kind {
         case "Roast": "Video"
-        case "Screen": "Screen recording"
         default: kind
         }
     }
@@ -140,15 +141,18 @@ final class TakeLibrary {
     }
     private let storageDirectory: URL
     private let photoSaver: any PhotoLibrarySaving
+    private let draftStore: DraftStore
     private var indexURL: URL { storageDirectory.appendingPathComponent("index.json") }
     private(set) var takes: [SavedTake] = []
     var errorMessage: String?
     private var photoSaveTasks: [UUID: Task<Void, Error>] = [:]
     private var photoSaveErrors: [UUID: String] = [:]
 
-    init(directory: URL = TakeLibrary.directory, photoSaver: (any PhotoLibrarySaving)? = nil) {
+    init(directory: URL = TakeLibrary.directory, photoSaver: (any PhotoLibrarySaving)? = nil,
+         draftStore: DraftStore = DraftStore()) {
         storageDirectory = directory
         self.photoSaver = photoSaver ?? PhotoLibrarySaver()
+        self.draftStore = draftStore
         do {
             try FileManager.default.createDirectory(at: storageDirectory, withIntermediateDirectories: true)
             if FileManager.default.fileExists(atPath: indexURL.path) {
@@ -165,7 +169,7 @@ final class TakeLibrary {
     }
 
     @discardableResult
-    func add(url: URL, title: String, duration: TimeInterval, kind: String = "Video") throws -> SavedTake {
+    func add(url: URL, title: String, duration: TimeInterval, kind: String = "Video", draftID: UUID? = nil) throws -> SavedTake {
         let target: URL
         if url.deletingLastPathComponent().standardizedFileURL == storageDirectory.standardizedFileURL {
             target = url
@@ -179,7 +183,7 @@ final class TakeLibrary {
         }
         let take = SavedTake(id: UUID(), fileName: target.lastPathComponent,
                              title: title.isEmpty ? "Untitled video" : title,
-                             createdAt: .now, duration: duration, kind: kind)
+                             createdAt: .now, duration: duration, kind: kind, draftID: draftID)
         takes.insert(take, at: 0)
         do { try persist() }
         catch { takes.removeAll { $0.id == take.id }; throw error }
@@ -193,6 +197,10 @@ final class TakeLibrary {
         try persist()
         try? FileManager.default.removeItem(at: photoReceiptURL(for: take.id))
         photoSaveErrors[take.id] = nil
+        // Its draft goes too, unless another saved video still comes from it.
+        if let draftID = take.draftID, !takes.contains(where: { $0.draftID == draftID }) {
+            try? draftStore.delete(id: draftID)
+        }
     }
 
     func isSavedToPhotos(_ take: SavedTake) -> Bool {

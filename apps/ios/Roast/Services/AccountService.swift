@@ -138,10 +138,13 @@ final class AccountService {
 
     private func performDeletion(_ saved: AccountSession, operation id: UUID) async throws {
         try await api.deleteAccount(token: saved.token)
+        // Once the server has deleted it, the app must forget it even if the screen closed.
+        if session?.user.id == saved.user.id {
+            try store.clear()
+            session = nil; needsReauthentication = false
+            identity.signOut()
+        }
         guard operation == id else { return }
-        try store.clear()
-        session = nil; needsReauthentication = false
-        identity.signOut()
         statusMessage = "Your account is deleted. Your videos and drafts are still on this device."
     }
 }
