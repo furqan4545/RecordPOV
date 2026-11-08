@@ -78,6 +78,39 @@ class PipGeometryTest {
         assertEquals(outer.style,reset.style)
         assertEquals(1f,reset.framingScale,0f)
     }
+    @Test fun cutoutVisibleSizeIsTheCameraInsideTheFrameSoItCanReachTheEdges() {
+        val frameHeight=PipGeometry.heightForWidth(240f,PipStyle.Cutout)
+        // Wider leaves transparent space around you: only the camera part counts.
+        val wider=PipGeometry.visibleSize(1080f,1440f,240f,frameHeight,PipStyle.Cutout,.69f)
+        assertEquals(frameHeight*.69f,wider.height,.01f)
+        assertEquals(frameHeight*.75f*.69f,wider.width,.01f)
+        assertEquals(120f,wider.left+wider.width/2,.01f);assertEquals(frameHeight/2,wider.top+wider.height/2,.01f)
+        // Closer than the frame is cut at the frame.
+        val closer=PipGeometry.visibleSize(1080f,1440f,240f,frameHeight,PipStyle.Cutout,2f)
+        assertEquals(240f,closer.width,.01f);assertEquals(frameHeight,closer.height,.01f)
+        // Framed shapes always fill their frame.
+        for(style in regularStyles) {
+            val size=PipGeometry.visibleSize(1080f,1440f,240f,frameHeight,style,1f)
+            assertEquals(240f,size.width,.01f);assertEquals(frameHeight,size.height,.01f)
+        }
+        // Unknown or invalid camera size falls back to the frame.
+        val fallback=PipGeometry.visibleSize(0f,1440f,240f,frameHeight,PipStyle.Cutout,.69f)
+        assertEquals(240f,fallback.width,0f);assertEquals(frameHeight,fallback.height,0f)
+    }
+
+    @Test fun widerCutoutCanBeMovedRightUpToTheLeftAndRightEdges() {
+        val cutout=PipPlacement(x=0f,style=PipStyle.Cutout,framingScale=.55f)
+        val (visibleWidth,_)=PipGeometry.gestureSize(720f,cutout,1080f,1440f)
+        val (frameWidth,_)=PipGeometry.gestureSize(720f,cutout)
+        assertTrue(visibleWidth<frameWidth)
+        val left=PipGeometry.keepVisible(cutout,720f,1280f,1080f,1440f)
+        assertEquals(visibleWidth/2/720f,left.x,.0001f)
+        val right=PipGeometry.keepVisible(cutout.copy(x=1f),720f,1280f,1080f,1440f)
+        assertEquals(1f-visibleWidth/2/720f,right.x,.0001f)
+        // While the camera size is unknown, the frame still limits the move.
+        assertEquals(frameWidth/2/720f,PipGeometry.keepVisible(cutout,720f,1280f).x,.0001f)
+    }
+
     @Test fun outerManipulationPreservesTheChosenFramingScale() {
         val moved=PipPlacement(framingScale=.75f).transformed(.1f,-.1f,1.5f,45f)
         assertEquals(.75f,moved.framingScale,0f)

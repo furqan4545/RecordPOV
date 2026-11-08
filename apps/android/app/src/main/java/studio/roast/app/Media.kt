@@ -30,13 +30,17 @@ enum class PipStyle(val label: String) {
 }
 data class PipPlacement(
     val x: Float = .73f, val y: Float = .73f,
-    val scale: Float = 1f, val rotation: Float = 0f,
+    val scale: Float = DEFAULT_SCALE, val rotation: Float = 0f,
     val style: PipStyle = PipStyle.Rounded,
     val framingScale: Float = 1f
 ) {
+    companion object {
+        /** The owner's chosen starting size: the camera frame is about 47.6% of the video's width (.34 * 1.4). */
+        const val DEFAULT_SCALE = 1.4f
+    }
     fun transformed(dx: Float, dy: Float, zoom: Float, angle: Float) = copy(
-        x = (x + dx).coerceIn(.04f, .96f),
-        y = (y + dy).coerceIn(.04f, .96f),
+        x = (x + dx).coerceIn(0f, 1f),
+        y = (y + dy).coerceIn(0f, 1f),
         scale = (scale * zoom).coerceIn(.45f, 2.8f),
         rotation = (rotation + angle) % 360f
     )

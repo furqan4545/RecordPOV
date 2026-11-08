@@ -88,6 +88,8 @@ import kotlin.math.roundToInt
     var placement by remember{mutableStateOf(PipPlacement(style=PipStyle.Cutout))}
     var fullScreenCamera by remember{mutableStateOf(false)}
     var stageLayout by remember{mutableStateOf(StageLayout())}
+    // What the camera looked like before the "big at the bottom" shortcut; set while it is on.
+    var savedBeforeBigAtBottom by remember{mutableStateOf<CameraArrangement?>(null)}
     var layoutMenu by remember{mutableStateOf(false)}
     var camera by remember{mutableStateOf<CameraFeed?>(null)}
     val noLens=remember{MutableStateFlow(CameraLens.Front)}
@@ -126,6 +128,7 @@ import kotlin.math.roundToInt
     val latestRecording by rememberUpdatedState(recording)
     val latestPicking by rememberUpdatedState(pickingMedia)
     var importingImage by remember{mutableStateOf(true)}
+    fun arrangement()=CameraArrangement(placement,fullScreenCamera,stageLayout)
     fun takeClock():Long = SystemClock.elapsedRealtime()-startedAt-pausedTotal-
         (if(pausedAt>0)SystemClock.elapsedRealtime()-pausedAt else 0)
     val latestClock by rememberUpdatedState({takeClock()})
@@ -226,7 +229,7 @@ import kotlin.math.roundToInt
     val latestStarting by rememberUpdatedState(starting)
     BackHandler(recording || saving || starting){if(starting)cancelCountdown()else if(recording)finishTake()}
     LaunchedEffect(camera){camera?.frames?.collectLatest{frame=it} ?: run{frame=null}}
-    LaunchedEffect(placement.style,camera,fullScreenCamera,stageLayout.template){camera?.removeBackground=placement.style==PipStyle.Cutout&&!fullScreenCamera&&stageLayout.template==StageTemplate.Pip}
+    LaunchedEffect(placement.style,camera,fullScreenCamera,stageLayout.template){camera?.removeBackground=placement.style==PipStyle.Cutout&&(fullScreenCamera||stageLayout.template!=StageTemplate.Split)}
     LaunchedEffect(source) {
         error=null;picture=null;videoFrame=null;preparingSource=!source.isImage
         player.stop();position=0;duration=0
@@ -303,7 +306,7 @@ import kotlin.math.roundToInt
                 Text("Record a reaction",fontSize=16.sp,fontWeight=FontWeight.Bold)
                 Text(if(recording)"●  ${formatTime(elapsed)}" else if(saving)"Preparing your edit…" else if(starting)"Get ready…" else "Ready to record",fontSize=11.sp,color=if(recording)Color(0xFFC94738) else Muted)
             }
-            IconButton(onClick={placement=PipPlacement(style=placement.style,framingScale=placement.framingScale)},modifier=Modifier.size(44.dp)){Icon(Icons.Rounded.RestartAlt,"Reset camera position")}
+            IconButton(onClick={placement=PipPlacement(style=placement.style,framingScale=placement.framingScale);savedBeforeBigAtBottom=null},modifier=Modifier.size(44.dp)){Icon(Icons.Rounded.RestartAlt,"Reset camera position")}
         }
         Box(Modifier.weight(1f).fillMaxWidth(),contentAlignment=Alignment.Center) {
         BoxWithConstraints(Modifier.fillMaxHeight().aspectRatio(9f/16f,matchHeightConstraintsFirst=true).clip(RoundedCornerShape(20.dp)).background(Color(0xFF16181B))) {
@@ -353,7 +356,7 @@ import kotlin.math.roundToInt
                     awaitEachGesture {
                         val down=awaitFirstDown(requireUnconsumed=true)
                         val cameraGesture=camera!=null&&!fullScreenCamera&&stageLayout.template==StageTemplate.Pip&&
-                            PipGeometry.contains(down.position.x,down.position.y,widthPx,heightPx,placement)
+                            PipGeometry.contains(down.position.x,down.position.y,widthPx,heightPx,placement,frame?.width?.toFloat(),frame?.height?.toFloat())
                         val sourceAspect=if(source.isImage)picture?.let{it.width.toFloat()/it.height}?:9f/16f else sourceVideoAspect
                         val sourceRect=StageGeometry.sourceOverlay(widthPx,heightPx,sourceAspect,stageLayout.sourceOverlay)
                         val sourceGesture=!fullScreenCamera&&stageLayout.template==StageTemplate.CameraMain&&
@@ -366,7 +369,8 @@ import kotlin.math.roundToInt
                                 val event=awaitPointerEvent(PointerEventPass.Initial)
                                 val points=event.changes.filter{it.pressed}.map{OverlayTouch(it.id.value,it.position.x,it.position.y)}
                                 val delta=tracker.update(points,widthPx,heightPx)
-                                if(cameraGesture)placement=PipGeometry.keepVisible(placement.transformed(delta.dx,delta.dy,delta.zoom,delta.rotation),widthPx,heightPx)
+                                if(cameraGesture)placement=PipGeometry.keepVisible(placement.transformed(delta.dx,delta.dy,delta.zoom,delta.rotation),widthPx,heightPx,
+                                    frame?.width?.toFloat(),frame?.height?.toFloat())
                                 else stageLayout=stageLayout.copy(sourceOverlay=stageLayout.sourceOverlay.transformed(delta.dx,delta.dy,delta.zoom))
                                 event.changes.forEach{it.consume()}
                             }while(event.changes.any{it.pressed})
@@ -380,7 +384,7 @@ import kotlin.math.roundToInt
                 val cameraModifier=if(fullScreenCamera)Modifier.fillMaxSize()else Modifier.offset{IntOffset((widthPx*placement.x-with(density){pipWidth.toPx()}/2).roundToInt(),
                     (heightPx*placement.y-with(density){pipHeight.toPx()}/2).roundToInt())}
                     .size(pipWidth,pipHeight).graphicsLayer{rotationZ=placement.rotation}
-                    .semantics{contentDescription="Small camera. One finger moves it. Two fingers resize and rotate it."}
+                    .semantics{contentDescription="Your camera. One finger moves it. Two fingers resize and rotate it."}
                 Box(cameraModifier.clip(shape)) {
                     if(frame==null)Box(Modifier.fillMaxSize().background(Color(0xFF34383B)),contentAlignment=Alignment.Center) {
                         if(switchingCamera)CircularProgressIndicator(Modifier.size(24.dp),color=Lime,strokeWidth=2.dp)
@@ -423,10 +427,21 @@ import kotlin.math.roundToInt
                     else Icon(Icons.Rounded.Cameraswitch,"Flip to ${if(lens==CameraLens.Front)"back"else "front"} camera",Modifier.size(23.dp),tint=Ink)
                 }
             }
-            if(camera!=null)Surface(onClick={fullScreenCamera=!fullScreenCamera},enabled=!starting&&!saving,
+            if(camera!=null)Surface(onClick={
+                    // Shortcut: you big at the bottom center with Cutout; tap again to go back.
+                    val (next,saved)=BigAtBottom.toggle(arrangement(),savedBeforeBigAtBottom,frame?.width?.toFloat(),frame?.height?.toFloat())
+                    placement=next.placement;fullScreenCamera=next.fullScreenCamera;stageLayout=next.layout;savedBeforeBigAtBottom=saved
+                },enabled=!switchingCamera&&!starting&&!saving,
+                modifier=Modifier.align(Alignment.TopEnd).padding(top=64.dp,end=64.dp).size(44.dp),shape=RoundedCornerShape(12.dp),
+                color=if(savedBeforeBigAtBottom!=null)Lime else Color.White.copy(alpha=.94f)) {
+                Box(Modifier.fillMaxSize(),contentAlignment=Alignment.Center){Icon(Icons.Rounded.Portrait,
+                    if(savedBeforeBigAtBottom!=null)"Put your camera back"else "Put yourself big at the bottom",Modifier.size(23.dp),tint=Ink)}
+            }
+            if(camera!=null)Surface(onClick={val before=arrangement();fullScreenCamera=!fullScreenCamera
+                    savedBeforeBigAtBottom=BigAtBottom.afterChange(savedBeforeBigAtBottom,before,arrangement())},enabled=!starting&&!saving,
                 modifier=Modifier.align(Alignment.TopEnd).padding(top=64.dp,end=12.dp).size(44.dp),shape=RoundedCornerShape(12.dp),color=Color.White.copy(alpha=.94f)) {
                 Box(Modifier.fillMaxSize(),contentAlignment=Alignment.Center){Icon(if(fullScreenCamera)Icons.Rounded.FullscreenExit else Icons.Rounded.Fullscreen,
-                    if(fullScreenCamera)"Return to small camera"else "Show camera full screen",Modifier.size(23.dp),tint=Ink)}
+                    if(fullScreenCamera)"Return to camera"else "Show camera full screen",Modifier.size(23.dp),tint=Ink)}
             }
             if(preparingSource&&!source.isImage)Box(Modifier.fillMaxSize(),contentAlignment=Alignment.Center) {
                 Column(horizontalAlignment=Alignment.CenterHorizontally,verticalArrangement=Arrangement.spacedBy(9.dp),
@@ -469,7 +484,10 @@ import kotlin.math.roundToInt
         }
         if(recording&&!source.isImage&&player.playbackState==Player.STATE_ENDED)
             Text("Video finished. Keep talking, then finish your video.",fontSize=11.sp,color=Muted)
-        StylePicker(if(camera!=null&&stageLayout.template==StageTemplate.Pip&&!fullScreenCamera)placement.style else null,
+        if(camera!=null&&(fullScreenCamera||stageLayout.template==StageTemplate.CameraMain))
+            FullCameraStylePicker(placement.style==PipStyle.Cutout,enabled=!starting&&!saving){cutout ->
+                placement=placement.copy(style=if(cutout)PipStyle.Cutout else if(placement.style==PipStyle.Cutout)PipStyle.Rounded else placement.style)}
+        else StylePicker(if(camera!=null&&stageLayout.template==StageTemplate.Pip&&!fullScreenCamera)placement.style else null,
             enabled=camera!=null&&!starting&&!saving&&!fullScreenCamera&&stageLayout.template==StageTemplate.Pip){placement=placement.copy(style=it)}
         if(camera!=null&&stageLayout.template==StageTemplate.Pip&&!fullScreenCamera)Row(Modifier.fillMaxWidth(),verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(8.dp)) {
             Text("Wider",fontSize=11.sp,color=Muted)
@@ -489,7 +507,8 @@ import kotlin.math.roundToInt
                 }
                 DropdownMenu(expanded=layoutMenu,onDismissRequest={layoutMenu=false}) {
                     StageTemplate.entries.forEach{template ->DropdownMenuItem(text={Text(template.label)},onClick={
-                        if(stageLayout.template!=template){stageLayout=stageLayout.copy(template=template);placement=placement.forLayoutChange()}
+                        if(stageLayout.template!=template){val before=arrangement();stageLayout=stageLayout.copy(template=template);placement=placement.forLayoutChange()
+                            savedBeforeBigAtBottom=BigAtBottom.afterChange(savedBeforeBigAtBottom,before,arrangement())}
                         layoutMenu=false},
                         trailingIcon={if(stageLayout.template==template)Icon(Icons.Rounded.Check,null,Modifier.size(18.dp))})}
                 }

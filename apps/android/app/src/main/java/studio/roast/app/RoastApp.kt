@@ -492,3 +492,21 @@ private val RoastColors=lightColorScheme(primary=Ink,onPrimary=Color.White,secon
         }
     }
 }
+
+/** Full screen and Stage show the whole camera, so only Camera and Cutout change how it looks. */
+@Composable fun FullCameraStylePicker(cutout:Boolean,enabled:Boolean=true,onSelect:(Boolean)->Unit) {
+    Row(Modifier.fillMaxWidth().height(44.dp).clip(RoundedCornerShape(12.dp)).background(Color.White)
+        .padding(3.dp),horizontalArrangement=Arrangement.spacedBy(3.dp)) {
+        listOf(false,true).forEach {option ->
+            val chosen=cutout==option
+            Surface(onClick={onSelect(option)},enabled=enabled,modifier=Modifier.weight(1f).fillMaxHeight().semantics{selected=chosen;role=Role.RadioButton},shape=RoundedCornerShape(9.dp),
+                color=if(chosen) Ink else Color.White,contentColor=if(chosen) Lime else Ink,
+                border=null) {
+                Row(verticalAlignment=Alignment.CenterVertically,horizontalArrangement=Arrangement.spacedBy(4.dp,Alignment.CenterHorizontally)) {
+                    Icon(if(option)Icons.Rounded.Person else Icons.Rounded.Videocam,null,Modifier.size(14.dp))
+                    Text(if(option)PipStyle.Cutout.label else "Camera",fontSize=11.sp,fontWeight=FontWeight.SemiBold)
+                }
+            }
+        }
+    }
+}

@@ -15,6 +15,11 @@ class StageGeometryTest {
         }
     }
 
+    @Test fun theCameraLayoutIsCalledCamera() {
+        assertEquals("Camera",StageTemplate.Pip.label)
+        assertEquals("Camera",StageTemplate.Pip.shortLabel)
+    }
+
     @Test fun layoutChangesReturnCutoutToRoundedAndPreserveExplicitShapes() {
         assertEquals(PipStyle.Rounded,PipPlacement(style=PipStyle.Cutout).forLayoutChange().style)
         for(style in listOf(PipStyle.Circle,PipStyle.Rounded,PipStyle.Square)) {
