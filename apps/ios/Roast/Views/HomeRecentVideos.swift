@@ -155,20 +155,28 @@ struct HomeRecentVideos: View {
             // Imports are local files, so reopening never needs the media service.
             guard FileManager.default.fileExists(atPath: video.fileURL.path) else {
                 try? imports.reload()
+                #if APP_STORE
+                errorMessage = "This video is no longer on this device. Add it again from your library."
+                #else
                 if VideoImportCoordinator.shared.ready?.id == video.id { VideoImportCoordinator.shared.consumeReady() }
                 // Uploads have no link to paste, so name the control that adds them again.
                 errorMessage = video.sourceURL == nil
                     ? "This video is no longer on this iPhone. Add it again with Upload video or photo."
                     : "This video is no longer on this iPhone. Paste its link to download it again."
+                #endif
                 return
             }
             errorMessage = nil
             onOpenImport(video)
         case .draft(let unfinished):
+            #if !APP_STORE
             VideoImportCoordinator.shared.deferOpeningUntilRequested()
+            #endif
             editing = unfinished.draft
         case .saved(let take):
+            #if !APP_STORE
             VideoImportCoordinator.shared.deferOpeningUntilRequested()
+            #endif
             selectedTake = take
         }
     }
@@ -197,7 +205,9 @@ struct HomeRecentVideos: View {
         switch item {
         case .imported(let video):
             try imports.delete(video)
+            #if !APP_STORE
             if VideoImportCoordinator.shared.ready?.id == video.id { VideoImportCoordinator.shared.consumeReady() }
+            #endif
         case .draft(let item): try DraftStore().delete(item)
         case .saved(let take): try library.delete(take)
         }
@@ -208,7 +218,9 @@ struct HomeRecentVideos: View {
             switch item {
             case .imported(let video):
                 try imports.delete(video)
+                #if !APP_STORE
                 if VideoImportCoordinator.shared.ready?.id == video.id { VideoImportCoordinator.shared.consumeReady() }
+                #endif
             case .draft(let item): try DraftStore().delete(item)
             case .saved(let take): try library.delete(take)
             }

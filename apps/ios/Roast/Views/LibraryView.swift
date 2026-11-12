@@ -33,8 +33,10 @@ struct LibraryView: View {
                 .controlSize(.large)
                 .accessibilityIdentifier("myVideosFilter")
                 HomeRecentVideos(library: library, title: nil, shelf: shelf, selection: selection) { video in
+                    #if !APP_STORE
                     VideoImportCoordinator.shared.deferOpeningUntilRequested()
                     if VideoImportCoordinator.shared.ready?.id == video.id { VideoImportCoordinator.shared.consumeReady() }
+                    #endif
                     lastOpenedImportedID = video.id.uuidString
                     importedLaunch = StudioLaunch(source: .video(video.fileURL, video.title))
                 }

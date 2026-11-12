@@ -8,30 +8,30 @@ private enum HomeSheet: String, Identifiable {
 
 struct HomeView: View {
     let library: TakeLibrary
+    #if !APP_STORE
     @Environment(\.openURL) private var openURL
     @Environment(\.scenePhase) private var scenePhase
-    @Environment(AccountService.self) private var account
     private let importer = VideoImportCoordinator.shared
     @AppStorage("resolverAddress") private var resolverAddress = MediaResolver.defaultAddress
-    @AppStorage("lastOpenedImportedVideoID") private var lastOpenedImportedID = ""
-    @AppStorage("didFinishOnboarding") private var didFinishOnboarding = false
     private let importedVideos = ImportedVideoLibrary.shared
     @State private var link = ""
-    @State private var errorMessage: String?
     @State private var needsNetworkSettings = false
+    @State private var isVisible = false
+    @FocusState private var linkFocused: Bool
+
     private var loadingPhase: VideoLinkLoadingPhase { importer.phase }
+    private var isResolving: Bool { loadingPhase != .idle }
+    #endif
+    @Environment(AccountService.self) private var account
+    @AppStorage("lastOpenedImportedVideoID") private var lastOpenedImportedID = ""
+    @AppStorage("didFinishOnboarding") private var didFinishOnboarding = false
+    @State private var errorMessage: String?
     @State private var isImporting = false
     @State private var selectedMedia: PhotosPickerItem?
     @State private var launch: StudioLaunch?
     @State private var sheet: HomeSheet?
-    @State private var isVisible = false
     /// Recent's Select mode, started by holding a video.
     @State private var recentSelection = VideoSelection()
-    @FocusState private var linkFocused: Bool
-
-    private var isResolving: Bool { loadingPhase != .idle }
-    /// "Download & open video" opens the finished video, even if the link field changed meanwhile.
-    private var readyWillAutoOpen: Bool { importer.shouldAutomaticallyOpen }
 
     var body: some View {
         Group {
@@ -66,6 +66,7 @@ struct HomeView: View {
             }
         }
         .fullScreenCover(item: $launch) { StudioView(launch: $0, library: library) }
+        #if !APP_STORE
         .onAppear { isVisible = true; importer.resumeIfNeeded(); openReadyImport() }
         .onDisappear { isVisible = false }
         .onChange(of: importer.ready?.id) { _, _ in openReadyImport() }
@@ -73,9 +74,13 @@ struct HomeView: View {
         .onChange(of: scenePhase) { _, phase in
             if phase == .active { importer.resumeIfNeeded(); openReadyImport() }
         }
+        #endif
         .task(id: selectedMedia) {
             guard let item = selectedMedia else { return }
+            #if !APP_STORE
             importer.deferOpeningUntilRequested()
+            #endif
+            errorMessage = nil
             isImporting = true
             defer { isImporting = false }
             do {
@@ -106,7 +111,12 @@ struct HomeView: View {
             VStack(alignment: .leading, spacing: 6) {
                 Text("Add a video").font(.system(.title2, design: .rounded, weight: .bold))
                     .accessibilityAddTraits(.isHeader)
+                #if APP_STORE
+                Text("Choose a video or photo from your library, then record your reaction.")
+                    .font(.subheadline).foregroundStyle(RoastTheme.muted)
+                #endif
             }
+            #if !APP_STORE
             HStack(spacing: 12) {
                 Image(systemName: "link").foregroundStyle(RoastTheme.muted)
                 TextField("Paste a video link", text: $link)
@@ -151,11 +161,21 @@ struct HomeView: View {
                 Text("or").font(.caption).foregroundStyle(RoastTheme.muted)
                 Rectangle().fill(RoastTheme.ink.opacity(0.1)).frame(height: 1)
             }.accessibilityHidden(true)
+            #else
+            if let errorMessage { InlineError(message: errorMessage) }
+            #endif
             PhotosPicker(selection: $selectedMedia, matching: .any(of: [.videos, .images]), photoLibrary: .shared()) {
-                Label(isImporting ? "Opening…" : "Upload video or photo", systemImage: "photo.on.rectangle.angled")
+                #if APP_STORE
+                let title = "Choose video or photo"
+                let background = RoastTheme.lime
+                #else
+                let title = "Upload video or photo"
+                let background = RoastTheme.paper
+                #endif
+                Label(isImporting ? "Opening…" : title, systemImage: "photo.on.rectangle.angled")
                     .font(.system(size: 15, weight: .semibold))
                     .frame(maxWidth: .infinity).frame(minHeight: 48)
-                    .background(RoastTheme.paper, in: RoundedRectangle(cornerRadius: 14))
+                    .background(background, in: RoundedRectangle(cornerRadius: 14))
             }
             .disabled(isImporting).accessibilityIdentifier("importMediaButton")
         }
@@ -164,6 +184,7 @@ struct HomeView: View {
         .overlay(RoundedRectangle(cornerRadius: 22).stroke(.white, lineWidth: 1))
     }
 
+    #if !APP_STORE
     private func openLink() {
         guard !isResolving else { return }
         linkFocused = false
@@ -178,11 +199,15 @@ struct HomeView: View {
         } else { importer.start(link, address: resolverAddress) }
     }
 
-    private func openReadyImport(force: Bool = false) {
+    private func cancelResolution() { importer.cancel() }
+    #endif
+
+    private func openReadyImport() {
+        #if !APP_STORE
         // A finished import waits until the first-launch onboarding is done.
         guard didFinishOnboarding, isVisible, scenePhase == .active, sheet == nil, launch == nil, !isImporting,
               let ready = importer.ready else { return }
-        guard force || readyWillAutoOpen else { return }
+        guard importer.shouldAutomaticallyOpen else { return }
         // A file removed outside the app must not open an empty Studio. Ready
         // imports always come from a link, so the link advice applies.
         guard FileManager.default.fileExists(atPath: ready.url.path) else {
@@ -193,19 +218,19 @@ struct HomeView: View {
         lastOpenedImportedID = ready.id.uuidString
         launch = StudioLaunch(source: .video(ready.url, ready.title))
         importer.consumeReady()
+        #endif
     }
 
     private func openImportedVideo(_ video: ImportedVideo) {
         guard launch == nil, sheet == nil else { return }
+        #if !APP_STORE
         linkFocused = false
-        lastOpenedImportedID = video.id.uuidString
         importer.deferOpeningUntilRequested()
         if importer.ready?.id == video.id { importer.consumeReady() }
+        #endif
+        lastOpenedImportedID = video.id.uuidString
         launch = StudioLaunch(source: .video(video.fileURL, video.title))
     }
-
-    private func cancelResolution() { importer.cancel() }
-
 }
 
 /// The Photos picker can still be closing when its pick arrives. Opening Studio over a

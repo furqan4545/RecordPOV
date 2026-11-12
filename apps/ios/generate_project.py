@@ -41,7 +41,7 @@ ROAST_MEDIA_SERVICE_URL = "https://api.recordpov.app";
 ROAST_APPLE_SIGN_IN_ENABLED = YES; ROAST_GOOGLE_REVERSED_CLIENT_ID = "com.googleusercontent.apps.1001069179671-mvl07vu7kdrebl4atf9hjf2smqi4nrmm";
 DEBUG_INFORMATION_FORMAT = {'dwarf' if debug else '"dwarf-with-dsym"'};
 SWIFT_OPTIMIZATION_LEVEL = {'"-Onone"' if debug else '"-O"'};
-SWIFT_ACTIVE_COMPILATION_CONDITIONS = {'"DEBUG $(inherited)"' if debug else '"$(inherited)"'};
+SWIFT_ACTIVE_COMPILATION_CONDITIONS = {'"DEBUG $(inherited)"' if debug else '"APP_STORE $(inherited)"'};
 GCC_PREPROCESSOR_DEFINITIONS = {'"DEBUG=1 $(inherited)"' if debug else '"$(inherited)"'};
 ENABLE_TESTABILITY = {'YES' if debug else 'NO'};
 ONLY_ACTIVE_ARCH = {'YES' if debug else 'NO'};'''
@@ -69,8 +69,8 @@ productReference = {ident(base + 2)}; productType = "com.apple.product-type.{tar
     item(ident(base + 6), f"isa = XCConfigurationList; buildConfigurations = ({ident(base + 7)}, {ident(base + 8)}); defaultConfigurationIsVisible = 0; defaultConfigurationName = Release;")
     for offset, configuration in [(7, "Debug"), (8, "Release")]:
         settings = f'''PRODUCT_BUNDLE_IDENTIFIER = "{target['bundle']}"; PRODUCT_NAME = "$(TARGET_NAME)";
-SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; TARGETED_DEVICE_FAMILY = "1,2";
-CODE_SIGN_STYLE = Automatic; MARKETING_VERSION = 1.0; CURRENT_PROJECT_VERSION = 1;
+SUPPORTED_PLATFORMS = "iphoneos iphonesimulator"; TARGETED_DEVICE_FAMILY = "{'1' if name == "Roast" and configuration == "Release" else '1,2'}";
+CODE_SIGN_STYLE = Automatic; MARKETING_VERSION = 1.0; CURRENT_PROJECT_VERSION = {2 if name == "Roast" else 1};
 SWIFT_EMIT_LOC_STRINGS = YES;'''
         if name == "Roast":
             settings += '''INFOPLIST_FILE = Configuration/Info.plist; GENERATE_INFOPLIST_FILE = NO;

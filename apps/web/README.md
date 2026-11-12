@@ -8,7 +8,7 @@ Preview locally from this folder with:
 python3 -m http.server 8765 --directory public
 ```
 
-The hero and walkthrough use native screenshots of the iOS onboarding flow. Update the launch section with verified App Store and Google Play URLs when the listings go live.
+The hero and Android link walkthrough illustrate the Reel reaction flow. The iPhone listing uses the Photos workflow. Update the launch section with verified App Store and Google Play URLs when the listings go live.
 
 The launch form posts to `/api/waitlist` on Vercel. The production project has a private Blob store connected through `BLOB_READ_WRITE_TOKEN`. Signup writes use one object per normalized address. The static preview serves the website but leaves the Vercel API unavailable.
 

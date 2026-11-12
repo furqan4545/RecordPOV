@@ -111,7 +111,12 @@ struct AccountView: View {
                     VStack(alignment: .leading, spacing: 16) {
                         HStack(spacing: 12) {
                             ProfileAvatar(user: nil, size: 52)
-                            Text("Sign in to save your videos. Videos and drafts stay on this device.")
+                            #if APP_STORE
+                            let description = "Your videos and drafts stay on this device. Signing in is optional."
+                            #else
+                            let description = "Sign in to save your videos. Videos and drafts stay on this device."
+                            #endif
+                            Text(description)
                                 .font(.subheadline).foregroundStyle(.secondary)
                         }
                         VStack(spacing: 12) { providerButtons }

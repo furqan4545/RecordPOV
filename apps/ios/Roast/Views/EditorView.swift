@@ -365,8 +365,10 @@ struct EditorView: View {
     }
 
     private func requestSave() {
-        if account.session == nil { showSignIn = true }
-        else { Task { await saveVideo() } }
+        #if !APP_STORE
+        guard account.session != nil else { showSignIn = true; return }
+        #endif
+        Task { await saveVideo() }
     }
 
     /// The Account screen shares this editor's service, so the new session is already here.

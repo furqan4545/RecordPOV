@@ -7,14 +7,29 @@ struct OnboardingView: View {
     @State private var page = 0
     private let lastPage = 4
 
+    private var shareInstructions: String {
+        #if APP_STORE
+        "Save your take to Photos, then share it anywhere."
+        #else
+        "Export your video, then share it to Instagram, TikTok, YouTube or X."
+        #endif
+    }
+
     var body: some View {
         VStack(spacing: 0) {
             TabView(selection: $page) {
                 WelcomePage().tag(0)
+                #if APP_STORE
+                StepPage(number: 1, title: "Choose a video",
+                         text: "Pick a video or photo from your library.") {
+                    LocalMediaArt()
+                }.tag(1)
+                #else
                 StepPage(number: 1, title: "Paste a link",
                          text: "Copy a video from Instagram, YouTube, TikTok or X, then paste it into RecordPOV.") {
                     PasteArt()
                 }.tag(1)
+                #endif
                 StepPage(number: 2, title: "Turn on camera and mic",
                          text: "Your face goes on top of the video. The background is removed right on your iPhone.") {
                     CameraArt()
@@ -23,8 +38,7 @@ struct OnboardingView: View {
                          text: "React while the video plays. Stop whenever you’re done.") {
                     RecordArt()
                 }.tag(3)
-                StepPage(number: 4, title: "Export and share",
-                         text: "Export your video, then share it to Instagram, TikTok, YouTube or X.") {
+                StepPage(number: 4, title: "Export and share", text: shareInstructions) {
                     ShareArt()
                 }.tag(4)
             }
@@ -45,6 +59,14 @@ struct OnboardingView: View {
 // MARK: - Pages
 
 private struct WelcomePage: View {
+    private var instructions: String {
+        #if APP_STORE
+        "Pick a video from your library and record your reaction over it."
+        #else
+        "Paste a link, hit record, and you’re on top of it."
+        #endif
+    }
+
     var body: some View {
         VStack(alignment: .leading, spacing: 0) {
             HStack(spacing: 10) {
@@ -61,7 +83,7 @@ private struct WelcomePage: View {
                 .font(.system(size: 34, weight: .bold, design: .rounded))
                 .padding(.top, 22)
                 .accessibilityAddTraits(.isHeader)
-            Text("Paste a link, hit record, and you’re on top of it.")
+            Text(instructions)
                 .font(.system(size: 17)).foregroundStyle(RoastTheme.muted)
                 .fixedSize(horizontal: false, vertical: true)
                 .padding(.top, 8)
@@ -109,6 +131,23 @@ private enum OnboardingArt {
     static let card = Color(red: 0.90, green: 0.89, blue: 0.85)
 }
 
+#if APP_STORE
+private struct LocalMediaArt: View {
+    var body: some View {
+        VStack(spacing: 14) {
+            Image("OnboardingVideo").resizable().scaledToFit()
+                .clipShape(RoundedRectangle(cornerRadius: 16, style: .continuous))
+                .frame(maxHeight: .infinity)
+            Label("Choose video or photo", systemImage: "photo.on.rectangle.angled")
+                .font(.system(size: 15, weight: .semibold))
+                .frame(maxWidth: .infinity, minHeight: 48)
+                .background(RoastTheme.lime, in: RoundedRectangle(cornerRadius: 14))
+        }
+        .padding(14)
+        .background(OnboardingArt.card, in: RoundedRectangle(cornerRadius: 26, style: .continuous))
+    }
+}
+#else
 /// Step 1: the video you copied, the link field and where links can come from.
 private struct PasteArt: View {
     var body: some View {
@@ -137,6 +176,8 @@ private struct PasteArt: View {
         .background(OnboardingArt.card, in: RoundedRectangle(cornerRadius: 26, style: .continuous))
     }
 }
+
+#endif
 
 /// Step 2: you with your room behind you, then a sweep removes the background.
 private struct CameraArt: View {
@@ -248,9 +289,13 @@ private struct ShareArt: View {
                 Image(systemName: "square.and.arrow.up")
                     .font(.system(size: 18, weight: .semibold)).foregroundStyle(RoastTheme.ink)
                     .frame(width: 44, height: 44).background(RoastTheme.lime, in: Circle())
+                #if APP_STORE
+                Text("Save and share").font(.subheadline.weight(.semibold)).foregroundStyle(.white)
+                #else
                 ForEach([VideoPlatform.instagram, .tiktok, .youtube, .x], id: \.self) {
                     PlatformTile(platform: $0, size: 44, onDark: true)
                 }
+                #endif
             }
         }
         .padding(14)
